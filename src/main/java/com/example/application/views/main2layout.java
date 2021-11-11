@@ -38,37 +38,15 @@ import com.example.application.views.helloworld.HelloWorldView;
 import com.example.application.views.about.AboutView;
 import com.example.application.views.imagelist.ImageListView;
 import com.vaadin.flow.component.avatar.Avatar;
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.HasComponents;
-import com.vaadin.flow.component.applayout.AppLayout;
-import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
-import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.page.Viewport;
-import com.vaadin.flow.component.tabs.Tab;
-import com.vaadin.flow.component.tabs.TabVariant;
-import com.vaadin.flow.component.tabs.Tabs;
-import com.vaadin.flow.router.RouteConfiguration;
-import com.vaadin.flow.router.RouterLink;
-import com.vaadin.flow.server.PWA;
-import com.vaadin.flow.server.VaadinServlet;
-
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * The main view is a top-level placeholder for other views.
  */
-@PWA(name = "My App", shortName = "My App",
-        backgroundColor = "#227aef", themeColor = "#227aef",
-        enableInstallPrompt = false)
+@PWA(name = "My App", shortName = "My App", enableInstallPrompt = false)
 @Theme(themeFolder = "myapp")
 @PageTitle("Main")
-public class MainLayout extends AppLayout {
-    private final Tabs menu;
+public class main2layout extends AppLayout {
+
     public static class MenuItemInfo {
 
         private String text;
@@ -97,20 +75,31 @@ public class MainLayout extends AppLayout {
 
     private H1 viewTitle;
 
-    public MainLayout() {
-        Span appName = new Span("My Starter Project");
-        appName.addClassName("hide-on-mobile");
+    public main2layout() {
+        setPrimarySection(Section.NAVBAR);
 
-        menu = createMenuTabs();
-
-        this.addToNavbar(appName);
-        this.addToNavbar(true, menu);
+        addToNavbar(createDrawerContent());
     }
 
-    private static Tabs createMenuTabs() {
-        final Tabs tabs = new Tabs();
-        tabs.setOrientation(Tabs.Orientation.HORIZONTAL);
-        tabs.add(getAvailableTabs());
+    private Component createDrawerContent() {
+        H1 title = new H1("vista usuario");
+        title.getStyle()
+                .set("font-size", "var(--lumo-font-size-l)")
+                .set("left", "var(--lumo-space-l)")
+                .set("margin", "0")
+                .set("position", "absolute");
+        Tabs tabs = new Tabs();
+        FlexLayout centeredLayout = new FlexLayout();
+        centeredLayout.setSizeFull();
+        centeredLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+        centeredLayout.add(tabs);
+        Tab tib = new Tab(new RouterLink("nada", loginview.class));
+        Tab tab = new Tab(new RouterLink("nada", ImageListView.class));
+        Tab tub = new Tab(new RouterLink("nada", AboutView.class));
+
+
+        tabs.add(tib,tab,tub);
+        addToNavbar(title,centeredLayout,tabs);
         return tabs;
     }
 
@@ -135,38 +124,6 @@ public class MainLayout extends AppLayout {
         return nav;
     }
 
-    private static Tab[] getAvailableTabs() {
-        final List<Tab> tabs = new ArrayList<>(4);
-        tabs.add(createTab(VaadinIcon.EDIT, TITLE_STOREFRONT,
-                StorefrontView.class));
-        tabs.add(createTab(VaadinIcon.CLOCK,TITLE_DASHBOARD, DashboardView.class));
-        if (SecurityUtils.isAccessGranted(UsersView.class)) {
-            tabs.add(createTab(VaadinIcon.USER,TITLE_USERS, UsersView.class));
-        }
-        if (SecurityUtils.isAccessGranted(ProductsView.class)) {
-            tabs.add(createTab(VaadinIcon.CALENDAR, TITLE_PRODUCTS, ProductsView.class));
-        }
-        final String contextPath = VaadinServlet.getCurrent().getServletContext().getContextPath();
-        final Tab logoutTab = createTab(createLogoutLink(contextPath));
-        tabs.add(logoutTab);
-        return tabs.toArray(new Tab[tabs.size()]);
-    }
-
-    private static Tab createTab(VaadinIcon icon, String title, Class<? extends Component> viewClass) {
-        return createTab(populateLink(new RouterLink(null, viewClass), icon, title));
-    }
-
-    private static Tab createTab(Component content) {
-        final Tab tab = new Tab();
-        tab.addThemeVariants(TabVariant.LUMO_ICON_ON_TOP);
-        tab.add(content);
-        return tab;
-    }
-    private static <T extends HasComponents> T populateLink(T a, VaadinIcon icon, String title) {
-        a.add(icon.create());
-        a.add(title);
-        return a;
-    }
     private List<RouterLink> createLinks() {
         MenuItemInfo[] menuItems = new MenuItemInfo[]{ //
                 new MenuItemInfo("Hello World", "la la-globe", HelloWorldView.class), //
