@@ -1,6 +1,6 @@
 package com.example.application.views.imagelist;
 
-import com.example.application.views.main2layout;
+import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.Tag;
@@ -14,7 +14,7 @@ import com.vaadin.flow.router.RouteAlias;
 import com.example.application.views.MainLayout;
 
 @PageTitle("Cartelera")
-@Route(value = "image-list")
+@Route(value = "", layout = MainLayout.class)
 @Tag("image-list-view")
 @JsModule("./views/imagelist/image-list-view.ts")
 public class ImageListView extends LitTemplate implements HasComponents, HasStyle {

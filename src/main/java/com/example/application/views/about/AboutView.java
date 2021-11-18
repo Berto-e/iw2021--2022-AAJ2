@@ -15,7 +15,7 @@ public class AboutView extends VerticalLayout {
     public AboutView() {
         setSpacing(false);
 
-        Image img = new Image("images/empty-plant.png", "placeholder plant");
+        Image img = new Image("https://haupei24.com/wp-content/uploads/2021/06/S3PGJ7LSSZHBBL56DZSHUUMFIU.jpg", "placeholder plant");
         img.setWidth("200px");
         add(img);
 
