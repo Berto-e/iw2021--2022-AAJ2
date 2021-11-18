@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.application.views.dashboard.dashboardLayout;
+import com.example.application.views.gestores.gestorview;
 import com.example.application.views.login.loginview;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
@@ -39,8 +40,7 @@ import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.VaadinServlet;
 import com.vaadin.flow.theme.Theme;
 import com.example.application.views.MainLayout;
-import com.example.application.views.helloworld.HelloWorldView;
-import com.example.application.views.about.AboutView;
+
 import com.example.application.views.imagelist.ImageListView;
 import com.vaadin.flow.component.avatar.Avatar;
 
@@ -88,7 +88,7 @@ public class MainLayout extends AppLayout {
         final List<Tab> tabs = new ArrayList<>(4);
         tabs.add(createTab(VaadinIcon.EDIT, "Cartelera",
                 ImageListView.class));
-        tabs.add(createTab(VaadinIcon.CLOCK,"Gestores", ImageListView.class));
+        tabs.add(createTab(VaadinIcon.CLOCK,"Gestores", gestorview.class));
         tabs.add(createTab(VaadinIcon.USER,"usuarios", ImageListView.class));
         tabs.add(createTab(VaadinIcon.CALENDAR, "productos", ImageListView.class));
 
