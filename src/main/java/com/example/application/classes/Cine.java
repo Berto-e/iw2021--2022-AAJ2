@@ -32,9 +32,7 @@ public class Cine {
         this.ofertas = new ArrayList<>();
     }
 
-    public Cine() {
-
-    }
+    public Cine() {}
 
     public String getNombre() {
         return nombre;

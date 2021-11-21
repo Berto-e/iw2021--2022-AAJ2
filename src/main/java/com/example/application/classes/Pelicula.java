@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 public class Pelicula {
     @Id
-    private int Id;
+    private int Id_pelicula;
     private final String nombre;
     private final String actores;
     private final String director;
@@ -24,7 +24,7 @@ public class Pelicula {
 
 
     public Pelicula(String nombre, String actores, String director, Date fecha_estreno, String sinopsis, String genero, int id_pelicula) {
-        this.Id = id_pelicula;
+        this.Id_pelicula = id_pelicula;
         this.nombre = nombre;
         this.actores = actores;
         this.director = director;
@@ -58,11 +58,4 @@ public class Pelicula {
         return genero;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
 }
