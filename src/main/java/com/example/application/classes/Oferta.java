@@ -1,6 +1,12 @@
 package com.example.application.classes;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Oferta {
+    @Id
+    private long id_Oferta;
     private int numero;
     private float precio;
     private String descripcion;
@@ -10,6 +16,8 @@ public class Oferta {
         this.precio = precio;
         this.descripcion = descripcion;
     }
+
+    public Oferta() {}
 
     public int getNumero() {
         return numero;

@@ -3,6 +3,7 @@ package com.example.application.views.gestores;
 import java.util.Arrays;
 import java.util.List;
 
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Div;
@@ -64,6 +65,7 @@ public class gestorview extends Div implements AfterNavigationObserver {
         actions.addClassName("actions");
         actions.setSpacing(false);
         actions.getThemeList().add("spacing-s");
+        
 
         description.add(header, post);
         card.add(image, description);
