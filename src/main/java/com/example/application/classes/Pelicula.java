@@ -21,8 +21,7 @@ public class Pelicula {
     private final String genero;
     @OneToMany
     private List<Proyeccion> proyecciones;
-    @javax.persistence.Id
-    private Long id;
+
 
     public Pelicula(String nombre, String actores, String director, Date fecha_estreno, String sinopsis, String genero, int id_pelicula) {
         this.Id = id_pelicula;

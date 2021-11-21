@@ -9,11 +9,11 @@ import java.util.Date;
 class Persona {
     @Id
     private int id_persona;
-    private String nombre;
-    private String correo;
-    private String nom_usuario;
-    private String contrasenna;
-    private Date fecha_nacimiento;
+    private final String nombre;
+    private final String correo;
+    private final String nom_usuario;
+    private final String contrasenna;
+    private final Date fecha_nacimiento;
 
     public Persona(String nombre, String correo, String nom_usuario, String contrasenna, Date fecha_nacimiento) {
         this.nombre = nombre;

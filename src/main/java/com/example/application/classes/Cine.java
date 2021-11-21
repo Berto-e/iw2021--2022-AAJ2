@@ -9,8 +9,10 @@ import java.util.ArrayList;
 public class Cine {
     @Id
     private long id_Cine;
+
     private String nombre;
-    private final String ubicacion;
+    private String ubicacion;
+
     @OneToOne
     private Gestor gestor_cine;
 
@@ -24,10 +26,14 @@ public class Cine {
     public Cine(String nombre, String ubicacion, Gestor gestor_cine) {
         this.nombre = nombre;
         this.ubicacion = ubicacion;
-        //this.gestor_cine = gestor_cine;
+        this.gestor_cine = gestor_cine;
         this.peliculas = new ArrayList<>();
         this.salas = new ArrayList<>();
         this.ofertas = new ArrayList<>();
+    }
+
+    public Cine() {
+
     }
 
     public String getNombre() {

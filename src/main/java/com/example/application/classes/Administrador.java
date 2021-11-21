@@ -5,6 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.Date;
+
 @Entity
 public class Administrador extends Persona {
     @Id
@@ -16,4 +17,7 @@ public class Administrador extends Persona {
         cines = new ArrayList<>();
     }
 
+    public Administrador() {
+        super();
+    }
 }
