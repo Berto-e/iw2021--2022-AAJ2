@@ -1,11 +1,18 @@
 package com.example.application.classes;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 
+@Entity
 public class Sala {
+    @Id
+    private int id_sala;
     private final int num_sala;
     private final int num_asientos;
     private final int num_filas;
+    @OneToMany
     private ArrayList<Proyeccion> proyecciones;
 
     public Sala(int num_sala, int num_asientos, int num_filas) {

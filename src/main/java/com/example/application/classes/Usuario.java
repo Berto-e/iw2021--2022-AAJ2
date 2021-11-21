@@ -1,5 +1,6 @@
 package com.example.application.classes;
 
+import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.Date;
 
