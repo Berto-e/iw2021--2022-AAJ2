@@ -8,6 +8,6 @@ import java.util.ArrayList;
 @Entity
 public class Administrador extends Persona {
     @Id
-    private int id_administrador;
-    @OneToMany private ArrayList<Cine> cines;
+    private Integer id_administrador;
+
 }

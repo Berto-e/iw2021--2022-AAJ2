@@ -10,5 +10,5 @@ import java.util.Date;
 public class Usuario extends Persona {
     @Id
     private int id_persona;
-    @OneToMany ArrayList<Entrada> entradas;
+
 }

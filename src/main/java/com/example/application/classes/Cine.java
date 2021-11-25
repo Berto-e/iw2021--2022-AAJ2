@@ -13,9 +13,7 @@ public class Cine {
     private String nombre;
     private String ubicacion;
     @OneToOne private Gestor gestor_cine;
-    @OneToMany private ArrayList<Pelicula> peliculas;
-    @OneToMany private ArrayList<Sala> salas;
-    @OneToMany private ArrayList<Oferta> ofertas;
+
 
     public String getNombre() {
         return nombre;

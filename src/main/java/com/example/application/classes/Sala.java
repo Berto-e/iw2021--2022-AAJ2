@@ -12,8 +12,7 @@ public class Sala {
     private int num_sala;
     private int num_asientos;
     private int num_filas;
-    @OneToMany
-    private ArrayList<Proyeccion> proyecciones;
+
 
     public int getNum_sala() {
         return num_sala;

@@ -19,8 +19,7 @@ public class Pelicula {
     private Date fecha_estreno;
     private String sinopsis;
     private String genero;
-    @OneToMany
-    private List<Proyeccion> proyecciones;
+
 
     public String getNombre() {
         return nombre;

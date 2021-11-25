@@ -13,8 +13,7 @@ public class Proyeccion {
     private String tipo;
     private float precio;
     private LocalTime hora;
-    @OneToMany
-    private ArrayList<Entrada> entradas;
+
 
     public String getTipo() {
         return tipo;
