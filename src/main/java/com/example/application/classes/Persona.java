@@ -4,6 +4,7 @@ package com.example.application.classes;
 import java.util.Date;
 
 class Persona {
+
     private String nombre;
     private String correo;
     private String nom_usuario;
