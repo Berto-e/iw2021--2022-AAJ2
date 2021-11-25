@@ -1,27 +1,14 @@
 package com.example.application.classes;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.util.Date;
 
-@Entity
 class Persona {
-    @Id
-    private int id_persona;
     private String nombre;
     private String correo;
     private String nom_usuario;
     private String contrasenna;
     private Date fecha_nacimiento;
-
-    public Persona(String nombre, String correo, String nom_usuario, String contrasenna, Date fecha_nacimiento) {
-        this.nombre = nombre;
-        this.correo = correo;
-        this.nom_usuario = nom_usuario;
-        this.contrasenna = contrasenna;
-        this.fecha_nacimiento = fecha_nacimiento;
-    }
 
     public String getNombre() {
         return nombre;

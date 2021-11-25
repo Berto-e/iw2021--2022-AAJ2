@@ -1,23 +1,21 @@
 package com.example.application.classes;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.ArrayList;
 
+@Entity
 public class Cine {
+    @Id
+    private int id_cine;
     private String nombre;
-    private final String ubicacion;
-    private Gestor gestor_cine;
-    private ArrayList<Pelicula> peliculas;
-    private ArrayList<Sala> salas;
-    private ArrayList<Oferta> ofertas;
-
-    public Cine(String nombre, String ubicacion, Gestor gestor_cine) {
-        this.nombre = nombre;
-        this.ubicacion = ubicacion;
-        this.gestor_cine = gestor_cine;
-        this.peliculas = new ArrayList<>();
-        this.salas = new ArrayList<>();
-        this.ofertas = new ArrayList<>();
-    }
+    private String ubicacion;
+    @OneToOne private Gestor gestor_cine;
+    @OneToMany private ArrayList<Pelicula> peliculas;
+    @OneToMany private ArrayList<Sala> salas;
+    @OneToMany private ArrayList<Oferta> ofertas;
 
     public String getNombre() {
         return nombre;

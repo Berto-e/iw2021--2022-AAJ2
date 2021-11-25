@@ -1,15 +1,15 @@
 package com.example.application.classes;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Oferta {
+    @Id
+    private int id_oferta;
     private int numero;
     private float precio;
     private String descripcion;
-
-    public Oferta(int numero, float precio, String descripcion) {
-        this.numero = numero;
-        this.precio = precio;
-        this.descripcion = descripcion;
-    }
 
     public int getNumero() {
         return numero;

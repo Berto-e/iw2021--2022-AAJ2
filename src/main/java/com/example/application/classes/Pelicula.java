@@ -13,27 +13,16 @@ import java.util.List;
 public class Pelicula {
     @Id
     private int Id;
-    private final String nombre;
-    private final String actores;
-    private final String director;
-    private final Date fecha_estreno;
-    private final String sinopsis;
-    private final String genero;
+    private String nombre;
+    private String actores;
+    private String director;
+    private Date fecha_estreno;
+    private String sinopsis;
+    private String genero;
     @OneToMany
     private List<Proyeccion> proyecciones;
     @javax.persistence.Id
     private Long id;
-
-    public Pelicula(String nombre, String actores, String director, Date fecha_estreno, String sinopsis, String genero, int id_pelicula) {
-        this.Id = id_pelicula;
-        this.nombre = nombre;
-        this.actores = actores;
-        this.director = director;
-        this.fecha_estreno = fecha_estreno;
-        this.sinopsis = sinopsis;
-        this.genero = genero;
-        this.proyecciones = new ArrayList<>();
-    }
 
     public String getNombre() {
         return nombre;

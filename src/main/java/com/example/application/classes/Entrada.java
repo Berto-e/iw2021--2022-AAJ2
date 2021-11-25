@@ -1,20 +1,19 @@
 package com.example.application.classes;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.time.LocalTime;
 import java.util.Date;
 
+@Entity
 public class Entrada {
+    @Id
+    private int id_entrada;
     private Date fecha_entrada;
     private LocalTime hora_entrada;
     private int num_sala;
-    private int[] asiento;
-
-    public Entrada(Date fecha_entrada, LocalTime hora_entrada, int num_sala, int[] asiento) {
-        this.fecha_entrada = fecha_entrada;
-        this.hora_entrada = hora_entrada;
-        this.num_sala = num_sala;
-        this.asiento = asiento;
-    }
+    private int fila;
+    private int columna;
 
     public Date getFecha_entrada() {
         return fecha_entrada;
@@ -38,13 +37,5 @@ public class Entrada {
 
     public void setNum_sala(int num_sala) {
         this.num_sala = num_sala;
-    }
-
-    public int[] getAsiento() {
-        return asiento;
-    }
-
-    public void setAsiento(int[] asiento) {
-        this.asiento = asiento;
     }
 }

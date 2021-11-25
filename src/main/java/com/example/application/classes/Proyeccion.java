@@ -10,19 +10,11 @@ import java.util.ArrayList;
 public class Proyeccion {
     @Id
     private int id_proyeccion;
-    private final String tipo;
-    private final float precio;
-    private final LocalTime hora;
+    private String tipo;
+    private float precio;
+    private LocalTime hora;
     @OneToMany
     private ArrayList<Entrada> entradas;
-
-    public Proyeccion(String tipo, float precio, LocalTime hora, int id_proyeccion) {
-        this.id_proyeccion = id_proyeccion;
-        this.tipo = tipo;
-        this.precio = precio;
-        this.hora = hora;
-        this.entradas = new ArrayList<>();
-    }
 
     public String getTipo() {
         return tipo;
