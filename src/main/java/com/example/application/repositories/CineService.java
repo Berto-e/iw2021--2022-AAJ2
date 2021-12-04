@@ -1,6 +1,5 @@
 package com.example.application.repositories;
 
-import com.example.application.classes.Administrador;
 import com.example.application.classes.Cine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

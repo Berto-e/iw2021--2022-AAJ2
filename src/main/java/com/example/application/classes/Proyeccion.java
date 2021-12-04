@@ -5,6 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Proyeccion {
@@ -13,7 +14,8 @@ public class Proyeccion {
     private String tipo;
     private float precio;
     private LocalTime hora;
-
+    @OneToMany
+    List<Entrada> entradas;
 
     public String getTipo() {
         return tipo;

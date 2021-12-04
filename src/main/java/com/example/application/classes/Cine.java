@@ -5,6 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Cine {
@@ -12,7 +13,14 @@ public class Cine {
     private int id_cine;
     private String nombre;
     private String ubicacion;
-    @OneToOne private Gestor gestor_cine;
+    @OneToOne
+    private Persona gestor_cine;
+    @OneToMany
+    List<Sala> salas;
+    @OneToMany
+    List<Pelicula> peliculas;
+    @OneToMany
+    List<Oferta> ofertas;
 
 
     public String getNombre() {

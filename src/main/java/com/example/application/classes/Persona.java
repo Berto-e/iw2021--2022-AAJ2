@@ -1,15 +1,29 @@
 package com.example.application.classes;
 
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.Date;
+import java.util.List;
 
-class Persona {
-
+@Entity
+public class Persona {
+    @Id
+    private Integer id_persona;
+    private int clase;
     private String nombre;
     private String correo;
     private String nom_usuario;
     private String contrasenna;
     private Date fecha_nacimiento;
+    @OneToMany
+    List<Entrada> entradas;
+    @OneToMany
+    List<Cine> cines;
+    @OneToOne
+    private Cine cine;
 
     public String getNombre() {
         return nombre;
