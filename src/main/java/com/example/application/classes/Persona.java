@@ -1,29 +1,47 @@
 package com.example.application.classes;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 public class Persona {
     @Id
-    private Integer id_persona;
-    private int clase;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Integer id;
+    private int clase=0;
     private String nombre;
+    private String apellido;
+    //@Column(unique = true)
     private String correo;
-    private String nom_usuario;
-    private String contrasenna;
-    private Date fecha_nacimiento;
-    @OneToMany
+    private String telefono;
+    private String contrasenna = "1234";
+    //@NotNull
+    private LocalDate fecha_nacimiento;
+
+    @OneToMany(mappedBy = "persona_ent")
     List<Entrada> entradas;
-    @OneToMany
+    @OneToMany(mappedBy = "cine_pers")
     List<Cine> cines;
-    @OneToOne
-    private Cine cine;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public int getClase() {
+        return clase;
+    }
+
+    public void setClase(int clase) {
+        this.clase = clase;
+    }
 
     public String getNombre() {
         return nombre;
@@ -31,6 +49,14 @@ public class Persona {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
     public String getCorreo() {
@@ -41,12 +67,12 @@ public class Persona {
         this.correo = correo;
     }
 
-    public String getNom_usuario() {
-        return nom_usuario;
+    public String getTelefono() {
+        return telefono;
     }
 
-    public void setNom_usuario(String nom_usuario) {
-        this.nom_usuario = nom_usuario;
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public String getContrasenna() {
@@ -57,12 +83,29 @@ public class Persona {
         this.contrasenna = contrasenna;
     }
 
-    public Date getFecha_nacimiento() {
+    public LocalDate getFecha_nacimiento() {
         return fecha_nacimiento;
     }
 
-    public void setFecha_nacimiento(Date fecha_nacimiento) {
+    public void setFecha_nacimiento(LocalDate fecha_nacimiento) {
         this.fecha_nacimiento = fecha_nacimiento;
     }
+
+    public List<Entrada> getEntradas() {
+        return entradas;
+    }
+
+    public void setEntradas(List<Entrada> entradas) {
+        this.entradas = entradas;
+    }
+
+    public List<Cine> getCines() {
+        return cines;
+    }
+
+    public void setCines(List<Cine> cines) {
+        this.cines = cines;
+    }
+
 }
 
