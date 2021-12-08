@@ -82,7 +82,7 @@ public class gestorview extends Div implements BeforeEnterObserver {
         grid.addColumn("apellido").setAutoWidth(true);
         grid.addColumn("correo").setAutoWidth(true);
         grid.addColumn("telefono").setAutoWidth(true);
-        grid.addColumn("fecha nacimiento").setAutoWidth(true);
+        grid.addColumn("fecha_nacimiento").setAutoWidth(true);
 
         grid.setDataProvider(new CrudServiceDataProvider<>(personaService));
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
@@ -158,11 +158,11 @@ public class gestorview extends Div implements BeforeEnterObserver {
         editorLayoutDiv.add(editorDiv);
 
         FormLayout formLayout = new FormLayout();
-        nombre = new TextField("First Name");
-        apellido = new TextField("Last Name");
+        nombre = new TextField("Nombre");
+        apellido = new TextField("Apellido");
         correo = new TextField("Email");
-        telefono = new TextField("Phone");
-        fecha_nacimiento = new DatePicker("Date Of Birth");
+        telefono = new TextField("Telefono");
+        fecha_nacimiento = new DatePicker("Fecha nacimiento");
 
         Component[] fields = new Component[]{nombre, apellido, correo, telefono, fecha_nacimiento};
 
