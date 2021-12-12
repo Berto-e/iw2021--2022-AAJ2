@@ -11,12 +11,21 @@ public class Sala {
     private int num_sala;
     private int num_asientos;
     private int num_filas;
+    private String status;
     @OneToMany(mappedBy = "sala")
     List<Proyeccion> proyecciones;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sala_cine")
     private Cine cine;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Cine getCine() {
         return cine;
