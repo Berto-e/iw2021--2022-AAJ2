@@ -21,12 +21,13 @@ public class ImageCard extends LitTemplate {
     @Id
     private Paragraph text;
 
+    @Id
+    private Span badge;
 
-    public ImageCard(String title, String text, String url, String sinopisis) {
-        this.image.setSrc(url);
-        this.image.setAlt(text);
+    public ImageCard(String photo, String title, String descrip, String label) {
+        this.image.setSrc(photo);
         this.header.setText(title);
-        this.text.setText(
-                sinopisis);
+        this.text.setText(descrip);
+        this.badge.setText(label);
     }
 }
