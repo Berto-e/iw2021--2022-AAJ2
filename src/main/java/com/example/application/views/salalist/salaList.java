@@ -31,19 +31,17 @@ import java.util.Locale;
 import org.apache.commons.lang3.StringUtils;
 
 @PageTitle("List")
-@Route(value = "list", layout = MainLayout.class)
-public class SalaList extends Div {
+@Route(value = "lista-salas", layout = MainLayout.class)
+public class salaList extends Div {
 
     private GridPro<Sala> grid;
     private ListDataProvider<Sala> dataProvider;
 
     private Grid.Column<Sala> idColumn;
     private Grid.Column<Sala> SalaColumn;
-    private Grid.Column<Sala> amountColumn;
     private Grid.Column<Sala> statusColumn;
-    private Grid.Column<Sala> dateColumn;
 
-    public SalaList() {
+    public salaList() {
         addClassName("list-view");
         setSizeFull();
         createGrid();
@@ -69,9 +67,7 @@ public class SalaList extends Div {
     private void addColumnsToGrid() {
         createIdColumn();
         createSalaColumn();
-        createAmountColumn();
         createStatusColumn();
-        createDateColumn();
     }
 
     private void createIdColumn() {
@@ -82,25 +78,17 @@ public class SalaList extends Div {
         SalaColumn = grid.addColumn(new ComponentRenderer<>(Sala -> {
             HorizontalLayout hl = new HorizontalLayout();
             hl.setAlignItems(Alignment.CENTER);
-            Image img = new Image(Sala.getImg(), "");
             Span span = new Span();
             span.setClassName("name");
-            span.setText(Sala.getSala());
-            hl.add(img, span);
+            span.setText(Integer.toString(Sala.getNum_sala()));
+            hl.add(span);
             return hl;
-        })).setComparator(Sala -> Sala.getSala()).setHeader("Sala");
+        })).setComparator(Sala -> Sala.getNum_sala()).setHeader("Sala");
     }
 
-    private void createAmountColumn() {
-        amountColumn = grid
-                .addEditColumn(Sala::getAmount,
-                        new NumberRenderer<>(Sala -> Sala.getAmount(), NumberFormat.getCurrencyInstance(Locale.US)))
-                .text((item, newValue) -> item.setAmount(Double.parseDouble(newValue)))
-                .setComparator(Sala -> Sala.getAmount()).setHeader("Amount");
-    }
 
     private void createStatusColumn() {
-        statusColumn = grid.addEditColumn(Sala::getSala, new ComponentRenderer<>(Sala -> {
+        statusColumn = grid.addEditColumn(Sala::getNum_sala, new ComponentRenderer<>(Sala -> {
                     Span span = new Span();
                     span.setText(Sala.getStatus());
                     span.getElement().setAttribute("theme", "badge " + Sala.getStatus().toLowerCase());
@@ -108,14 +96,14 @@ public class SalaList extends Div {
                 })).select((item, newValue) -> item.setStatus(newValue), Arrays.asList("Pending", "Success", "Error"))
                 .setComparator(Sala -> Sala.getStatus()).setHeader("Status");
     }
-
+/*
     private void createDateColumn() {
         dateColumn = grid
                 .addColumn(new LocalDateRenderer<>(Sala -> LocalDate.parse(Sala.getDate()),
                         DateTimeFormatter.ofPattern("M/d/yyyy")))
                 .setComparator(Sala -> Sala.getDate()).setHeader("Date").setWidth("180px").setFlexGrow(0);
     }
-
+*/
     private void addFiltersToGrid() {
         HeaderRow filterRow = grid.appendHeaderRow();
 
@@ -125,7 +113,7 @@ public class SalaList extends Div {
         idFilter.setWidth("100%");
         idFilter.setValueChangeMode(ValueChangeMode.EAGER);
         idFilter.addValueChangeListener(event -> dataProvider.addFilter(
-                Sala -> StringUtils.containsIgnoreCase(Integer.toString(Sala.getId()), idFilter.getValue())));
+                Sala -> StringUtils.containsIgnoreCase(Integer.toString(Sala.getId_sala()), idFilter.getValue())));
         filterRow.getCell(idColumn).setComponent(idFilter);
 
         TextField SalaFilter = new TextField();
@@ -134,17 +122,9 @@ public class SalaList extends Div {
         SalaFilter.setWidth("100%");
         SalaFilter.setValueChangeMode(ValueChangeMode.EAGER);
         SalaFilter.addValueChangeListener(event -> dataProvider
-                .addFilter(Sala -> StringUtils.containsIgnoreCase(Sala.getSala(), SalaFilter.getValue())));
+                .addFilter(Sala -> StringUtils.containsIgnoreCase(Integer.toString(Sala.getNum_sala()), SalaFilter.getValue())));
         filterRow.getCell(SalaColumn).setComponent(SalaFilter);
 
-        TextField amountFilter = new TextField();
-        amountFilter.setPlaceholder("Filter");
-        amountFilter.setClearButtonVisible(true);
-        amountFilter.setWidth("100%");
-        amountFilter.setValueChangeMode(ValueChangeMode.EAGER);
-        amountFilter.addValueChangeListener(event -> dataProvider.addFilter(Sala -> StringUtils
-                .containsIgnoreCase(Double.toString(Sala.getAmount()), amountFilter.getValue())));
-        filterRow.getCell(amountColumn).setComponent(amountFilter);
 
         ComboBox<String> statusFilter = new ComboBox<>();
         statusFilter.setItems(Arrays.asList("Pending", "Success", "Error"));
@@ -155,12 +135,6 @@ public class SalaList extends Div {
                 event -> dataProvider.addFilter(Sala -> areStatusesEqual(Sala, statusFilter)));
         filterRow.getCell(statusColumn).setComponent(statusFilter);
 
-        DatePicker dateFilter = new DatePicker();
-        dateFilter.setPlaceholder("Filter");
-        dateFilter.setClearButtonVisible(true);
-        dateFilter.setWidth("100%");
-        dateFilter.addValueChangeListener(event -> dataProvider.addFilter(Sala -> areDatesEqual(Sala, dateFilter)));
-        filterRow.getCell(dateColumn).setComponent(dateFilter);
     }
 
     private boolean areStatusesEqual(Sala Sala, ComboBox<String> statusFilter) {
@@ -171,26 +145,12 @@ public class SalaList extends Div {
         return true;
     }
 
-    private boolean areDatesEqual(Sala Sala, DatePicker dateFilter) {
-        LocalDate dateFilterValue = dateFilter.getValue();
-        if (dateFilterValue != null) {
-            LocalDate SalaDate = LocalDate.parse(Sala.getDate());
-            return dateFilterValue.equals(SalaDate);
-        }
-        return true;
-    }
-
     private List<Sala> getSalas() {
         return Arrays.asList(
                 createSala(4957, 15, 40, "Funcionando"),
                 createSala(4937, 10, 35, "Funcionando"),
-                createSala(4900, 11, 46, "Funcionando"),
-                createSala(4957, 12, 47, "Funcionando"),
-                createSala(4936, 13, 49, "Funcionando"),
-                createSala(4932, 14, 52, "Funcionando"),
-                createSala(4911, 15, 55, "Funcionando"),
-                createSala(4951, 16, 65, "Funcionando"),
-                createSala(4925, 17, 60, "Funcionando");
+                createSala(4900, 11, 46, "Funcionando")
+                );
     }
 
     private Sala createSala(int id, int num_filas, int num_asientos, String status) {

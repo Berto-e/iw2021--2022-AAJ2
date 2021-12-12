@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 public class Oferta {
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id_oferta;
     private int numero;
     private float precio;

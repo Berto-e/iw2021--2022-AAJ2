@@ -7,6 +7,7 @@ import java.util.List;
 @Entity
 public class Cine {
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id_cine;
     private String nombre;
     private String ubicacion;

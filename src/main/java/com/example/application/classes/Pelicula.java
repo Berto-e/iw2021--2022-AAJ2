@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 public class Pelicula {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id_pelicula;
     private String nombre;
     private String actores;

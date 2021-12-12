@@ -8,6 +8,7 @@ import java.util.List;
 @Entity
 public class Proyeccion {
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id_proyeccion;
     private String tipo;
     private float precio;

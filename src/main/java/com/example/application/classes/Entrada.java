@@ -7,6 +7,7 @@ import java.util.Date;
 @Entity
 public class Entrada {
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id_entrada;
     private Date fecha_entrada;
     private LocalTime hora_entrada;
