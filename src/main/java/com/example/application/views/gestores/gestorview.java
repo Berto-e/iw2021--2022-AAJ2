@@ -40,12 +40,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @PageTitle("Gestores")
-@Route(value = "gestor", layout = MainLayout.class)
+@Route(value = "gestor/:PersonaID?/:action?(edit)", layout = MainLayout.class)
 @Uses(Icon.class)
 public class gestorview extends Div implements BeforeEnterObserver {
 
     private final String SAMPLEPERSON_ID = "samplePersonID";
-    private final String SAMPLEPERSON_EDIT_ROUTE_TEMPLATE = "gestor";
+    private final String SAMPLEPERSON_EDIT_ROUTE_TEMPLATE = "gestor/%d/edit";
 
     private Grid<Persona> grid = new Grid<>(Persona.class, false);
 

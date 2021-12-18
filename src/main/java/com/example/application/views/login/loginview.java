@@ -15,7 +15,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @PageTitle("Login")
-@Route(value = "Register", layout = MainLayout.class)
+@Route(value = "hola", layout = MainLayout.class)
 public class loginview extends Composite<LoginOverlay> {
     public loginview(){
         LoginOverlay component = getContent();

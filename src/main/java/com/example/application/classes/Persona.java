@@ -18,7 +18,7 @@ public class Persona {
     //@Column(unique = true)
     private String correo;
     private String telefono;
-    private String contrasenna = "1234";
+    //private String contrasenna = "1234";
     //@NotNull
     private LocalDate fecha_nacimiento;
 
@@ -75,13 +75,13 @@ public class Persona {
         this.telefono = telefono;
     }
 
-    public String getContrasenna() {
+    /*public String getContrasenna() {
         return contrasenna;
     }
 
     public void setContrasenna(String contrasenna) {
         this.contrasenna = contrasenna;
-    }
+    }*/
 
     public LocalDate getFecha_nacimiento() {
         return fecha_nacimiento;

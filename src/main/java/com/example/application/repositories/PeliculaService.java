@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.vaadin.artur.helpers.CrudService;
 
+import java.util.List;
+
 @Service
 public class PeliculaService extends CrudService<Pelicula, Integer> {
 
@@ -18,5 +20,9 @@ public class PeliculaService extends CrudService<Pelicula, Integer> {
     @Override
     protected PeliculaRepository getRepository() {
         return repository;
+    }
+
+    public List<Pelicula> findAll() {
+        return repository.findAll();
     }
 }

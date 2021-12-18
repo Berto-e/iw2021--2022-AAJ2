@@ -18,6 +18,8 @@ import com.vaadin.flow.router.RouteAlias;
 import com.example.application.views.MainLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 @PageTitle("Cartelera")
 @Route(value = "", layout = MainLayout.class)
 @Tag("image-list-view")
@@ -25,13 +27,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class ImageListView extends LitTemplate implements HasComponents, HasStyle {
     private PeliculaService personaService;
+    private List<Pelicula> pelis;
     public ImageListView(@Autowired PeliculaService peliculas) {
         addClassNames("image-list-view", "flex", "flex-col", "h-full");
         this.personaService = peliculas;
-
-        for(Pelicula p: )
+        pelis = personaService.findAll();
+        for(Pelicula p: pelis)
         add(new ImageCard("https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/viernes-13-saga-peor-a-mejor-ranking-1588849712.jpeg?crop=1.00xw:0.708xh;0,0&resize=640:*", "Viernes 13 RETURNS",
-                "Descripcion de la pelicula", "Terror");
+                p.getSinopsis(), p.getGenero()));
 
     }
 }

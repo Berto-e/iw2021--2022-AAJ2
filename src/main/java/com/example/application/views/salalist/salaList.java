@@ -1,166 +1,211 @@
 package com.example.application.views.salalist;
 
+import com.example.application.classes.Cine;
+import com.example.application.classes.Entrada;
+import com.example.application.classes.Persona;
 import com.example.application.classes.Sala;
+import com.example.application.repositories.PersonaService;
+import com.example.application.repositories.SalaService;
 import com.example.application.views.MainLayout;
-import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasStyle;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.dependency.Uses;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.Grid.SelectionMode;
 import com.vaadin.flow.component.grid.GridVariant;
-import com.vaadin.flow.component.grid.HeaderRow;
-import com.vaadin.flow.component.gridpro.GridPro;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.provider.ListDataProvider;
-import com.vaadin.flow.data.renderer.ComponentRenderer;
-import com.vaadin.flow.data.renderer.LocalDateRenderer;
-import com.vaadin.flow.data.renderer.NumberRenderer;
-import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
+import com.vaadin.flow.data.binder.ValidationException;
+import com.vaadin.flow.data.renderer.TemplateRenderer;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import java.text.NumberFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
+
+import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import org.apache.commons.lang3.StringUtils;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.vaadin.artur.helpers.CrudServiceDataProvider;
 
-@PageTitle("List")
-@Route(value = "lista-salas", layout = MainLayout.class)
-public class salaList extends Div {
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
-    private GridPro<Sala> grid;
-    private ListDataProvider<Sala> dataProvider;
+@PageTitle("Gestores")
+@Route(value = "sala/:SalaID?/:action?(edit)", layout = MainLayout.class)
+@Uses(Icon.class)
+public class salaList extends Div implements BeforeEnterObserver {
 
-    private Grid.Column<Sala> idColumn;
-    private Grid.Column<Sala> SalaColumn;
-    private Grid.Column<Sala> statusColumn;
+    private final String SAMPLEPERSON_ID = "samplePersonID";
+    private final String SAMPLEPERSON_EDIT_ROUTE_TEMPLATE = "gestor/%d/edit";
 
-    public salaList() {
-        addClassName("list-view");
-        setSizeFull();
-        createGrid();
-        add(grid);
-    }
+    private Grid<Sala> grid = new Grid<>(Sala.class, false);
 
-    private void createGrid() {
-        createGridComponent();
-        addColumnsToGrid();
-        addFiltersToGrid();
-    }
+    private TextField nombre;
+    private TextField apellido;
+    private TextField correo;
+    private TextField telefono;
 
-    private void createGridComponent() {
-        grid = new GridPro<>();
-        grid.setSelectionMode(SelectionMode.MULTI);
-        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_COLUMN_BORDERS);
-        grid.setHeight("100%");
+    private Button cancel = new Button("Cancel");
+    private Button save = new Button("Save");
 
-        dataProvider = new ListDataProvider<>(getSalas());
-        grid.setDataProvider(dataProvider);
-    }
+    private BeanValidationBinder<Sala> binder;
 
-    private void addColumnsToGrid() {
-        createIdColumn();
-        createSalaColumn();
-        createStatusColumn();
-    }
+    private Sala sala;
 
-    private void createIdColumn() {
-        idColumn = grid.addColumn(Sala::getId_sala, "id").setHeader("ID").setWidth("120px").setFlexGrow(0);
-    }
+    private SalaService salaService;
 
-    private void createSalaColumn() {
-        SalaColumn = grid.addColumn(new ComponentRenderer<>(Sala -> {
-            HorizontalLayout hl = new HorizontalLayout();
-            hl.setAlignItems(Alignment.CENTER);
-            Span span = new Span();
-            span.setClassName("name");
-            span.setText(Integer.toString(Sala.getNum_sala()));
-            hl.add(span);
-            return hl;
-        })).setComparator(Sala -> Sala.getNum_sala()).setHeader("Sala");
-    }
+    public salaList(@Autowired SalaService salaService) {
+        this.salaService = salaService;
+        addClassNames("master-detail-view", "flex", "flex-col", "h-full");
+        // Create UI
+        SplitLayout splitLayout = new SplitLayout();
+        splitLayout.setSizeFull();
 
+        createGridLayout(splitLayout);
+        createEditorLayout(splitLayout);
 
-    private void createStatusColumn() {
-        statusColumn = grid.addEditColumn(Sala::getNum_sala, new ComponentRenderer<>(Sala -> {
-                    Span span = new Span();
-                    span.setText(Sala.getStatus());
-                    span.getElement().setAttribute("theme", "badge " + Sala.getStatus().toLowerCase());
-                    return span;
-                })).select((item, newValue) -> item.setStatus(newValue), Arrays.asList("Pending", "Success", "Error"))
-                .setComparator(Sala -> Sala.getStatus()).setHeader("Status");
-    }
-/*
-    private void createDateColumn() {
-        dateColumn = grid
-                .addColumn(new LocalDateRenderer<>(Sala -> LocalDate.parse(Sala.getDate()),
-                        DateTimeFormatter.ofPattern("M/d/yyyy")))
-                .setComparator(Sala -> Sala.getDate()).setHeader("Date").setWidth("180px").setFlexGrow(0);
-    }
-*/
-    private void addFiltersToGrid() {
-        HeaderRow filterRow = grid.appendHeaderRow();
+        add(splitLayout);
 
-        TextField idFilter = new TextField();
-        idFilter.setPlaceholder("Filter");
-        idFilter.setClearButtonVisible(true);
-        idFilter.setWidth("100%");
-        idFilter.setValueChangeMode(ValueChangeMode.EAGER);
-        idFilter.addValueChangeListener(event -> dataProvider.addFilter(
-                Sala -> StringUtils.containsIgnoreCase(Integer.toString(Sala.getId_sala()), idFilter.getValue())));
-        filterRow.getCell(idColumn).setComponent(idFilter);
+        // Configure Grid
+        grid.addColumn("nombre").setAutoWidth(true);
+        grid.addColumn("apellido").setAutoWidth(true);
+        grid.addColumn("correo").setAutoWidth(true);
+        grid.addColumn("telefono").setAutoWidth(true);
+        grid.addColumn("fecha_nacimiento").setAutoWidth(true);
 
-        TextField SalaFilter = new TextField();
-        SalaFilter.setPlaceholder("Filter");
-        SalaFilter.setClearButtonVisible(true);
-        SalaFilter.setWidth("100%");
-        SalaFilter.setValueChangeMode(ValueChangeMode.EAGER);
-        SalaFilter.addValueChangeListener(event -> dataProvider
-                .addFilter(Sala -> StringUtils.containsIgnoreCase(Integer.toString(Sala.getNum_sala()), SalaFilter.getValue())));
-        filterRow.getCell(SalaColumn).setComponent(SalaFilter);
+        grid.setDataProvider(new CrudServiceDataProvider<>(salaService));
+        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
+        grid.setHeightFull();
 
+        // when a row is selected or deselected, populate form
+        grid.asSingleSelect().addValueChangeListener(event -> {
+            if (event.getValue() != null) {
+                UI.getCurrent().navigate(String.format(SAMPLEPERSON_EDIT_ROUTE_TEMPLATE, event.getValue().getId_sala()));
+            } else {
+                clearForm();
+                UI.getCurrent().navigate(salaList.class);
+            }
+        });
 
-        ComboBox<String> statusFilter = new ComboBox<>();
-        statusFilter.setItems(Arrays.asList("Pending", "Success", "Error"));
-        statusFilter.setPlaceholder("Filter");
-        statusFilter.setClearButtonVisible(true);
-        statusFilter.setWidth("100%");
-        statusFilter.addValueChangeListener(
-                event -> dataProvider.addFilter(Sala -> areStatusesEqual(Sala, statusFilter)));
-        filterRow.getCell(statusColumn).setComponent(statusFilter);
+        // Configure Form
+        binder = new BeanValidationBinder<>(Sala.class);
+
+        // Bind fields. This where you'd define e.g. validation rules
+
+        binder.bindInstanceFields(this);
+
+        cancel.addClickListener(e -> {
+            clearForm();
+            refreshGrid();
+        });
+
+        save.addClickListener(e -> {
+            try {
+                if (this.sala == null) {
+                    this.sala = new Sala();
+                }
+                binder.writeBean(this.sala);
+
+                salaService.update(this.sala);
+                clearForm();
+                refreshGrid();
+                Notification.show("Datos de sala guardao.");
+                UI.getCurrent().navigate(salaList.class);
+            } catch (ValidationException validationException) {
+                Notification.show("An exception happened while trying to store the samplePerson details.");
+            }
+        });
 
     }
 
-    private boolean areStatusesEqual(Sala Sala, ComboBox<String> statusFilter) {
-        String statusFilterValue = statusFilter.getValue();
-        if (statusFilterValue != null) {
-            return StringUtils.equals(Sala.getStatus(), statusFilterValue);
+    @Override
+    public void beforeEnter(BeforeEnterEvent event) {
+        Optional<Integer> salaid = event.getRouteParameters().getInteger(SAMPLEPERSON_ID);
+        if (salaid.isPresent()) {
+            Optional<Sala> salaFromBackend = salaService.get(salaid.get());
+            if (salaFromBackend.isPresent()) {
+                populateForm(salaFromBackend.get());
+            } else {
+                Notification.show(
+                        String.format("The requested samplePerson was not found, ID = %d", salaid.get()), 3000,
+                        Notification.Position.BOTTOM_START);
+                // when a row is selected but the data is no longer available,
+                // refresh grid
+                refreshGrid();
+                event.forwardTo(salaList.class);
+            }
         }
-        return true;
     }
 
-    private List<Sala> getSalas() {
-        return Arrays.asList(
-                createSala(4957, 15, 40, "Funcionando"),
-                createSala(4937, 10, 35, "Funcionando"),
-                createSala(4900, 11, 46, "Funcionando")
-                );
+    private void createEditorLayout(SplitLayout splitLayout) {
+        Div editorLayoutDiv = new Div();
+        editorLayoutDiv.setClassName("flex flex-col");
+        editorLayoutDiv.setWidth("400px");
+
+        Div editorDiv = new Div();
+        editorDiv.setClassName("p-l flex-grow");
+        editorLayoutDiv.add(editorDiv);
+
+        FormLayout formLayout = new FormLayout();
+        nombre = new TextField("Nombre");
+        apellido = new TextField("Apellido");
+        correo = new TextField("Email");
+        telefono = new TextField("Telefono");
+
+
+        Component[] fields = new Component[]{nombre, apellido, correo, telefono};
+
+        for (Component field : fields) {
+            ((HasStyle) field).addClassName("full-width");
+        }
+        formLayout.add(fields);
+        editorDiv.add(formLayout);
+        createButtonLayout(editorLayoutDiv);
+
+        splitLayout.addToSecondary(editorLayoutDiv);
     }
 
-    private Sala createSala(int id, int num_filas, int num_asientos, String status) {
-        Sala c = new Sala();
-        c.setId_sala(id);
-        c.setStatus(status);
-        c.setNum_asientos(num_asientos);
-        c.setNum_filas(num_filas);
-        c.setCine(null);
-        return c;
+    private void createButtonLayout(Div editorLayoutDiv) {
+        HorizontalLayout buttonLayout = new HorizontalLayout();
+        buttonLayout.setClassName("w-full flex-wrap bg-contrast-5 py-s px-l");
+        buttonLayout.setSpacing(true);
+        cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        buttonLayout.add(save, cancel);
+        editorLayoutDiv.add(buttonLayout);
     }
-};
 
+    private void createGridLayout(SplitLayout splitLayout) {
+        Div wrapper = new Div();
+        wrapper.setId("grid-wrapper");
+        wrapper.setWidthFull();
+        splitLayout.addToPrimary(wrapper);
+        wrapper.add(grid);
+    }
+
+    private void refreshGrid() {
+        grid.select(null);
+        grid.getDataProvider().refreshAll();
+    }
+
+    private void clearForm() {
+        populateForm(null);
+    }
+
+    private void populateForm(Sala value) {
+        this.sala = value;
+        binder.readBean(this.sala);
+
+    }
+}
