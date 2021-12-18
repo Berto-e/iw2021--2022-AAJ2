@@ -1,19 +1,16 @@
-package com.example.application.views.salalist;
+package com.example.application.views.addpeli;
 
-import com.example.application.classes.Cine;
-import com.example.application.classes.Entrada;
-import com.example.application.classes.Persona;
+import com.example.application.classes.Pelicula;
 import com.example.application.classes.Sala;
-import com.example.application.repositories.PersonaService;
-import com.example.application.repositories.SalaService;
+import com.example.application.repositories.PeliculaService;
 import com.example.application.views.MainLayout;
+import com.example.application.views.salalist.salaList;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -33,8 +30,6 @@ import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.artur.helpers.CrudServiceDataProvider;
@@ -42,31 +37,36 @@ import org.vaadin.artur.helpers.CrudServiceDataProvider;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-@PageTitle("Salas")
-@Route(value = "sala/:SalaID?/:action?(edit)", layout = MainLayout.class)
+@PageTitle("Añadir Pelicula")
+@Route(value = "Pelicula/:PersonaID?/:action?(edit)", layout = MainLayout.class)
 @Uses(Icon.class)
-public class salaList extends Div implements BeforeEnterObserver {
+public class addpeliview extends Div implements BeforeEnterObserver {
 
     private final String SAMPLEPERSON_ID = "samplePersonID";
-    private final String SAMPLEPERSON_EDIT_ROUTE_TEMPLATE = "sala/%d/edit";
-    private Grid<Sala> grid = new Grid<>(Sala.class, false);
+    private final String SAMPLEPERSON_EDIT_ROUTE_TEMPLATE = "Pelicula/%d/edit";
 
-    private TextField num_sala;
-    private TextField num_asientos;
-    private TextField status;
+    private Grid<Pelicula> grid = new Grid<>(Pelicula.class, false);
+
+    private TextField nombre;
+    private TextField actores;
+    private TextField director;
+    private DatePicker fecha_estreno;
+    private TextField sinopsis;
+    private TextField genero;
+    private TextField url;
 
     private Button cancel = new Button("Cancel");
     private Button save = new Button("Save");
     private Button borrar = new Button("Borrar");
 
-    private BeanValidationBinder<Sala> binder;
+    private BeanValidationBinder<Pelicula> binder;
 
-    private Sala sala;
+    private Pelicula pelicula;
 
-    private SalaService salaService;
+    private PeliculaService peliculaService;
 
-    public salaList(@Autowired SalaService salaService) {
-        this.salaService = salaService;
+    public addpeliview(@Autowired PeliculaService peliculaService) {
+        this.peliculaService = peliculaService;
         addClassNames("master-detail-view", "flex", "flex-col", "h-full");
         // Create UI
         SplitLayout splitLayout = new SplitLayout();
@@ -78,27 +78,29 @@ public class salaList extends Div implements BeforeEnterObserver {
         add(splitLayout);
 
         // Configure Grid
-        grid.addColumn("num_sala").setAutoWidth(true);
-        grid.addColumn("num_asientos").setAutoWidth(true);
-        grid.addColumn("status").setAutoWidth(true);
+        grid.addColumn("nombre").setAutoWidth(true);
+        grid.addColumn("actores").setAutoWidth(true);
+        grid.addColumn("director").setAutoWidth(true);
+        grid.addColumn("fecha_estreno").setAutoWidth(true);
+        grid.addColumn("sinopsis").setAutoWidth(true);
+        grid.addColumn("genero").setAutoWidth(true);
 
-
-        grid.setDataProvider(new CrudServiceDataProvider<>(salaService));
+        grid.setDataProvider(new CrudServiceDataProvider<>(peliculaService));
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.setHeightFull();
 
         // when a row is selected or deselected, populate form
         grid.asSingleSelect().addValueChangeListener(event -> {
             if (event.getValue() != null) {
-                UI.getCurrent().navigate(String.format(SAMPLEPERSON_EDIT_ROUTE_TEMPLATE, event.getValue().getId_sala()));
+                UI.getCurrent().navigate(String.format(SAMPLEPERSON_EDIT_ROUTE_TEMPLATE, event.getValue().getId_pelicula()));
             } else {
                 clearForm();
-                UI.getCurrent().navigate(salaList.class);
+                UI.getCurrent().navigate(addpeliview.class);
             }
         });
 
         // Configure Form
-        binder = new BeanValidationBinder<>(Sala.class);
+        binder = new BeanValidationBinder<>(Pelicula.class);
 
         // Bind fields. This where you'd define e.g. validation rules
 
@@ -111,15 +113,16 @@ public class salaList extends Div implements BeforeEnterObserver {
 
         save.addClickListener(e -> {
             try {
-                if (this.sala == null) {
-                    this.sala = new Sala();
+                if (this.pelicula == null) {
+                    this.pelicula = new Pelicula();
                 }
-                binder.writeBean(this.sala);
-                salaService.update(this.sala);
+                binder.writeBean(this.pelicula);
+
+                peliculaService.update(this.pelicula);
                 clearForm();
                 refreshGrid();
-                Notification.show("Datos guardados ");
-                UI.getCurrent().navigate(salaList.class);
+                Notification.show("Datos de pelicula guardao.");
+                UI.getCurrent().navigate(addpeliview.class);
             } catch (ValidationException validationException) {
                 Notification.show("An exception happened while trying to store the samplePerson details.");
             }
@@ -127,41 +130,41 @@ public class salaList extends Div implements BeforeEnterObserver {
 
         borrar.addClickListener(e -> {
             try {
-                if (this.sala == null) {
-                    this.sala = new Sala();
+                if (this.pelicula == null) {
+                    this.pelicula = new Pelicula();
                 }
-                binder.writeBean(this.sala);
+                binder.writeBean(this.pelicula);
 
-                salaService.delete(2);
+                peliculaService.delete(1);
                 clearForm();
                 refreshGrid();
-                Notification.show("Datos de sala borrado.");
-                UI.getCurrent().navigate(salaList.class);
+                Notification.show("Datos de peli borrado.");
+                UI.getCurrent().navigate(addpeliview.class);
             }catch (ValidationException ex) {
-                    ex.printStackTrace();
-                }
-            });
-        }
-
+                ex.printStackTrace();
+            }
+        });
+    }
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-        Optional<Integer> salaid = event.getRouteParameters().getInteger(SAMPLEPERSON_ID);
-        if (salaid.isPresent()) {
-            Optional<Sala> salaFromBackend = salaService.get(salaid.get());
-            if (salaFromBackend.isPresent()) {
-                populateForm(salaFromBackend.get());
+        Optional<Integer> peliculaid = event.getRouteParameters().getInteger(SAMPLEPERSON_ID);
+        if (peliculaid.isPresent()) {
+            Optional<Pelicula> peliculaFromBackend = peliculaService.get(peliculaid.get());
+            if (peliculaFromBackend.isPresent()) {
+                populateForm(peliculaFromBackend.get());
             } else {
                 Notification.show(
-                        String.format("The requested samplePerson was not found, ID = %d", salaid.get()), 3000,
+                        String.format("The requested samplePerson was not found, ID = %d", peliculaid.get()), 3000,
                         Notification.Position.BOTTOM_START);
                 // when a row is selected but the data is no longer available,
                 // refresh grid
                 refreshGrid();
-                event.forwardTo(salaList.class);
+                event.forwardTo(addpeliview.class);
             }
         }
     }
+
 
     private void createEditorLayout(SplitLayout splitLayout) {
         Div editorLayoutDiv = new Div();
@@ -173,12 +176,14 @@ public class salaList extends Div implements BeforeEnterObserver {
         editorLayoutDiv.add(editorDiv);
 
         FormLayout formLayout = new FormLayout();
-        num_sala = new TextField("Numero de sala");
-        num_asientos = new TextField("Asientos");
-        status = new TextField("Status");
-
-
-        Component[] fields = new Component[]{num_sala, num_asientos, status};
+        nombre = new TextField("Nombre");
+        url = new TextField("URL");
+        actores = new TextField("Actores");
+        director = new TextField("Director");
+        sinopsis = new TextField("Sinopsis");
+        fecha_estreno = new DatePicker("Fecha estreno");
+        genero = new TextField("Genero");
+        Component[] fields = new Component[]{nombre, actores, director, sinopsis, fecha_estreno, genero, url};
 
         for (Component field : fields) {
             ((HasStyle) field).addClassName("full-width");
@@ -218,9 +223,9 @@ public class salaList extends Div implements BeforeEnterObserver {
         populateForm(null);
     }
 
-    private void populateForm(Sala value) {
-        this.sala = value;
-        binder.readBean(this.sala);
+    private void populateForm(Pelicula value) {
+        this.pelicula = value;
+        binder.readBean(this.pelicula);
 
     }
 }

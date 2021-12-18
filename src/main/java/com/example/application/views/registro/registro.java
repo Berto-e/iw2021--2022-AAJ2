@@ -3,7 +3,6 @@ package com.example.application.views.registro;
 import com.example.application.classes.Persona;
 import com.example.application.repositories.PersonaService;
 import com.example.application.views.MainLayout;
-import com.example.application.views.gestores.gestorview;
 import com.example.application.views.imagelist.ImageListView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;

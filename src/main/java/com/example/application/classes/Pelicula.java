@@ -3,6 +3,7 @@ package com.example.application.classes;
 import org.springframework.context.annotation.Primary;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,10 +13,11 @@ public class Pelicula {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id_pelicula;
+    private String url;
     private String nombre;
     private String actores;
     private String director;
-    private Date fecha_estreno;
+    private LocalDate fecha_estreno;
     private String sinopsis;
     private String genero;
     @OneToMany(mappedBy = "pelicula")
@@ -25,6 +27,13 @@ public class Pelicula {
     @JoinColumn(name = "pel_cine")
     private Cine cine_p;
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public Cine getCine_p() {
         return cine_p;
@@ -46,7 +55,7 @@ public class Pelicula {
         return director;
     }
 
-    public Date getFecha_estreno() {
+    public LocalDate getFecha_estreno() {
         return fecha_estreno;
     }
 
@@ -78,7 +87,7 @@ public class Pelicula {
         this.director = director;
     }
 
-    public void setFecha_estreno(Date fecha_estreno) {
+    public void setFecha_estreno(LocalDate fecha_estreno) {
         this.fecha_estreno = fecha_estreno;
     }
 

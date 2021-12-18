@@ -7,9 +7,10 @@ import java.util.List;
 @Entity
 public class Sala {
     @Id
-    private int id_sala;
-    private int num_sala;
-    private int num_asientos;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Integer id_sala;
+    private String num_sala;
+    private String num_asientos;
     private int num_filas;
     private String status;
     @OneToMany(mappedBy = "sala")
@@ -19,7 +20,7 @@ public class Sala {
     @JoinColumn(name = "sala_cine")
     private Cine cine;
 
-    public int getId_sala() {
+    public Integer getId_sala() {
         return id_sala;
     }
 
@@ -27,19 +28,19 @@ public class Sala {
         this.id_sala = id_sala;
     }
 
-    public int getNum_sala() {
+    public String getNum_sala() {
         return num_sala;
     }
 
-    public void setNum_sala(int num_sala) {
+    public void setNum_sala(String num_sala) {
         this.num_sala = num_sala;
     }
 
-    public int getNum_asientos() {
+    public String getNum_asientos() {
         return num_asientos;
     }
 
-    public void setNum_asientos(int num_asientos) {
+    public void setNum_asientos(String num_asientos) {
         this.num_asientos = num_asientos;
     }
 
