@@ -1,6 +1,8 @@
 package com.example.application.classes;
 
 
+import com.vaadin.flow.component.textfield.PasswordField;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -15,9 +17,19 @@ public class Persona {
     private int clase=0;
     private String nombre;
     private String apellido;
-    //@Column(unique = true)
+    private String contraseña;
     private String correo;
     private String telefono;
+    private boolean important;
+
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
+    }
+
     //private String contrasenna = "1234";
     //@NotNull
     private LocalDate fecha_nacimiento;
@@ -26,6 +38,14 @@ public class Persona {
     List<Entrada> entradas;
     @OneToMany(mappedBy = "cine_pers")
     List<Cine> cines;
+
+    public boolean isImportant() {
+        return important;
+    }
+
+    public void setImportant(boolean important) {
+        this.important = important;
+    }
 
     public Integer getId() {
         return id;

@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@PageTitle("Cartelera")
+@PageTitle("Ofertas")
 @Route(value = "", layout = MainLayout.class)
 @Tag("image-list-view")
 @JsModule("./views/imagelist/image-list-view.ts")

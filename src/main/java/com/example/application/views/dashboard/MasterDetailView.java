@@ -1,7 +1,7 @@
-package com.example.application.views.gestores;
+package com.example.application.views.dashboard;
 
-import com.example.application.classes.Persona;
-import com.example.application.repositories.PersonaService;
+import com.example.application.classes.SamplePerson;
+import com.example.application.repositories.SamplePersonService;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasStyle;
@@ -27,42 +27,40 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-
+import com.vaadin.flow.router.RouteAlias;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.artur.helpers.CrudServiceDataProvider;
 
-
-@PageTitle("Gestores")
-@Route(value = "gestor/:personaID?/:action?(edit)", layout = MainLayout.class)
+@PageTitle("Master-Detail")
+@Route(value = "master-detail/:samplePersonID?/:action?(edit)", layout = MainLayout.class)
 @Uses(Icon.class)
-public class gestorview extends Div implements BeforeEnterObserver {
+public class MasterDetailView extends Div implements BeforeEnterObserver {
 
-    private final String SAMPLEPERSON_ID = "personaID";
-    private final String SAMPLEPERSON_EDIT_ROUTE_TEMPLATE = "gestor/%d/edit";
+    private final String SAMPLEPERSON_ID = "samplePersonID";
+    private final String SAMPLEPERSON_EDIT_ROUTE_TEMPLATE = "master-detail/%d/edit";
 
-    private Grid<Persona> grid = new Grid<>(Persona.class, false);
+    private Grid<SamplePerson> grid = new Grid<>(SamplePerson.class, false);
 
-    private TextField nombre;
-    private TextField apellido;
-    private TextField correo; //emailfield
-    private TextField telefono;
-    private DatePicker fecha_nacimiento;
-    private TextField contrasenna; //passwordfield
+    private TextField firstName;
+    private TextField lastName;
+    private TextField email;
+    private TextField phone;
+    private DatePicker dateOfBirth;
+    private TextField occupation;
     private Checkbox important;
-
 
     private Button cancel = new Button("Cancel");
     private Button save = new Button("Save");
 
-    private BeanValidationBinder<Persona> binder;
+    private BeanValidationBinder<SamplePerson> binder;
 
-    private Persona persona;
+    private SamplePerson samplePerson;
 
-    private PersonaService personaService;
+    private SamplePersonService samplePersonService;
 
-    public gestorview(@Autowired PersonaService personaService) {
-        this.personaService = personaService;
+    public MasterDetailView(@Autowired SamplePersonService samplePersonService) {
+        this.samplePersonService = samplePersonService;
         addClassNames("master-detail-view", "flex", "flex-col", "h-full");
         // Create UI
         SplitLayout splitLayout = new SplitLayout();
@@ -74,16 +72,18 @@ public class gestorview extends Div implements BeforeEnterObserver {
         add(splitLayout);
 
         // Configure Grid
-        grid.addColumn("nombre").setAutoWidth(true);
-        grid.addColumn("apellido").setAutoWidth(true);
-        grid.addColumn("correo").setAutoWidth(true);
-        grid.addColumn("telefono").setAutoWidth(true);
-        grid.addColumn("fecha_nacimiento").setAutoWidth(true);
-        TemplateRenderer<Persona> importantRenderer = TemplateRenderer.<Persona>of(
-                        "<iron-icon hidden='[[!item.important]]' icon='vaadin:check' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: var(--lumo-primary-text-color);'></iron-icon><iron-icon hidden='[[item.important]]' icon='vaadin:minus' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: var(--lumo-disabled-text-color);'></iron-icon>")
-                .withProperty("important", Persona::isImportant);
+        grid.addColumn("firstName").setAutoWidth(true);
+        grid.addColumn("lastName").setAutoWidth(true);
+        grid.addColumn("email").setAutoWidth(true);
+        grid.addColumn("phone").setAutoWidth(true);
+        grid.addColumn("dateOfBirth").setAutoWidth(true);
+        grid.addColumn("occupation").setAutoWidth(true);
+        TemplateRenderer<SamplePerson> importantRenderer = TemplateRenderer.<SamplePerson>of(
+                "<iron-icon hidden='[[!item.important]]' icon='vaadin:check' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: var(--lumo-primary-text-color);'></iron-icon><iron-icon hidden='[[item.important]]' icon='vaadin:minus' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: var(--lumo-disabled-text-color);'></iron-icon>")
+                .withProperty("important", SamplePerson::isImportant);
         grid.addColumn(importantRenderer).setHeader("Important").setAutoWidth(true);
-        grid.setDataProvider(new CrudServiceDataProvider<>(personaService));
+
+        grid.setDataProvider(new CrudServiceDataProvider<>(samplePersonService));
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.setHeightFull();
 
@@ -93,12 +93,12 @@ public class gestorview extends Div implements BeforeEnterObserver {
                 UI.getCurrent().navigate(String.format(SAMPLEPERSON_EDIT_ROUTE_TEMPLATE, event.getValue().getId()));
             } else {
                 clearForm();
-                UI.getCurrent().navigate(gestorview.class);
+                UI.getCurrent().navigate(MasterDetailView.class);
             }
         });
 
         // Configure Form
-        binder = new BeanValidationBinder<>(Persona.class);
+        binder = new BeanValidationBinder<>(SamplePerson.class);
 
         // Bind fields. This where you'd define e.g. validation rules
 
@@ -111,16 +111,16 @@ public class gestorview extends Div implements BeforeEnterObserver {
 
         save.addClickListener(e -> {
             try {
-                if (this.persona == null) {
-                    this.persona = new Persona();
+                if (this.samplePerson == null) {
+                    this.samplePerson = new SamplePerson();
                 }
-                binder.writeBean(this.persona);
+                binder.writeBean(this.samplePerson);
 
-                personaService.update(this.persona);
+                samplePersonService.update(this.samplePerson);
                 clearForm();
                 refreshGrid();
-                Notification.show("Datos de persona guardao.");
-                UI.getCurrent().navigate(gestorview.class);
+                Notification.show("SamplePerson details stored.");
+                UI.getCurrent().navigate(MasterDetailView.class);
             } catch (ValidationException validationException) {
                 Notification.show("An exception happened while trying to store the samplePerson details.");
             }
@@ -130,19 +130,19 @@ public class gestorview extends Div implements BeforeEnterObserver {
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-        Optional<Integer> personaid = event.getRouteParameters().getInteger(SAMPLEPERSON_ID);
-        if (personaid.isPresent()) {
-            Optional<Persona> personaFromBackend = personaService.get(personaid.get());
-            if (personaFromBackend.isPresent()) {
-                populateForm(personaFromBackend.get());
+        Optional<Integer> samplePersonId = event.getRouteParameters().getInteger(SAMPLEPERSON_ID);
+        if (samplePersonId.isPresent()) {
+            Optional<SamplePerson> samplePersonFromBackend = samplePersonService.get(samplePersonId.get());
+            if (samplePersonFromBackend.isPresent()) {
+                populateForm(samplePersonFromBackend.get());
             } else {
                 Notification.show(
-                        String.format("The requested samplePerson was not found, ID = %d", personaid.get()), 3000,
+                        String.format("The requested samplePerson was not found, ID = %d", samplePersonId.get()), 3000,
                         Notification.Position.BOTTOM_START);
                 // when a row is selected but the data is no longer available,
                 // refresh grid
                 refreshGrid();
-                event.forwardTo(gestorview.class);
+                event.forwardTo(MasterDetailView.class);
             }
         }
     }
@@ -157,15 +157,15 @@ public class gestorview extends Div implements BeforeEnterObserver {
         editorLayoutDiv.add(editorDiv);
 
         FormLayout formLayout = new FormLayout();
-        nombre = new TextField("Nombre");
-        apellido = new TextField("Apellido");
-        correo = new TextField("Email");
-        telefono = new TextField("Telefono");
-        fecha_nacimiento = new DatePicker("Fecha nacimiento");
-        important = new Checkbox("Gestor");
+        firstName = new TextField("First Name");
+        lastName = new TextField("Last Name");
+        email = new TextField("Email");
+        phone = new TextField("Phone");
+        dateOfBirth = new DatePicker("Date Of Birth");
+        occupation = new TextField("Occupation");
+        important = new Checkbox("Important");
         important.getStyle().set("padding-top", "var(--lumo-space-m)");
-
-        Component[] fields = new Component[]{nombre, apellido, correo, telefono, fecha_nacimiento, important};
+        Component[] fields = new Component[]{firstName, lastName, email, phone, dateOfBirth, occupation, important};
 
         for (Component field : fields) {
             ((HasStyle) field).addClassName("full-width");
@@ -204,9 +204,9 @@ public class gestorview extends Div implements BeforeEnterObserver {
         populateForm(null);
     }
 
-    private void populateForm(Persona value) {
-        this.persona = value;
-        binder.readBean(this.persona);
+    private void populateForm(SamplePerson value) {
+        this.samplePerson = value;
+        binder.readBean(this.samplePerson);
 
     }
 }

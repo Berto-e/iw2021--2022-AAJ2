@@ -13,12 +13,25 @@ public class Sala {
     private String num_asientos;
     private int num_filas;
     private String status;
+    private boolean funcional;
     @OneToMany(mappedBy = "sala")
     List<Proyeccion> proyecciones;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sala_cine")
     private Cine cine;
+
+    public void setId_sala(Integer id_sala) {
+        this.id_sala = id_sala;
+    }
+
+    public boolean isFuncional() {
+        return funcional;
+    }
+
+    public void setFuncional(boolean funcional) {
+        this.funcional = funcional;
+    }
 
     public Integer getId_sala() {
         return id_sala;

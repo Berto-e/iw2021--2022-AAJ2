@@ -7,14 +7,22 @@ public class Oferta {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id_oferta;
-    private int numero;
-    private float precio;
+    private String numero;
+    private String precio;
     private String descripcion;
+    private boolean activa;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ofertacine")
     private Cine cine_of;
 
+    public boolean isActiva() {
+        return activa;
+    }
+
+    public void setActiva(boolean activa) {
+        this.activa = activa;
+    }
 
     public Cine getCine_of() {
         return cine_of;
@@ -24,19 +32,19 @@ public class Oferta {
         this.cine_of = cine_of;
     }
 
-    public int getNumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
 
-    public float getPrecio() {
+    public String getPrecio() {
         return precio;
     }
 
-    public void setPrecio(float precio) {
+    public void setPrecio(String precio) {
         this.precio = precio;
     }
 

@@ -1,9 +1,12 @@
 package com.example.application.repositories;
 
 import com.example.application.classes.Oferta;
+import com.example.application.classes.Pelicula;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.vaadin.artur.helpers.CrudService;
+
+import java.util.List;
 
 @Service
 public class OfertaService extends CrudService<Oferta, Integer> {
@@ -17,5 +20,9 @@ public class OfertaService extends CrudService<Oferta, Integer> {
     @Override
     protected OfertaRepository getRepository() {
         return repository;
+    }
+
+    public List<Oferta> findAll() {
+        return repository.findAll();
     }
 }

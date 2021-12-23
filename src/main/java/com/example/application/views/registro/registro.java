@@ -19,6 +19,7 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
+import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
@@ -33,8 +34,9 @@ public class registro extends Div{
     private TextField nombre = new TextField("Nombre");
     private TextField apellido = new TextField("Apellido");
     private EmailField correo = new EmailField("Correo Electrónico");
+    private PasswordField contraseña = new PasswordField("Contraseña");
     private DatePicker fecha_nacimiento = new DatePicker("Fecha de nacimiento");
-    private PhoneNumberField telefono = new PhoneNumberField("Numero de telefono");
+    private TextField telefono = new TextField("Numero de telefono");
 
     private Button cancel = new Button("Cancel");
     private Button save = new Button("Save");
@@ -46,7 +48,6 @@ public class registro extends Div{
         add(createTitle());
         add(createFormLayout());
         add(createButtonLayout());
-
         binder.bindInstanceFields(this);
         clearForm();
         cancel.addClickListener(e -> clearForm());
@@ -70,7 +71,7 @@ public class registro extends Div{
     private Component createFormLayout() {
         FormLayout formLayout = new FormLayout();
         correo.setErrorMessage("Introduce correo electrónico correcto");
-        formLayout.add(nombre, apellido, fecha_nacimiento, telefono, correo);
+        formLayout.add(nombre, apellido, fecha_nacimiento, telefono, correo, contraseña);
         return formLayout;
     }
 
@@ -82,49 +83,4 @@ public class registro extends Div{
         buttonLayout.add(cancel);
         return buttonLayout;
     }
-
-    private static class PhoneNumberField extends CustomField<String> {
-        private ComboBox<String> countryCode = new ComboBox<>();
-        private TextField number = new TextField();
-
-        public PhoneNumberField(String label) {
-            setLabel(label);
-            countryCode.setWidth("120px");
-            countryCode.setPlaceholder("Country");
-            countryCode.setPattern("\\+\\d*");
-            countryCode.setPreventInvalidInput(true);
-            countryCode.setItems("+354", "+91", "+62", "+98", "+964", "+353", "+44", "+972", "+39", "+225");
-            countryCode.addCustomValueSetListener(e -> countryCode.setValue(e.getDetail()));
-            number.setPattern("\\d*");
-            number.setPreventInvalidInput(true);
-            HorizontalLayout layout = new HorizontalLayout(countryCode, number);
-            layout.setFlexGrow(1.0, number);
-            add(layout);
-        }
-
-        @Override
-        protected String generateModelValue() {
-            if (countryCode.getValue() != null && number.getValue() != null) {
-                String s = countryCode.getValue() + " " + number.getValue();
-                return s;
-            }
-            return "";
-        }
-
-        @Override
-        protected void setPresentationValue(String phoneNumber) {
-            String[] parts = phoneNumber != null ? phoneNumber.split(" ", 2) : new String[0];
-            if (parts.length == 1) {
-                countryCode.clear();
-                number.setValue(parts[0]);
-            } else if (parts.length == 2) {
-                countryCode.setValue(parts[0]);
-                number.setValue(parts[1]);
-            } else {
-                countryCode.clear();
-                number.clear();
-            }
-        }
     }
-
-}
