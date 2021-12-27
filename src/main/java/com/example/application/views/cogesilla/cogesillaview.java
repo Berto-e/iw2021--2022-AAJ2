@@ -22,10 +22,17 @@ public class cogesillaview extends VerticalLayout {
                 Image img = new Image("/images/silla-de-cine.png", "sillon");
                 img.setTitle(//guardamos i);
                 img.setText(//guardamos j);
+                img.setAlt(//numero de cliccada);
                 img.addClickListener(e -> {
+                    //img.setAlt(//numero de cliccada);
+                    //cont_total++
+                    //cont_asientos++
                     //img.setSrc();
                     String fotoantigua = img.getSrc();
                     //compara las sources y hace lo que sea
+                    //if(compara y ya estaba seleccionado)
+                        //cambia al original y cont_asientos--
+                        //pasa por sesion poniendo la img.setatribute("img.getalt()",null)
                     //por sesion se pasa la i y la j// la imagen// o probar con una clase como cardbox, num_asiento y num clicks
                 });
                 h.setSpacing(false);
