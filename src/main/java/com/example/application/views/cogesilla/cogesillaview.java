@@ -20,9 +20,13 @@ public class cogesillaview extends VerticalLayout {
             HorizontalLayout h = new HorizontalLayout();
             for (int j = 0; j < 10; j++){
                 Image img = new Image("/images/silla-de-cine.png", "sillon");
+                img.setTitle(//guardamos i);
+                img.setText(//guardamos j);
                 img.addClickListener(e -> {
-                    img.setSrc();
-
+                    //img.setSrc();
+                    String fotoantigua = img.getSrc();
+                    //compara las sources y hace lo que sea
+                    //por sesion se pasa la i y la j// la imagen// o probar con una clase como cardbox, num_asiento y num clicks
                 });
                 h.setSpacing(false);
                 h.setWidthFull();
