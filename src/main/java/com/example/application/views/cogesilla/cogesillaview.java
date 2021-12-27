@@ -20,8 +20,9 @@ public class cogesillaview extends VerticalLayout {
             HorizontalLayout h = new HorizontalLayout();
             for (int j = 0; j < 10; j++){
                 Image img = new Image("/images/silla-de-cine.png", "sillon");
-                img.addClickListener(e ->{
-                   UI.getCurrent().navigate(addpeliview.class);
+                img.addClickListener(e -> {
+                    img.setSrc();
+
                 });
                 h.setSpacing(false);
                 h.setWidthFull();

@@ -3,6 +3,7 @@ package com.example.application.views.salalist;
 import com.example.application.classes.Cine;
 import com.example.application.classes.Persona;
 import com.example.application.classes.Sala;
+import com.example.application.repositories.CineService;
 import com.example.application.repositories.SalaService;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
@@ -11,6 +12,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
@@ -46,6 +48,8 @@ public class salaList extends Div implements BeforeEnterObserver {
     private TextField num_asientos;
     private TextField status;
     private Checkbox funcional;
+    private ComboBox<Cine> cine;
+
 
     private Button cancel = new Button("Cancel");
     private Button save = new Button("Save");
@@ -55,9 +59,11 @@ public class salaList extends Div implements BeforeEnterObserver {
     private Sala sala;
 
     private SalaService salaService;
+    private CineService cineService;
 
-    public salaList(@Autowired SalaService salaService) {
+    public salaList(@Autowired SalaService salaService, CineService cineService) {
         this.salaService = salaService;
+        this.cineService = cineService;
         addClassNames("master-detail-view", "flex", "flex-col", "h-full");
         // Create UI
         SplitLayout splitLayout = new SplitLayout();
@@ -72,8 +78,6 @@ public class salaList extends Div implements BeforeEnterObserver {
         grid.addColumn("num_sala").setAutoWidth(true);
         grid.addColumn("num_asientos").setAutoWidth(true);
         grid.addColumn("status").setAutoWidth(true);
-        grid.addColumn("cine").setAutoWidth(true);
-
 
         grid.setDataProvider(new CrudServiceDataProvider<>(salaService));
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
@@ -153,8 +157,11 @@ public class salaList extends Div implements BeforeEnterObserver {
         status = new TextField("Status");
         funcional = new Checkbox("Important");
         funcional.getStyle().set("padding-top", "var(--lumo-space-m)");
-
-        Component[] fields = new Component[]{num_sala, num_asientos, status, funcional};
+        cine = new ComboBox<Cine>("Cine");
+        cine.setItems(this.cineService.findByVisible(true));
+        cine.setItemLabelGenerator(Cine::getNombre);
+    //quitar sesion: igual que setatribute, ponemos la variable la asignamos a null
+        Component[] fields = new Component[]{num_sala, num_asientos, status, funcional, cine};
 
         for (Component field : fields) {
             ((HasStyle) field).addClassName("full-width");

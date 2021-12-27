@@ -11,6 +11,7 @@ public class Cine {
     private int id_cine;
     private String nombre;
     private String ubicacion;
+    private boolean funcional;
 
     @OneToMany(mappedBy = "cine")
     List<Sala> salas;
@@ -25,8 +26,13 @@ public class Cine {
     @OneToMany(mappedBy = "cine_of")
     List<Oferta> ofertas;
 
+    public boolean isFuncional() {
+        return funcional;
+    }
 
-
+    public void setFuncional(boolean funcional) {
+        this.funcional = funcional;
+    }
 
     public Persona getCine_pers() {
         return cine_pers;

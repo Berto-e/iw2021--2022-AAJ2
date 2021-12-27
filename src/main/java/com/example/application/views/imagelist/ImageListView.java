@@ -38,8 +38,10 @@ public class ImageListView extends LitTemplate implements HasComponents, HasStyl
 
         for(Pelicula p: pelis){
             add(new ImageCard(p.getUrl(), p.getNombre(),
-                p.getSinopsis(), p.getGenero()));
+                p.getSinopsis(), p.getGenero(),p.getId_pelicula()));
 
         }
     }
 }
+
+//QUE EN CARTELERA SELECCIONE PELICULAS POR CINE O HORAS.

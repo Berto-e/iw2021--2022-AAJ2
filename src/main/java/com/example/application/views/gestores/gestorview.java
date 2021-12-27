@@ -100,7 +100,14 @@ public class gestorview extends Div implements BeforeEnterObserver {
         // Configure Form
         binder = new BeanValidationBinder<>(Persona.class);
 
+
         // Bind fields. This where you'd define e.g. validation rules
+        binder.forField(nombre).asRequired("No se puede quedar vacio").bind("nombre");
+        binder.forField(nombre).asRequired("No se puede quedar vacio").bind("nombre");
+        binder.forField(nombre).asRequired("No se puede quedar vacio").bind("nombre");
+        binder.forField(nombre).asRequired("No se puede quedar vacio").bind("nombre");
+        binder.forField(nombre).asRequired("No se puede quedar vacio").bind("nombre");
+        binder.forField(nombre).asRequired("No se puede quedar vacio").bind("nombre");
 
         binder.bindInstanceFields(this);
 

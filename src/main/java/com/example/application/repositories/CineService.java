@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.vaadin.artur.helpers.CrudService;
 
+import java.util.List;
+
 @Service
 public class CineService extends CrudService<Cine, Integer> {
 
@@ -17,5 +19,10 @@ public class CineService extends CrudService<Cine, Integer> {
     @Override
     protected CineRepository getRepository() {
         return repository;
+    }
+
+
+    public List<Cine> findByVisible(boolean b) {
+        return this.repository.findByFuncional(b);
     }
 }
