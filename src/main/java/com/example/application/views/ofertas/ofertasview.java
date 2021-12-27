@@ -31,7 +31,7 @@ public class ofertasview extends LitTemplate implements HasComponents, HasStyle 
         ofertitas = ofertaService.findAll();
         for(Oferta o: ofertitas)
             if(o.isActiva())
-            add(new ofertacard("https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/viernes-13-saga-peor-a-mejor-ranking-1588849712.jpeg?crop=1.00xw:0.708xh;0,0&resize=640:*", o.getNumero(),
+            add(new ofertacard(o.getUrl(), o.getNumero(),
                     o.getDescripcion(), o.getPrecio()));
     }
 }

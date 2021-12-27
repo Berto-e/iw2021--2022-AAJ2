@@ -8,6 +8,7 @@ public class Oferta {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id_oferta;
     private String numero;
+    private String url;
     private String precio;
     private String descripcion;
     private boolean activa;
@@ -15,6 +16,14 @@ public class Oferta {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ofertacine")
     private Cine cine_of;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public boolean isActiva() {
         return activa;
