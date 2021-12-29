@@ -4,15 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.application.security.SecurityService;
 import com.example.application.views.dashboard.dashboardLayout;
 import com.example.application.views.gestores.gestorview;
-import com.example.application.views.login.loginview;
+import com.mysql.cj.log.Log;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.ListItem;
@@ -53,20 +55,25 @@ import com.vaadin.flow.component.avatar.Avatar;
 @Theme(themeFolder = "myapp")
 @PageTitle("Main")
 public class MainLayout extends AppLayout {
-
+    private final SecurityService securityService;
     private final Tabs menu;
 
-    public MainLayout() {
-
+    public MainLayout(SecurityService securityService) {
+        //Logout Button
+        this.securityService = securityService;
+        Button logout = new Button("Log out", e -> securityService.logout());
+        HorizontalLayout Logout = new HorizontalLayout(logout);
+        Logout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.END);
+        //e_Logout
         this.setDrawerOpened(false);
-        Span appName = new Span("Cartelera Universe");
+        Span appName = new Span("Cartelera Discover");
         appName.addClassName("hide-on-mobile");
 
         menu = createMenuTabs();
 
         this.addToNavbar(appName);
         this.addToNavbar(true, menu);
-
+        this.addToNavbar(Logout); //LOGOUT BUTTON
         getElement().addEventListener("search-focus", e -> {
             getElement().getClassList().add("hide-navbar");
         });
@@ -75,6 +82,8 @@ public class MainLayout extends AppLayout {
             getElement().getClassList().remove("hide-navbar");
         });
     }
+
+
 
 
     private static Tabs createMenuTabs() {
