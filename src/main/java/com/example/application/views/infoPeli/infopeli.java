@@ -4,9 +4,11 @@ import com.example.application.classes.Pelicula;
 import com.example.application.classes.Persona;
 import com.example.application.repositories.PeliculaService;
 import com.example.application.views.MainLayout;
+import com.example.application.views.cogesilla.cogesillaview;
 import com.example.application.views.gestores.gestorview;
 import com.example.application.views.imagelist.ImageListView;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
@@ -33,27 +35,36 @@ public class infopeli extends VerticalLayout implements BeforeEnterObserver {
     private final String pelicula_ID = "peliculaID";
     private H2 h = new H2("hola");
     private Paragraph p2 = new Paragraph("adios");
+    Image img = new Image();
+    Button asiento = new Button("Ver asientos");
+    private int filas = 12;
     public infopeli(@Autowired PeliculaService peliculas) {
         this.peliculaService = peliculas;
         pelis = peliculaService.findAll();
         setSpacing(false);
 
-        Image img = new Image("images/empty-plant.png", "hello");
         img.setWidth("150px");
         add(img);
 
         add(h);
         add(p2);
+        asiento.addClickListener(e -> {
 
+            UI.getCurrent().getSession().setAttribute("filas", filas);
+            UI.getCurrent().navigate(cogesillaview.class);
+        });
+        add(asiento);
         setSizeFull();
         setJustifyContentMode(JustifyContentMode.START);
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         getStyle().set("text-align", "center");
+
+
     }
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-        if((String)UI.getCurrent().getSession().getAttribute("nombre") == null){
+        if(UI.getCurrent().getSession().getAttribute("nombre") == null){
             event.forwardTo(ImageListView.class);
         }else {
             Optional<Integer> peliid = event.getRouteParameters().getInteger(pelicula_ID);
@@ -73,7 +84,8 @@ public class infopeli extends VerticalLayout implements BeforeEnterObserver {
 
     private void populateForm(Pelicula value) {
         this.p = value;
-        h.setText(this.p.getNombre());
-        p2.setText(this.p.getSinopsis());
+        img.setSrc(this.p.getUrl());
+        h.setText("Titulo: " + this.p.getNombre());
+        p2.setText("Descripción: " + this.p.getSinopsis());
     }
 }
