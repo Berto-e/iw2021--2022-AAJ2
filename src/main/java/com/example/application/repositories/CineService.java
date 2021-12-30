@@ -25,4 +25,5 @@ public class CineService extends CrudService<Cine, Integer> {
     public List<Cine> findByVisible(boolean b) {
         return this.repository.findByFuncional(b);
     }
+
 }

@@ -1,5 +1,6 @@
 package com.example.application.repositories;
 
+import com.example.application.classes.Cine;
 import com.example.application.classes.Oferta;
 import com.example.application.classes.Pelicula;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,4 +26,5 @@ public class PeliculaService extends CrudService<Pelicula, Integer> {
     public List<Pelicula> findAll() {
         return repository.findAll();
     }
+
 }
