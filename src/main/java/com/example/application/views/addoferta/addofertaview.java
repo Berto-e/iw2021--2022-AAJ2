@@ -96,6 +96,9 @@ public class addofertaview extends Div implements BeforeEnterObserver {
         binder = new BeanValidationBinder<>(Oferta.class);
 
         // Bind fields. This where you'd define e.g. validation rules
+        binder.forField(numero).asRequired("Debe introducir un numero para referenciar la oferta").bind("numero");
+        binder.forField(precio).asRequired("Introduzca un precio").bind("precio");
+        binder.forField(descripcion).asRequired("Introduzca una descripcion").bind("descripcion");
 
         binder.bindInstanceFields(this);
 

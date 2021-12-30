@@ -97,6 +97,10 @@ public class salaList extends Div implements BeforeEnterObserver {
         binder = new BeanValidationBinder<>(Sala.class);
 
         // Bind fields. This where you'd define e.g. validation rules
+        binder.forField(num_sala).asRequired("Debe introducir un numero de sala").bind("num_sala");
+        binder.forField(num_asientos).asRequired("Introduzca un numero de asiento").bind("num_asientos");
+        binder.forField(status).asRequired("Introduzca un estado de la sala").bind("status");
+        binder.forField(cine).asRequired("Selecciona un cine").bind("cine");
 
         binder.bindInstanceFields(this);
 
