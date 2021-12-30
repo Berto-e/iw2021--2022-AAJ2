@@ -12,6 +12,8 @@ public class Cine {
     private String nombre;
     private String ubicacion;
     private boolean funcional;
+    private boolean activa;
+
 
     @OneToMany(mappedBy = "cine")
     List<Sala> salas;
