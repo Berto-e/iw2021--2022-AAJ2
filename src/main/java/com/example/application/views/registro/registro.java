@@ -3,6 +3,7 @@ package com.example.application.views.registro;
 import com.example.application.classes.Persona;
 import com.example.application.repositories.PersonaService;
 import com.example.application.views.MainLayout;
+import com.example.application.views.gestores.gestorview;
 import com.example.application.views.imagelist.ImageListView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
@@ -21,11 +22,13 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @PageTitle("Registro")
 @Route(value = "registro", layout = MainLayout.class)
@@ -41,22 +44,44 @@ public class registro extends Div{
     private Button cancel = new Button("Cancel");
     private Button save = new Button("Save");
 
-    private Binder<Persona> binder = new Binder(Persona.class);
+    private BeanValidationBinder<Persona> binder;
+    private Persona persona;
+    private PersonaService personaService;
 
-    public registro(PersonaService personService) {
+    public registro(@Autowired PersonaService personaService) {
+        this.personaService = personaService;
         addClassName("person-form-view");
         add(createTitle());
         add(createFormLayout());
         add(createButtonLayout());
+
+        binder = new BeanValidationBinder<>(Persona.class);
+
+        binder.forField(nombre).asRequired("Introduzca nombre").bind("nombre");
+        binder.forField(apellido).asRequired("Introduzca apellido").bind("apellido");
+        binder.forField(correo).asRequired("Introduzca correo").bind("correo");
+        binder.forField(telefono).asRequired("Introduzca telefono").bind("telefono");
+        binder.forField(fecha_nacimiento).asRequired("Introduzca fecha nacimiento").bind("fecha_nacimiento");
+        binder.forField(contraseña).asRequired("Introduzca la contraseña").bind("contraseña");
+
         binder.bindInstanceFields(this);
-        clearForm();
+
         cancel.addClickListener(e -> clearForm());
         save.addClickListener(e -> {
 
-            personService.update(binder.getBean());
-            Notification.show(binder.getBean().getClass().getSimpleName() + " Registro realizado.");
-            clearForm();
-            UI.getCurrent().navigate(ImageListView.class);
+            try {
+                if (this.persona == null) {
+                    this.persona = new Persona();
+                }
+                binder.writeBean(this.persona);
+
+                personaService.update(this.persona);
+                clearForm();
+                Notification.show("Datos de persona guardao.");
+                UI.getCurrent().navigate(ImageListView.class);
+            } catch (ValidationException validationException) {
+                Notification.show("Faltan campos por rellenar.");
+            }
         });
     }
 

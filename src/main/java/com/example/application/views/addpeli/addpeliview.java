@@ -1,7 +1,9 @@
 package com.example.application.views.addpeli;
 
+import com.example.application.classes.Cine;
 import com.example.application.classes.Pelicula;
 import com.example.application.classes.Sala;
+import com.example.application.repositories.CineService;
 import com.example.application.repositories.PeliculaService;
 import com.example.application.views.MainLayout;
 import com.example.application.views.salalist.salaList;
@@ -11,6 +13,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -38,7 +41,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @PageTitle("Añadir Pelicula")
-@Route(value = "Pelicula/:PersonaID?/:action?(edit)", layout = MainLayout.class)
+@Route(value = "Pelicula/:samplePersonID?/:action?(edit)", layout = MainLayout.class)
 @Uses(Icon.class)
 public class addpeliview extends Div implements BeforeEnterObserver {
 
@@ -54,6 +57,7 @@ public class addpeliview extends Div implements BeforeEnterObserver {
     private TextField sinopsis;
     private TextField genero;
     private TextField url;
+    private ComboBox<Cine> cine_p;
 
     private Button cancel = new Button("Cancel");
     private Button save = new Button("Save");
@@ -62,10 +66,11 @@ public class addpeliview extends Div implements BeforeEnterObserver {
     private BeanValidationBinder<Pelicula> binder;
 
     private Pelicula pelicula;
-
     private PeliculaService peliculaService;
+    private CineService cineService;
 
-    public addpeliview(@Autowired PeliculaService peliculaService) {
+    public addpeliview(@Autowired PeliculaService peliculaService, CineService cineService ) {
+        this.cineService = cineService;
         this.peliculaService = peliculaService;
         addClassNames("master-detail-view", "flex", "flex-col", "h-full");
         // Create UI
@@ -103,6 +108,15 @@ public class addpeliview extends Div implements BeforeEnterObserver {
         binder = new BeanValidationBinder<>(Pelicula.class);
 
         // Bind fields. This where you'd define e.g. validation rules
+
+        binder.forField(nombre).asRequired("Introduzca el titulo de la obra").bind("nombre");
+        binder.forField(actores).asRequired("Introduzca a los actores").bind("actores");
+        binder.forField(director).asRequired("Introduzca el director de la pelicula").bind("director");
+        binder.forField(fecha_estreno).asRequired("Introduzca la fecha de estreno de la pelicula").bind("fecha_estreno");
+        binder.forField(sinopsis).asRequired("Introduzca una sinopsis").bind("sinopsis");
+        binder.forField(genero).asRequired("Introduzca un género acorde a la pelicula").bind("genero");
+        binder.forField(url).asRequired("Introduzca una URL válida").bind("url");
+        binder.forField(cine_p).asRequired("Introduzca una descripcion").bind("cine_p");
 
         binder.bindInstanceFields(this);
 
@@ -183,7 +197,10 @@ public class addpeliview extends Div implements BeforeEnterObserver {
         sinopsis = new TextField("Sinopsis");
         fecha_estreno = new DatePicker("Fecha estreno");
         genero = new TextField("Genero");
-        Component[] fields = new Component[]{nombre, actores, director, sinopsis, fecha_estreno, genero, url};
+        cine_p = new ComboBox<Cine>("Cine");
+        cine_p.setItems(this.cineService.findByVisible(true));
+        cine_p.setItemLabelGenerator(Cine::getNombre);
+        Component[] fields = new Component[]{nombre, actores, director, sinopsis, fecha_estreno, genero, url, cine_p};
 
         for (Component field : fields) {
             ((HasStyle) field).addClassName("full-width");

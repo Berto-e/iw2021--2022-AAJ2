@@ -1,6 +1,7 @@
 package com.example.application.classes;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ public class Proyeccion {
     private int id_proyeccion;
     private String tipo;
     private float precio;
-    private LocalTime hora;
+    private LocalDateTime hora;
     @OneToMany(mappedBy = "proyeccion")
     List<Entrada> entradas;
     @ManyToOne(fetch = FetchType.EAGER)
@@ -22,7 +23,6 @@ public class Proyeccion {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sala_proy")
     private Sala sala;
-
 
     public Pelicula getPelicula() {
         return pelicula;
@@ -48,8 +48,12 @@ public class Proyeccion {
         return precio;
     }
 
-    public LocalTime getHora() {
+    public LocalDateTime getHora() {
         return hora;
+    }
+
+    public void setHora(LocalDateTime hora) {
+        this.hora = hora;
     }
 
     public int getId_proyeccion() {
@@ -68,9 +72,6 @@ public class Proyeccion {
         this.precio = precio;
     }
 
-    public void setHora(LocalTime hora) {
-        this.hora = hora;
-    }
 
     public List<Entrada> getEntradas() {
         return entradas;

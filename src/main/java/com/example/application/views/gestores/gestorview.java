@@ -9,6 +9,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -19,6 +20,8 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
+import com.vaadin.flow.component.textfield.EmailField;
+import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
@@ -45,11 +48,12 @@ public class gestorview extends Div implements BeforeEnterObserver {
 
     private TextField nombre;
     private TextField apellido;
-    private TextField correo; //emailfield
+    private EmailField correo; //emailfield
     private TextField telefono;
     private DatePicker fecha_nacimiento;
-    private TextField contrasenna; //passwordfield
+    private PasswordField contraseña; //passwordfield
     private Checkbox important;
+    private ComboBox<Integer> clase;
 
 
     private Button cancel = new Button("Cancel");
@@ -82,7 +86,7 @@ public class gestorview extends Div implements BeforeEnterObserver {
         TemplateRenderer<Persona> importantRenderer = TemplateRenderer.<Persona>of(
                         "<iron-icon hidden='[[!item.important]]' icon='vaadin:check' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: var(--lumo-primary-text-color);'></iron-icon><iron-icon hidden='[[item.important]]' icon='vaadin:minus' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: var(--lumo-disabled-text-color);'></iron-icon>")
                 .withProperty("important", Persona::isImportant);
-        grid.addColumn(importantRenderer).setHeader("Important").setAutoWidth(true);
+        grid.addColumn(importantRenderer).setHeader("En Activo").setAutoWidth(true);
         grid.setDataProvider(new CrudServiceDataProvider<>(personaService));
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.setHeightFull();
@@ -102,12 +106,13 @@ public class gestorview extends Div implements BeforeEnterObserver {
 
 
         // Bind fields. This where you'd define e.g. validation rules
-        binder.forField(nombre).asRequired("No se puede quedar vacio").bind("nombre");
-        binder.forField(nombre).asRequired("No se puede quedar vacio").bind("nombre");
-        binder.forField(nombre).asRequired("No se puede quedar vacio").bind("nombre");
-        binder.forField(nombre).asRequired("No se puede quedar vacio").bind("nombre");
-        binder.forField(nombre).asRequired("No se puede quedar vacio").bind("nombre");
-        binder.forField(nombre).asRequired("No se puede quedar vacio").bind("nombre");
+        binder.forField(nombre).asRequired("Introduzca nombre").bind("nombre");
+        binder.forField(apellido).asRequired("Introduzca apellido").bind("apellido");
+        binder.forField(correo).asRequired("Introduzca correo").bind("correo");
+        binder.forField(telefono).asRequired("Introduzca telefono").bind("telefono");
+        binder.forField(fecha_nacimiento).asRequired("Introduzca fecha nacimiento").bind("fecha_nacimiento");
+        binder.forField(contraseña).asRequired("Introduzca la contraseña").bind("contraseña");
+        binder.forField(clase).asRequired("Introduzca permiso").bind("clase");
 
         binder.bindInstanceFields(this);
 
@@ -166,13 +171,17 @@ public class gestorview extends Div implements BeforeEnterObserver {
         FormLayout formLayout = new FormLayout();
         nombre = new TextField("Nombre");
         apellido = new TextField("Apellido");
-        correo = new TextField("Email");
+        correo = new EmailField("Email");
+        correo.getElement().setAttribute("name", "email");
         telefono = new TextField("Telefono");
         fecha_nacimiento = new DatePicker("Fecha nacimiento");
-        important = new Checkbox("Gestor");
+        important = new Checkbox("En Activo");
         important.getStyle().set("padding-top", "var(--lumo-space-m)");
+        clase = new ComboBox<Integer>("Persona");
+        clase.setItems(0,1);
+        contraseña = new PasswordField("Contraseña");
 
-        Component[] fields = new Component[]{nombre, apellido, correo, telefono, fecha_nacimiento, important};
+        Component[] fields = new Component[]{nombre, apellido, contraseña, correo, telefono, fecha_nacimiento, clase, important};
 
         for (Component field : fields) {
             ((HasStyle) field).addClassName("full-width");

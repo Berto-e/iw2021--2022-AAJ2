@@ -31,6 +31,8 @@ public class Pelicula {
         return url;
     }
 
+
+
     public void setUrl(String url) {
         this.url = url;
     }
@@ -58,6 +60,8 @@ public class Pelicula {
     public LocalDate getFecha_estreno() {
         return fecha_estreno;
     }
+
+    public String getFecha(){ return fecha_estreno.toString();}
 
     public String getSinopsis() {
         return sinopsis;
