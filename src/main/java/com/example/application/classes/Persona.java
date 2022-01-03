@@ -1,33 +1,34 @@
 package com.example.application.classes;
 
 
-import com.vaadin.flow.component.textfield.PasswordField;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
-public class Persona {
+public class Persona implements UserDetails {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
     private int clase=0;
-    private String nombre;
+    private String username;
     private String apellido;
-    private String contraseña;
+    private String password;
     private String correo;
     private String telefono;
     private boolean important;
+    private boolean enabled = true;
+    private boolean funcional;
 
-    public String getContraseña() {
-        return contraseña;
-    }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     //private String contrasenna = "1234";
@@ -63,12 +64,8 @@ public class Persona {
         this.clase = clase;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getApellido() {
@@ -95,13 +92,6 @@ public class Persona {
         this.telefono = telefono;
     }
 
-    /*public String getContrasenna() {
-        return contrasenna;
-    }
-
-    public void setContrasenna(String contrasenna) {
-        this.contrasenna = contrasenna;
-    }*/
 
     public LocalDate getFecha_nacimiento() {
         return fecha_nacimiento;
@@ -127,5 +117,54 @@ public class Persona {
         this.cines = cines;
     }
 
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+        list.add(new SimpleGrantedAuthority(String.valueOf(this.clase)));
+        return list;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isFuncional() {
+        return funcional;
+    }
+
+    public void setFuncional(boolean funcional) {
+        this.funcional = funcional;
+    }
 }
 

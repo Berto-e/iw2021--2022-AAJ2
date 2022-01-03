@@ -1,6 +1,7 @@
 package com.example.application.views;
 
 import com.example.application.security.CustomRequestCache;
+import com.example.application.views.imagelist.ImageListView;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.login.LoginOverlay;
@@ -34,8 +35,10 @@ public class LoginView extends VerticalLayout {
         login.setDescription("Login");
 
         login.addLoginListener(e -> this.authenticate(e.getUsername(), e.getPassword()));
+
         add(login);
     }
+
 
     private void authenticate(String username, String password) {
         try{
@@ -47,7 +50,7 @@ public class LoginView extends VerticalLayout {
             //redirect to the page requested first
             SecurityContextHolder.getContext().setAuthentication(authentication); //
             login.close();
-            UI.getCurrent().navigate((requestCache.resolveRedirectUrl())); //
+            UI.getCurrent().navigate(ImageListView.class); //
 
         }catch (AuthenticationException ex) {
             login.setError(true);

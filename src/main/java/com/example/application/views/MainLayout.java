@@ -2,49 +2,26 @@ package com.example.application.views;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import com.example.application.security.SecurityService;
-import com.example.application.views.dashboard.dashboardLayout;
 import com.example.application.views.gestores.gestorview;
-import com.mysql.cj.log.Log;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.HasComponents;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.applayout.AppLayout;
-import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.html.ListItem;
-import com.vaadin.flow.component.html.Nav;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.html.UnorderedList;
-import com.vaadin.flow.component.html.Footer;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.TabVariant;
 import com.vaadin.flow.component.tabs.Tabs;
-import com.vaadin.flow.component.tabs.TabsVariant;
 import com.vaadin.flow.router.RouterLink;
-import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.VaadinServlet;
 import com.vaadin.flow.theme.Theme;
-import com.example.application.views.MainLayout;
 
 import com.example.application.views.imagelist.ImageListView;
-import com.vaadin.flow.component.avatar.Avatar;
 
 /**
  * The main view is a top-level placeholder for other views.
@@ -55,15 +32,15 @@ import com.vaadin.flow.component.avatar.Avatar;
 @Theme(themeFolder = "myapp")
 @PageTitle("Main")
 public class MainLayout extends AppLayout {
-    private final SecurityService securityService;
+
     private final Tabs menu;
 
-    public MainLayout(SecurityService securityService) {
+    public MainLayout() {
         //Logout Button
-        this.securityService = securityService;
-        Button logout = new Button("Log out", e -> securityService.logout());
-        HorizontalLayout Logout = new HorizontalLayout(logout);
-        Logout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.END);
+        //this.securityService = securityService;
+        //Button logout = new Button("Log out", e -> securityService.logout());
+        //HorizontalLayout Logout = new HorizontalLayout(logout);
+        //Logout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.END);
         //e_Logout
         this.setDrawerOpened(false);
         Span appName = new Span("Cartelera Discover");
@@ -73,7 +50,7 @@ public class MainLayout extends AppLayout {
 
         this.addToNavbar(appName);
         this.addToNavbar(true, menu);
-        this.addToNavbar(Logout); //LOGOUT BUTTON
+        //this.addToNavbar(Logout); //LOGOUT BUTTON
         getElement().addEventListener("search-focus", e -> {
             getElement().getClassList().add("hide-navbar");
         });

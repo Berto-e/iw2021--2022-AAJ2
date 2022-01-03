@@ -78,34 +78,34 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				// Configure logout
 				.and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
 	}
+	/*
+	@Bean
+	@Override
+	public UserDetailsService userDetailsService() {
+		// typical logged in user with some privileges
+		UserDetails normalUser =
+				User.withUsername("user")
+						.password("{noop}password")
+						.roles("User")
+						.build();
 
-//	@Bean
-//	@Override
-//	public UserDetailsService userDetailsService() {
-//		// typical logged in user with some privileges
-//		UserDetails normalUser =
-//				User.withUsername("user")
-//						.password("{noop}password")
-//						.roles("User")
-//						.build();
-//
-//		// admin user with all privileges
-//		UserDetails adminUser =
-//				User.withUsername("admin")
-//						.password("{noop}password")
-//						.roles("User", "Admin")
-//						.build();
-//
-//		// admin user with all privileges
-//		UserDetails ivan =
-//				User.withUsername("ivan")
-//						.password("ivan")
-//						.roles("User", "Admin")
-//						.build();
-//
-//		return new InMemoryUserDetailsManager(normalUser, adminUser,ivan);
-//	}
+		// admin user with all privileges
+		UserDetails adminUser =
+				User.withUsername("admin")
+						.password("{noop}password")
+						.roles("User", "Admin")
+						.build();
 
+		// admin user with all privileges
+		UserDetails ivan =
+				User.withUsername("ivan")
+						.password("ivan")
+						.roles("User", "Admin")
+						.build();
+
+		return new InMemoryUserDetailsManager(normalUser, adminUser,ivan);
+	}
+*/
 	/**
 	 * Allows access to static resources, bypassing Spring security.
 	 */

@@ -1,3 +1,4 @@
+/*
 package com.example.application.views.addcine;
 
 import com.example.application.classes.Cine;
@@ -212,3 +213,4 @@ public class addcineview extends Div implements BeforeEnterObserver {
     }
 }
 
+*/

@@ -1,3 +1,4 @@
+/*
 package com.example.application.views.ofertas;
 
 import com.example.application.classes.Oferta;
@@ -35,3 +36,4 @@ public class ofertasview extends LitTemplate implements HasComponents, HasStyle 
                     o.getDescripcion(), o.getPrecio()));
     }
 }
+*/

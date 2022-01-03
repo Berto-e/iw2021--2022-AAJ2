@@ -25,10 +25,10 @@ public class ofertacard extends LitTemplate {
     @Id
     private Span badge;
 
-    public ofertacard(String photo, String title, String descrip, String label) {
+    public ofertacard(String photo, String title, String descrip, double label) {
         this.image.setSrc(photo);
         this.header.setText(title);
         this.text.setText(descrip);
-        this.badge.setText(label);
+        this.badge.setText(String.valueOf(label));
     }
 }

@@ -33,9 +33,12 @@ import com.vaadin.flow.router.Route;
 
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.vaadin.artur.helpers.CrudServiceDataProvider;
 
-
+@Secured("1")
 @PageTitle("Gestores")
 @Route(value = "gestor/:personaID?/:action?(edit)", layout = MainLayout.class)
 @Uses(Icon.class)
@@ -46,16 +49,16 @@ public class gestorview extends Div implements BeforeEnterObserver {
 
     private Grid<Persona> grid = new Grid<>(Persona.class, false);
 
-    private TextField nombre;
+    private TextField username;
     private TextField apellido;
     private EmailField correo; //emailfield
     private TextField telefono;
     private DatePicker fecha_nacimiento;
-    private PasswordField contraseña; //passwordfield
+    private PasswordField password; //passwordfield
     private Checkbox important;
     private ComboBox<Integer> clase;
-
-
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private String encodedpassword = new String();
     private Button cancel = new Button("Cancel");
     private Button save = new Button("Save");
 
@@ -78,7 +81,7 @@ public class gestorview extends Div implements BeforeEnterObserver {
         add(splitLayout);
 
         // Configure Grid
-        grid.addColumn("nombre").setAutoWidth(true);
+        grid.addColumn("username").setAutoWidth(true);
         grid.addColumn("apellido").setAutoWidth(true);
         grid.addColumn("correo").setAutoWidth(true);
         grid.addColumn("telefono").setAutoWidth(true);
@@ -106,12 +109,12 @@ public class gestorview extends Div implements BeforeEnterObserver {
 
 
         // Bind fields. This where you'd define e.g. validation rules
-        binder.forField(nombre).asRequired("Introduzca nombre").bind("nombre");
+        binder.forField(username).asRequired("Introduzca username").bind("username");
         binder.forField(apellido).asRequired("Introduzca apellido").bind("apellido");
         binder.forField(correo).asRequired("Introduzca correo").bind("correo");
         binder.forField(telefono).asRequired("Introduzca telefono").bind("telefono");
         binder.forField(fecha_nacimiento).asRequired("Introduzca fecha nacimiento").bind("fecha_nacimiento");
-        binder.forField(contraseña).asRequired("Introduzca la contraseña").bind("contraseña");
+        binder.forField(password).asRequired("Introduzca la password").bind("password");
         binder.forField(clase).asRequired("Introduzca permiso").bind("clase");
 
         binder.bindInstanceFields(this);
@@ -126,9 +129,14 @@ public class gestorview extends Div implements BeforeEnterObserver {
                 if (this.persona == null) {
                     this.persona = new Persona();
                 }
-                binder.writeBean(this.persona);
 
+                //Encriptacion de la contraseña con Bcrypt
+                encodedpassword = passwordEncoder.encode(password.getValue());
+                password.setValue(encodedpassword);
+                //e_Encriptacion
+                binder.writeBean(this.persona);
                 personaService.update(this.persona);
+
                 clearForm();
                 refreshGrid();
                 Notification.show("Datos de persona guardao.");
@@ -169,7 +177,7 @@ public class gestorview extends Div implements BeforeEnterObserver {
         editorLayoutDiv.add(editorDiv);
 
         FormLayout formLayout = new FormLayout();
-        nombre = new TextField("Nombre");
+        username = new TextField("username");
         apellido = new TextField("Apellido");
         correo = new EmailField("Email");
         correo.getElement().setAttribute("name", "email");
@@ -179,9 +187,9 @@ public class gestorview extends Div implements BeforeEnterObserver {
         important.getStyle().set("padding-top", "var(--lumo-space-m)");
         clase = new ComboBox<Integer>("Persona");
         clase.setItems(0,1);
-        contraseña = new PasswordField("Contraseña");
+        password = new PasswordField("password");
 
-        Component[] fields = new Component[]{nombre, apellido, contraseña, correo, telefono, fecha_nacimiento, clase, important};
+        Component[] fields = new Component[]{username, apellido, password, correo, telefono, fecha_nacimiento, clase, important};
 
         for (Component field : fields) {
             ((HasStyle) field).addClassName("full-width");
