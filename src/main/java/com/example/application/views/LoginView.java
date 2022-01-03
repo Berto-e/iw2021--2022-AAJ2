@@ -4,6 +4,7 @@ import com.example.application.security.CustomRequestCache;
 import com.example.application.views.imagelist.ImageListView;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -25,6 +26,7 @@ public class LoginView extends VerticalLayout {
 
     private AuthenticationManager authenticationManager;
     private CustomRequestCache requestCache;
+    private Button save = new Button("Register");
 
     @Autowired
     public LoginView(AuthenticationManager authenticationManager, CustomRequestCache requestCache) {
@@ -35,7 +37,10 @@ public class LoginView extends VerticalLayout {
         login.setDescription("Login");
 
         login.addLoginListener(e -> this.authenticate(e.getUsername(), e.getPassword()));
-
+        login.addForgotPasswordListener(event -> {
+            login.close();
+            UI.getCurrent().navigate(PassRecover.class);
+        });
         add(login);
     }
 
