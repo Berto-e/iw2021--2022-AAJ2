@@ -12,4 +12,6 @@ public interface PersonaRepository extends JpaRepository<Persona, Integer> {
     List<Persona> findByFuncional(boolean b);
 
     Persona findByUsername(String s);
+
+    Persona findByCorreo(String correo);
 }

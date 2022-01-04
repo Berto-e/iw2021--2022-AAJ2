@@ -32,8 +32,8 @@ public class cogesillaview extends VerticalLayout implements BeforeEnterObserver
     private int num_elegida = 0;
     private Button enviar = new Button("Seguir comprando");
     public cogesillaview() {
-        if (UI.getCurrent().getSession().getAttribute("filas") != null)
-            num_fila = (int) UI.getCurrent().getSession().getAttribute("filas");
+        if (UI.getCurrent().getSession().getAttribute("numfila") != null)
+            num_fila = (int) UI.getCurrent().getSession().getAttribute("numfila");
 
             for (int i = 0; i < num_fila; i++) {
                 HorizontalLayout h = new HorizontalLayout();
@@ -78,7 +78,7 @@ public class cogesillaview extends VerticalLayout implements BeforeEnterObserver
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-        if(UI.getCurrent().getSession().getAttribute("filas") == null){
+        if(UI.getCurrent().getSession().getAttribute("numfila") == null){
             event.forwardTo(ImageListView.class);
         }
     }

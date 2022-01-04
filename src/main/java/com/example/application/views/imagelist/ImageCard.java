@@ -30,7 +30,7 @@ public class ImageCard extends LitTemplate {
     public ImageCard(String photo, String title, String descrip, String label, Integer id) {
         this.image.setSrc(photo);
         this.image.addClickListener(e -> {
-            UI.getCurrent().getSession().setAttribute("nombre", header);//en header pones null, se acabo la sesion
+            UI.getCurrent().getSession().setAttribute("nombre", header.toString());//en header pones null, se acabo la sesion
             UI.getCurrent().navigate(infopeli.class,new RouteParameters("peliculaID", id.toString())); //este es para el beforeenter
         });
         this.header.setText(title);

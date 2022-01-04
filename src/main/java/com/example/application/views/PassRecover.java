@@ -28,8 +28,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageTitle("PasswordRecover")
 @Route(value = "recover")
 public class PassRecover extends Div {
-    private TextField username = new TextField("username");
-    private TextField password = new TextField("password");
+    private TextField correo = new TextField("Email");
+    private TextField password = new TextField("Contraseña");
     private Button aceptar = new Button("aceptar");
     private BeanValidationBinder<Persona> binder;
     private Persona persona;
@@ -45,8 +45,10 @@ public class PassRecover extends Div {
         add(createButtonLayout());
 
         binder = new BeanValidationBinder<>(Persona.class);
-        binder.forField(username).asRequired("Introduzca su nombre de usuario").bind("username");
+        binder.forField(correo).asRequired("Introduzca su nombre de usuario").bind("correo");
         binder.forField(password).asRequired("Introduzca la ultima contraseña que recuerde").bind("password");
+        password.setPlaceholder("Introduza la ultima contraseña que recuerde");
+        correo.setPlaceholder("Introduzca su nombre de usuario");
         binder.bindInstanceFields(this);
 
         aceptar.addClickListener(e -> {
@@ -59,8 +61,9 @@ public class PassRecover extends Div {
             } catch (ValidationException ex) {
                 ex.printStackTrace();
             }
-            usuarioActivo = personaService.loadUserByUsername(persona.getUsername());
-            triggerMail();
+            Notification.show(""+persona.getCorreo());
+            usuarioActivo = personaService.loadUserByCorreo(persona.getCorreo());
+            //triggerMail();
             clearForm();
             Notification.show("Se ha enviado un correo con los datos de recuperación");
             UI.getCurrent().navigate(ImageListView.class);
@@ -77,7 +80,7 @@ public class PassRecover extends Div {
 
         private Component createFormLayout () {
             FormLayout formLayout = new FormLayout();
-            formLayout.add(username, password);
+            formLayout.add(correo, password);
             return formLayout;
         }
 

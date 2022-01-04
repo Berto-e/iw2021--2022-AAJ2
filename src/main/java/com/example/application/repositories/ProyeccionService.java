@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.vaadin.artur.helpers.CrudService;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class ProyeccionService extends CrudService<Proyeccion, Integer> {
@@ -28,5 +29,8 @@ public class ProyeccionService extends CrudService<Proyeccion, Integer> {
             }
         }
         return false;
+    }
+
+    public List<Proyeccion> findAll() { return repository.findAll();
     }
 }

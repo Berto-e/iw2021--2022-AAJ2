@@ -1,6 +1,7 @@
 package com.example.application.repositories;
 
 import com.example.application.classes.Persona;
+import com.vaadin.flow.component.notification.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
@@ -39,7 +40,17 @@ public class PersonaService extends CrudService<Persona, Integer> implements Use
     public Persona loadUserByUsername(String s) throws UsernameNotFoundException, DataAccessException {
         Persona persona = repository.findByUsername(s);
         if(persona == null){
+            Notification.show("Usuario no encontrado");
             throw new UsernameNotFoundException(s);
+        }
+        return persona;
+    }
+
+    public Persona loadUserByCorreo(String correo) {
+        Persona persona = repository.findByCorreo(correo);
+        if(persona == null){
+            Notification.show("Email no encontrado");
+            throw new UsernameNotFoundException(correo);
         }
         return persona;
     }
