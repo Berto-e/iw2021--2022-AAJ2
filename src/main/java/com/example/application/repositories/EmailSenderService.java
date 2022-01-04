@@ -1,25 +1,25 @@
 package com.example.application.repositories;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-
 @Service
-public class EmailSenderService {
+public class EmailSenderService{
 
     @Autowired
-    private JavaMailSender mailSender;
+    private JavaMailSender emailSender;
 
-    public void sendSimpleEmail(String toEmail, String body, String subject){
+    public void SendSimpleMessage(
+            String to, String subject,String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-
         message.setFrom("discovercinemaservice@gmail.com");
-        message.setTo(toEmail);
-        message.setTo(body);
-        message.setTo(subject);
-        mailSender.send(message);
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(text);
+        emailSender.send(message);
     }
+
 }

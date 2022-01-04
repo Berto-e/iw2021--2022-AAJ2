@@ -1,6 +1,8 @@
 package com.example.application.views;
 
+import com.example.application.repositories.SecurityService;
 import com.example.application.security.CustomRequestCache;
+import com.example.application.security.SecurityUtils;
 import com.example.application.views.imagelist.ImageListView;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
@@ -22,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class LoginView extends VerticalLayout {
     public static final String ROUTE = "login";
 
+
     private LoginOverlay login = new LoginOverlay();
 
     private AuthenticationManager authenticationManager;
@@ -41,6 +44,7 @@ public class LoginView extends VerticalLayout {
             login.close();
             UI.getCurrent().navigate(PassRecover.class);
         });
+
         add(login);
     }
 

@@ -6,17 +6,14 @@ import com.example.application.repositories.EmailSenderService;
 import com.example.application.repositories.PersonaService;
 import com.example.application.views.imagelist.ImageListView;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
@@ -61,9 +58,8 @@ public class PassRecover extends Div {
             } catch (ValidationException ex) {
                 ex.printStackTrace();
             }
-            Notification.show(""+persona.getCorreo());
             usuarioActivo = personaService.loadUserByCorreo(persona.getCorreo());
-            //triggerMail();
+            triggerMail();
             clearForm();
             Notification.show("Se ha enviado un correo con los datos de recuperación");
             UI.getCurrent().navigate(ImageListView.class);
@@ -92,9 +88,9 @@ public class PassRecover extends Div {
             return buttonLayout;
         }
         public void triggerMail(){
-        emailSenderService.sendSimpleEmail("email",
-                "RECUPERACION DE CONTRASEÑA...",
-                "PasswordRecovery");
+        emailSenderService.SendSimpleMessage("discovercinemaservice@gmail.com",
+                "Recuperación de contraseña",
+                "ACCEDA AL SIGUIENTE ENLACE PARA CAMBIAR SU CONTRASEÑA: \n http://localhost:8080/registro");
         }
     }
 

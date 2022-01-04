@@ -1,6 +1,8 @@
 package com.example.application.security;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.ServletHelper.RequestType;
+import com.vaadin.flow.server.VaadinServletRequest;
 import com.vaadin.flow.shared.ApplicationConstants;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.access.annotation.Secured;
@@ -10,6 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
@@ -22,8 +25,8 @@ import java.util.stream.Stream;
  *
  */
 public final class SecurityUtils {
-
-	private SecurityUtils() {
+	private static final String LOGOUT_SUCCESS_URL = "/login";
+	public SecurityUtils() {
 		// Util methods only
 	}
 
@@ -44,7 +47,7 @@ public final class SecurityUtils {
 		// Anonymous or no authentication.
 		return null;
 	}
-	
+
 	/**
 	 * Tests if the request is an internal framework request. The test consists of
 	 * checking if the request parameter is present and if its value is consistent
