@@ -17,10 +17,11 @@ import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
 import java.util.List;
 import java.util.Optional;
-
+@Secured({"0","1","2"})
 @PageTitle("About")
 @Route(value = "Compra", layout = MainLayout.class)
 public class compraview extends VerticalLayout implements BeforeEnterObserver {
