@@ -1,21 +1,21 @@
 package com.example.application.views.addproyeccion;
 
-
 import com.example.application.classes.Cine;
 import com.example.application.classes.Pelicula;
+import com.example.application.classes.Proyeccion;
 import com.example.application.classes.Sala;
 import com.example.application.repositories.CineService;
 import com.example.application.repositories.PeliculaService;
+import com.example.application.repositories.ProyeccionService;
+import com.example.application.repositories.SalaService;
 import com.example.application.views.MainLayout;
-import com.example.application.views.salalist.salaList;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
@@ -28,18 +28,15 @@ import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
-import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.artur.helpers.CrudServiceDataProvider;
-
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 @PageTitle("Añadir Pelicula")
 @Route(value = "Proyeccion/:proyeccionID?/:action?(edit)", layout = MainLayout.class)
@@ -49,30 +46,32 @@ public class addproyeccionview extends Div implements BeforeEnterObserver {
     private final String SAMPLEPERSON_ID = "proyeccionID";
     private final String SAMPLEPERSON_EDIT_ROUTE_TEMPLATE = "Proyeccion/%d/edit";
 
-    private Grid<Pelicula> grid = new Grid<>(Pelicula.class, false);
+    private Grid<Proyeccion> grid = new Grid<>(Proyeccion.class, false);
 
-    private TextField nombre;
-    private TextField actores;
-    private TextField director;
-    private DatePicker fecha_estreno;
-    private TextField sinopsis;
-    private TextField genero;
-    private TextField url;
-    private ComboBox<Cine> cine_p;
+    private TextField precio;
+    private ComboBox<Sala> sala;
+    private DateTimePicker hora;
+    private ComboBox<Pelicula> pelicula;
+    private List<Pelicula> pelis;
 
     private Button cancel = new Button("Cancel");
     private Button save = new Button("Save");
-    private Button borrar = new Button("Borrar");
 
-    private BeanValidationBinder<Pelicula> binder;
+    private BeanValidationBinder<Proyeccion> binder;
 
-    private Pelicula pelicula;
+    private Proyeccion proyeccion;
+    private ProyeccionService proyeccionService;
+    private SalaService salaService;
     private PeliculaService peliculaService;
     private CineService cineService;
 
-    public addproyeccionview(@Autowired PeliculaService peliculaService, CineService cineService ) {
-        this.cineService = cineService;
+    public addproyeccionview(@Autowired PeliculaService peliculaService, SalaService salaService, ProyeccionService proyeccionService, CineService cineService) {
+        this.salaService = salaService;
         this.peliculaService = peliculaService;
+        this.proyeccionService = proyeccionService;
+        this.cineService = cineService;
+        this.pelis = peliculaService.findAll();
+
         addClassNames("master-detail-view", "flex", "flex-col", "h-full");
         // Create UI
         SplitLayout splitLayout = new SplitLayout();
@@ -84,40 +83,35 @@ public class addproyeccionview extends Div implements BeforeEnterObserver {
         add(splitLayout);
 
         // Configure Grid
-        grid.addColumn("nombre").setAutoWidth(true);
-        grid.addColumn("actores").setAutoWidth(true);
-        grid.addColumn("director").setAutoWidth(true);
-        grid.addColumn("fecha_estreno").setAutoWidth(true);
-        grid.addColumn("sinopsis").setAutoWidth(true);
-        grid.addColumn("genero").setAutoWidth(true);
+        grid.addColumn("hora").setAutoWidth(true);
+        grid.addColumn("precio").setAutoWidth(true);
+        grid.addColumn("pelicula").setAutoWidth(true);
+        grid.addColumn("sala").setAutoWidth(true);
 
-        grid.setDataProvider(new CrudServiceDataProvider<>(peliculaService));
+
+        grid.setDataProvider(new CrudServiceDataProvider<>(proyeccionService));
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.setHeightFull();
 
         // when a row is selected or deselected, populate form
         grid.asSingleSelect().addValueChangeListener(event -> {
             if (event.getValue() != null) {
-                UI.getCurrent().navigate(String.format(SAMPLEPERSON_EDIT_ROUTE_TEMPLATE, event.getValue().getId_pelicula()));
+                UI.getCurrent().navigate(String.format(SAMPLEPERSON_EDIT_ROUTE_TEMPLATE, event.getValue().getId_proyeccion()));
             } else {
                 clearForm();
-                UI.getCurrent().navigate(com.example.application.views.addpeli.addpeliview.class);
+                UI.getCurrent().navigate(addproyeccionview.class);
             }
         });
 
         // Configure Form
-        binder = new BeanValidationBinder<>(Pelicula.class);
+        binder = new BeanValidationBinder<>(Proyeccion.class);
 
         // Bind fields. This where you'd define e.g. validation rules
 
-        binder.forField(nombre).asRequired("Introduzca el titulo de la obra").bind("nombre");
-        binder.forField(actores).asRequired("Introduzca a los actores").bind("actores");
-        binder.forField(director).asRequired("Introduzca el director de la pelicula").bind("director");
-        binder.forField(fecha_estreno).asRequired("Introduzca la fecha de estreno de la pelicula").bind("fecha_estreno");
-        binder.forField(sinopsis).asRequired("Introduzca una sinopsis").bind("sinopsis");
-        binder.forField(genero).asRequired("Introduzca un género acorde a la pelicula").bind("genero");
-        binder.forField(url).asRequired("Introduzca una URL válida").bind("url");
-        binder.forField(cine_p).asRequired("Introduzca una descripcion").bind("cine_p");
+        binder.forField(hora).asRequired("Introduzca el titulo de la obra").bind("hora");
+        binder.forField(precio).asRequired("Introduzca a los actores").bind("precio");
+        binder.forField(pelicula).asRequired("Introduzca el director de la pelicula").bind("pelicula");
+        binder.forField(sala).asRequired("Introduzca la fecha de estreno de la pelicula").bind("sala");
 
         binder.bindInstanceFields(this);
 
@@ -128,54 +122,38 @@ public class addproyeccionview extends Div implements BeforeEnterObserver {
 
         save.addClickListener(e -> {
             try {
-                if (this.pelicula == null) {
-                    this.pelicula = new Pelicula();
+                if (this.proyeccion == null) {
+                    this.proyeccion = new Proyeccion();
                 }
-                binder.writeBean(this.pelicula);
+                binder.writeBean(this.proyeccion);
 
-                peliculaService.update(this.pelicula);
+                proyeccionService.update(this.proyeccion);
                 clearForm();
                 refreshGrid();
-                Notification.show("Datos de pelicula guardao.");
-                UI.getCurrent().navigate(com.example.application.views.addpeli.addpeliview.class);
+                Notification.show("Datos de la proyeccion guardado.");
+                UI.getCurrent().navigate(addproyeccionview.class);
             } catch (ValidationException validationException) {
                 Notification.show("An exception happened while trying to store the samplePerson details.");
             }
         });
 
-        borrar.addClickListener(e -> {
-            try {
-                if (this.pelicula == null) {
-                    this.pelicula = new Pelicula();
-                }
-                binder.writeBean(this.pelicula);
-
-                peliculaService.delete(1);
-                clearForm();
-                refreshGrid();
-                Notification.show("Datos de peli borrado.");
-                UI.getCurrent().navigate(com.example.application.views.addpeli.addpeliview.class);
-            }catch (ValidationException ex) {
-                ex.printStackTrace();
-            }
-        });
     }
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-        Optional<Integer> peliculaid = event.getRouteParameters().getInteger(SAMPLEPERSON_ID);
-        if (peliculaid.isPresent()) {
-            Optional<Pelicula> peliculaFromBackend = peliculaService.get(peliculaid.get());
-            if (peliculaFromBackend.isPresent()) {
-                populateForm(peliculaFromBackend.get());
+        Optional<Integer> proyeccionid = event.getRouteParameters().getInteger(SAMPLEPERSON_ID);
+        if (proyeccionid.isPresent()) {
+            Optional<Proyeccion> proyeccionFromBackend = proyeccionService.get(proyeccionid.get());
+            if (proyeccionFromBackend.isPresent()) {
+                populateForm(proyeccionFromBackend.get());
             } else {
                 Notification.show(
-                        String.format("The requested samplePerson was not found, ID = %d", peliculaid.get()), 3000,
+                        String.format("The requested samplePerson was not found, ID = %d", proyeccionid.get()), 3000,
                         Notification.Position.BOTTOM_START);
                 // when a row is selected but the data is no longer available,
                 // refresh grid
                 refreshGrid();
-                event.forwardTo(com.example.application.views.addpeli.addpeliview.class);
+                event.forwardTo(addproyeccionview.class);
             }
         }
     }
@@ -191,17 +169,17 @@ public class addproyeccionview extends Div implements BeforeEnterObserver {
         editorLayoutDiv.add(editorDiv);
 
         FormLayout formLayout = new FormLayout();
-        nombre = new TextField("Nombre");
-        url = new TextField("URL");
-        actores = new TextField("Actores");
-        director = new TextField("Director");
-        sinopsis = new TextField("Sinopsis");
-        fecha_estreno = new DatePicker("Fecha estreno");
-        genero = new TextField("Genero");
-        cine_p = new ComboBox<Cine>("Cine");
-        cine_p.setItems(this.cineService.findByVisible(true));
-        cine_p.setItemLabelGenerator(Cine::getNombre);
-        Component[] fields = new Component[]{nombre, actores, director, sinopsis, fecha_estreno, genero, url, cine_p};
+        hora = new DateTimePicker("Hora");
+        precio = new TextField("Precio");
+        sala = new ComboBox<Sala>("Sala");
+        sala.setItems(this.salaService.findByVisible(true));
+        sala.setItemLabelGenerator(Sala::getidstring);
+        pelicula = new ComboBox<Pelicula>("Pelicula");
+        pelicula.setItems(pelis);
+        pelicula.setItemLabelGenerator(Pelicula::getNombre);
+
+
+        Component[] fields = new Component[]{hora, precio, sala, pelicula};
 
         for (Component field : fields) {
             ((HasStyle) field).addClassName("full-width");
@@ -219,8 +197,7 @@ public class addproyeccionview extends Div implements BeforeEnterObserver {
         buttonLayout.setSpacing(true);
         cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        borrar.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        buttonLayout.add(save, cancel,borrar);
+        buttonLayout.add(save, cancel);
         editorLayoutDiv.add(buttonLayout);
     }
 
@@ -241,10 +218,9 @@ public class addproyeccionview extends Div implements BeforeEnterObserver {
         populateForm(null);
     }
 
-    private void populateForm(Pelicula value) {
-        this.pelicula = value;
-        binder.readBean(this.pelicula);
-
+    private void populateForm(Proyeccion value) {
+        this.proyeccion = value;
+        binder.readBean(this.proyeccion);
     }
 }
 

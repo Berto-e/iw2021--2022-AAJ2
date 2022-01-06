@@ -37,6 +37,8 @@ public class Sala {
         return id_sala;
     }
 
+    public String getidstring(){ return id_sala.toString();}
+
     public void setId_sala(int id_sala) {
         this.id_sala = id_sala;
     }

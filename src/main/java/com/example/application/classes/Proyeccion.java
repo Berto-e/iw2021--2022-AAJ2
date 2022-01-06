@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -12,7 +13,7 @@ public class Proyeccion {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id_proyeccion;
     private String tipo;
-    private float precio;
+    private String precio;
     private LocalDateTime hora;
     @OneToMany(mappedBy = "proyeccion")
     List<Entrada> entradas;
@@ -23,6 +24,7 @@ public class Proyeccion {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sala_proy")
     private Sala sala;
+
 
     public Pelicula getPelicula() {
         return pelicula;
@@ -44,9 +46,6 @@ public class Proyeccion {
         return tipo;
     }
 
-    public float getPrecio() {
-        return precio;
-    }
 
     public LocalDateTime getHora() {
         return hora;
@@ -68,11 +67,6 @@ public class Proyeccion {
         this.tipo = tipo;
     }
 
-    public void setPrecio(float precio) {
-        this.precio = precio;
-    }
-
-
     public List<Entrada> getEntradas() {
         return entradas;
     }
@@ -80,4 +74,14 @@ public class Proyeccion {
     public void setEntradas(List<Entrada> entradas) {
         this.entradas = entradas;
     }
+
+    public String getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(String precio) {
+        this.precio = precio;
+    }
+
+
 }
