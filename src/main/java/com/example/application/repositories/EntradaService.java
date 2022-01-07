@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.vaadin.artur.helpers.CrudService;
 
+import java.util.List;
+
 @Service
 public class EntradaService extends CrudService<Entrada, Integer> {
 
@@ -18,5 +20,8 @@ public class EntradaService extends CrudService<Entrada, Integer> {
     @Override
     protected EntradaRepository getRepository() {
         return repository;
+    }
+
+    public List<Entrada> findAll() { return this.repository.findAll();
     }
 }

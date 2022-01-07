@@ -1,6 +1,8 @@
 package com.example.application.views.cogesilla;
 
+import com.example.application.classes.Entrada;
 import com.example.application.classes.Pelicula;
+import com.example.application.repositories.EntradaService;
 import com.example.application.views.MainLayout;
 import com.example.application.views.addpeli.addpeliview;
 import com.example.application.views.compra.compraview;
@@ -17,7 +19,9 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,14 +36,25 @@ public class cogesillaview extends VerticalLayout implements BeforeEnterObserver
     private int num_clicks = 0;
     private int cont_asientos = -1;
     private int num_elegida = 0;
+    private int idsala = 0;
     private Button enviar = new Button("Seguir comprando");
     private int fil = 0;
     private int col = 0;
+    private LocalDateTime horapeli;
     private int escogida = 0;
     private List<Integer> l = new ArrayList<Integer>();
-    public cogesillaview() {
+    private EntradaService entradaService;
+    private List<Entrada> entradas;
+    public cogesillaview(@Autowired EntradaService entradaService) {
+        this.entradaService = entradaService;
+        entradas = this.entradaService.findAll();
         if (UI.getCurrent().getSession().getAttribute("numfila") != null)
             num_fila = (int) UI.getCurrent().getSession().getAttribute("numfila");
+        if (UI.getCurrent().getSession().getAttribute("idsala") != null)
+            idsala = (int) UI.getCurrent().getSession().getAttribute("idsala");
+        if (UI.getCurrent().getSession().getAttribute("idsala") != null)
+            horapeli = (LocalDateTime) UI.getCurrent().getSession().getAttribute("horapeli");
+        Notification.show(""+horapeli.getMinute());
 
             for (int i = 0; i < num_fila; i++) {
                 HorizontalLayout h = new HorizontalLayout();
@@ -48,9 +63,14 @@ public class cogesillaview extends VerticalLayout implements BeforeEnterObserver
                     img.setTitle(String.valueOf(i));
                     img.setText(String.valueOf(j));
                     img.setClassName(String.valueOf(i));
+                    if(busy(img)){
+                        img.setSrc("/images/silla-de-cine-usada.png");
+                    }
                     img.addClickListener(e -> {
                         num_clicks++;
                         String actual = img.getSrc();
+
+
                         if (actual == "/images/silla-de-cine.png") {
                             img.setSrc("/images/silla-de-cine-clicada.png");
                             num_elegida++;
@@ -93,6 +113,16 @@ public class cogesillaview extends VerticalLayout implements BeforeEnterObserver
             }
         }
 
+        public boolean busy(Image img){
+        //mira las entradas y compara los huecos con las entradas vendidas para ver si poner en rojo o no
+            for(Entrada e: entradas) {
+                if (idsala == e.getProyeccion().getSala().getId_sala() && horapeli.getHour() == e.getFecha_entrada().getHour() && horapeli.getMinute() == e.getFecha_entrada().getMinute() && horapeli.getDayOfMonth() == e.getFecha_entrada().getDayOfMonth() && horapeli.getMonth() == e.getFecha_entrada().getMonth()){
+                    if(Integer.valueOf(img.getClassName()) == e.getFila() && Integer.valueOf(img.getText()) == e.getColumna())
+                        return true;
+                }
+            }
+            return false;
+        }
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {

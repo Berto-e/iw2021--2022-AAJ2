@@ -38,7 +38,6 @@ public class compraview extends VerticalLayout implements BeforeEnterObserver {
     private int numero_click;
     private int numasientos;
     private int asientos;
-    private Paragraph p2 = new Paragraph("adios");
     private int col;
     private int fil;
     private int col2;
@@ -55,17 +54,11 @@ public class compraview extends VerticalLayout implements BeforeEnterObserver {
         if(UI.getCurrent().getSession().getAttribute("lista") != null)
             l2 = (List<Integer>) UI.getCurrent().getSession().getAttribute("lista");
 
-        p2.setText("Asientos = " + asientos);
-        h.setText("Fila: "+fil);
         h2.setText("Columna: "+l2);
-        Notification.show(""+l2);
 
         setSpacing(false);
 
-        add(h);
-        add(p2);
         add(h2);
-        add(h3);
 
         setSizeFull();
         setJustifyContentMode(JustifyContentMode.START);

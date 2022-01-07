@@ -67,6 +67,8 @@ public class infopeli extends VerticalLayout implements BeforeEnterObserver {
                     sala = new Button(""+pr.getHora().getHour()+":"+pr.getHora().getMinute());
                     sala.addClickListener(e2 -> {
                         UI.getCurrent().getSession().setAttribute("numfila",pr.getSala().getNum_filas());
+                        UI.getCurrent().getSession().setAttribute("idsala",pr.getSala().getId_sala());
+                        UI.getCurrent().getSession().setAttribute("horapeli",pr.getHora());
                         UI.getCurrent().navigate(cogesillaview.class);
                     });
                     add(sala);
