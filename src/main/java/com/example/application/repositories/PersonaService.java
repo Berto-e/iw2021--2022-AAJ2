@@ -54,4 +54,7 @@ public class PersonaService extends CrudService<Persona, Integer> implements Use
         }
         return persona;
     }
+
+    public Persona findByUsername(String username) { return this.repository.findByUsername(username);
+    }
 }

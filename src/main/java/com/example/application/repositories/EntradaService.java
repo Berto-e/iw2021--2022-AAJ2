@@ -2,6 +2,7 @@ package com.example.application.repositories;
 
 import com.example.application.classes.Cine;
 import com.example.application.classes.Entrada;
+import com.example.application.classes.Proyeccion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.vaadin.artur.helpers.CrudService;
@@ -24,4 +25,5 @@ public class EntradaService extends CrudService<Entrada, Integer> {
 
     public List<Entrada> findAll() { return this.repository.findAll();
     }
+
 }
