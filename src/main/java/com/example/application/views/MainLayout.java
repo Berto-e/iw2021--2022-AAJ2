@@ -2,7 +2,6 @@ package com.example.application.views;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.example.application.repositories.SecurityService;
 import com.example.application.security.SecurityUtils;
 import com.example.application.views.gestores.gestorview;
@@ -23,8 +22,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.TabVariant;
 import com.vaadin.flow.component.tabs.Tabs;
-
-
 import com.example.application.views.imagelist.ImageListView;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.PageTitle;
@@ -32,9 +29,9 @@ import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.VaadinServlet;
 import com.vaadin.flow.theme.Theme;
+import com.vaadin.flow.theme.lumo.Lumo;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.swing.text.html.ListView;
 
 /**
@@ -43,7 +40,7 @@ import javax.swing.text.html.ListView;
 @PWA(name = "My App", shortName = "My App",
         backgroundColor = "#227aef", themeColor = "#227aef",
         enableInstallPrompt = false)
-@Theme(themeFolder = "myapp")
+@Theme(themeFolder = "myapp", variant = Lumo.DARK)
 @PageTitle("Main")
 public class MainLayout extends AppLayout {
     private final Tabs menu;

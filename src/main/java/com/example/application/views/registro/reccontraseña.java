@@ -21,10 +21,13 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.theme.Theme;
+import com.vaadin.flow.theme.lumo.Lumo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @PageTitle("PasswordRecover")
 @Route(value = "verificausuario")
+
 public class reccontraseña extends Div {
     private TextField correo = new TextField("Email");
     private Button aceptar = new Button("aceptar");
@@ -42,7 +45,7 @@ public class reccontraseña extends Div {
 
         binder = new BeanValidationBinder<>(Persona.class);
         binder.forField(correo).asRequired("Introduzca su nombre de usuario").bind("correo");
-        correo.setPlaceholder("Introduzca su nombre de usuario");
+        correo.setPlaceholder("Introduzca su email");
         binder.bindInstanceFields(this);
 
         aceptar.addClickListener(e -> {

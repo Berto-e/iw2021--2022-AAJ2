@@ -34,6 +34,9 @@ import com.vaadin.flow.router.Route;
 
 import java.time.LocalDate;
 import java.util.Optional;
+
+import com.vaadin.flow.theme.Theme;
+import com.vaadin.flow.theme.lumo.Lumo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

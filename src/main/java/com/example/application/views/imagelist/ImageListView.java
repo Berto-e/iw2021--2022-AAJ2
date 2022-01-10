@@ -23,6 +23,8 @@ import com.vaadin.flow.component.littemplate.LitTemplate;
 
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.theme.Theme;
+import com.vaadin.flow.theme.lumo.Lumo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
@@ -34,7 +36,6 @@ import java.util.Optional;
 @Route(value = "", layout = MainLayout.class)
 @Tag("image-list-view")
 @JsModule("./views/imagelist/image-list-view.ts")
-
 public class ImageListView extends LitTemplate implements HasComponents, HasStyle {
     private PeliculaService peliculaService;
     private List<Pelicula> pelis;
