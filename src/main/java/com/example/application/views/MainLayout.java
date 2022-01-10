@@ -56,7 +56,12 @@ public class MainLayout extends AppLayout {
            //e_Login
 
         this.setDrawerOpened(false);
-        Span appName = new Span("Cartelera Discover");
+        Span appName = new Span("Discover");
+        appName.getElement().getStyle().set("font-size", "45px");
+        appName.getElement().getStyle().set("font-style","italic");
+        appName.getElement().getStyle().set("font-weight","bold");
+
+
         appName.addClassName("hide-on-mobile");
 
         menu = createMenuTabs();
@@ -85,7 +90,7 @@ public class MainLayout extends AppLayout {
             //e_Logout
         }
         else
-            this.addToNavbar(Login); //LOGIN BUTTON
+            this.addToNavbar(Login);
         getElement().addEventListener("search-focus", e -> {
             getElement().getClassList().add("hide-navbar");
         });
@@ -94,9 +99,6 @@ public class MainLayout extends AppLayout {
             getElement().getClassList().remove("hide-navbar");
         });
     }
-
-
-
 
     private static Tabs createMenuTabs() {
         final Tabs tabs = new Tabs();
