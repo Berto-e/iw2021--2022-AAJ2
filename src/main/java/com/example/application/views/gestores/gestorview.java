@@ -26,11 +26,13 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
+import com.vaadin.flow.data.validator.EmailValidator;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+import java.time.LocalDate;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -53,7 +55,7 @@ public class gestorview extends Div implements BeforeEnterObserver {
     private TextField apellido;
     private EmailField correo; //emailfield
     private TextField telefono;
-    private DatePicker fecha_nacimiento;
+    private DatePicker fecha_nacimiento = new DatePicker("Fecha nacimiento");
     private PasswordField password; //passwordfield
     private Checkbox important;
     private ComboBox<Integer> clase;
@@ -111,11 +113,14 @@ public class gestorview extends Div implements BeforeEnterObserver {
         // Bind fields. This where you'd define e.g. validation rules
         binder.forField(username).asRequired("Introduzca username").bind("username");
         binder.forField(apellido).asRequired("Introduzca apellido").bind("apellido");
-        binder.forField(correo).asRequired("Introduzca correo").bind("correo");
+        binder.forField(correo).asRequired("Introduzca correo").withValidator(new EmailValidator("No es un email valido.")).bind("correo");
         binder.forField(telefono).asRequired("Introduzca telefono").bind("telefono");
         binder.forField(fecha_nacimiento).asRequired("Introduzca fecha nacimiento").bind("fecha_nacimiento");
         binder.forField(password).asRequired("Introduzca la password").bind("password");
         binder.forField(clase).asRequired("Introduzca permiso").bind("clase");
+
+
+
 
         binder.bindInstanceFields(this);
 
@@ -182,7 +187,8 @@ public class gestorview extends Div implements BeforeEnterObserver {
         correo = new EmailField("Email");
         correo.getElement().setAttribute("name", "email");
         telefono = new TextField("Telefono");
-        fecha_nacimiento = new DatePicker("Fecha nacimiento");
+        fecha_nacimiento.setMax(LocalDate.now().minusYears(18));
+        fecha_nacimiento.setInitialPosition(LocalDate.now().minusYears(18));
         important = new Checkbox("En Activo");
         important.getStyle().set("padding-top", "var(--lumo-space-m)");
         clase = new ComboBox<Integer>("Persona");

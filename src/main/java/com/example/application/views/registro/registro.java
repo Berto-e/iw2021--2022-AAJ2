@@ -26,6 +26,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
+import com.vaadin.flow.data.validator.EmailValidator;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
@@ -40,7 +41,7 @@ public class registro extends Div{
     private TextField username = new TextField("username");
     private TextField apellido = new TextField("Apellido");
     private EmailField correo = new EmailField("Correo Electrónico");
-    private TextField password = new TextField("Contraseña");
+    private PasswordField password = new PasswordField("Contraseña");
     private DatePicker fecha_nacimiento = new DatePicker("Fecha de nacimiento");
     private TextField telefono = new TextField("Numero de telefono");
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -61,10 +62,11 @@ public class registro extends Div{
 
         binder.forField(username).asRequired("Introduzca username").bind("username");
         binder.forField(apellido).asRequired("Introduzca apellido").bind("apellido");
-        binder.forField(correo).asRequired("Introduzca correo").bind("correo");
+        binder.forField(correo).asRequired("Introduzca correo").withValidator(new EmailValidator("No es un email valido.")).bind("correo");
         binder.forField(telefono).asRequired("Introduzca telefono").bind("telefono");
         binder.forField(fecha_nacimiento).asRequired("Introduzca fecha nacimiento").bind("fecha_nacimiento");
         binder.forField(password).asRequired("Introduzca la contraseña").bind("password");
+
 
         binder.bindInstanceFields(this);
 
@@ -76,16 +78,21 @@ public class registro extends Div{
                     this.persona = new Persona();
                 }
 
-
                 //Encriptacion de la contraseña con Bcrypt
-                 encodedpassword = passwordEncoder.encode(password.getValue());
-                password.setValue(encodedpassword);
+                encodedpassword = passwordEncoder.encode(password.getValue());
                 //e_Encriptacion
                 binder.writeBean(this.persona);
-                personaService.update(this.persona);
-                clearForm();
-                Notification.show("Datos de persona guardao.");
-                UI.getCurrent().navigate(ImageListView.class);
+                this.persona.setPassword(encodedpassword);
+                if(this.personaService.findByCorreo(this.persona.getCorreo()) != null){
+                    Notification.show("Correo ya existente");
+                    password.setValue("");
+                }
+                else{
+                    personaService.update(this.persona);
+
+                    clearForm();
+                    Notification.show("Datos de persona guardao.");
+                    UI.getCurrent().navigate(ImageListView.class);}
             } catch (ValidationException validationException) {
                 Notification.show("Faltan campos por rellenar.");
             }

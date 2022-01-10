@@ -17,6 +17,7 @@ public class Persona implements UserDetails {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
     private int clase=0;
+    @Column(unique = true)
     private String username;
     private String apellido;
     private String password;
@@ -25,20 +26,19 @@ public class Persona implements UserDetails {
     private boolean important;
     private boolean enabled = true;
     private boolean funcional;
-
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    //private String contrasenna = "1234";
-    //@NotNull
     private LocalDate fecha_nacimiento;
 
     @OneToMany(mappedBy = "persona_ent")
     List<Entrada> entradas;
     @OneToMany(mappedBy = "cine_pers")
     List<Cine> cines;
+
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
 
     public boolean isImportant() {
         return important;
