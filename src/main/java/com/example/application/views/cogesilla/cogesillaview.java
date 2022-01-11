@@ -7,6 +7,7 @@ import com.example.application.views.MainLayout;
 import com.example.application.views.addpeli.addpeliview;
 import com.example.application.views.compra.compraview;
 import com.example.application.views.imagelist.ImageListView;
+import com.example.application.views.ofertas.ofertasview;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.Uses;
@@ -62,6 +63,7 @@ public class cogesillaview extends VerticalLayout implements BeforeEnterObserver
                     Image img = new Image("/images/silla-de-cine.png", String.valueOf(num_elegida));
                     img.setTitle(String.valueOf(i));
                     img.setText(String.valueOf(j));
+
                     img.setClassName(String.valueOf(i));
                     if(busy(img)){
                         img.setSrc("/images/silla-de-cine-usada.png");
@@ -101,7 +103,7 @@ public class cogesillaview extends VerticalLayout implements BeforeEnterObserver
                         UI.getCurrent().getSession().setAttribute("fila",fil);
                         UI.getCurrent().getSession().setAttribute("lista",l);
 
-                        UI.getCurrent().navigate(compraview.class);
+                        UI.getCurrent().navigate(ofertasview.class);
                     });
 
                     h.setSpacing(false);

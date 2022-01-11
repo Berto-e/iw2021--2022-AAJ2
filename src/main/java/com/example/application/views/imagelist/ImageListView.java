@@ -50,6 +50,7 @@ public class ImageListView extends LitTemplate implements HasComponents, HasStyl
         addClassNames("image-list-view", "flex", "flex-col", "h-full");
         this.peliculaService = peliculas;
         pelis = peliculaService.findAll();
+
         cine = new ComboBox<Cine>("Cine");
         cine.setItems(this.cineService.findByVisible(true));
         cine.setItemLabelGenerator(Cine::getNombre);
