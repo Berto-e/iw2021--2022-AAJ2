@@ -75,4 +75,3 @@ public class ImageListView extends LitTemplate implements HasComponents, HasStyl
             }
         }
     }
-//QUE EN CARTELERA SELECCIONE PELICULAS POR CINE O HORAS.//vigilar los

@@ -33,6 +33,7 @@ public class ImageCard extends LitTemplate {
             UI.getCurrent().getSession().setAttribute("nombre", header.toString());//en header pones null, se acabo la sesion
             UI.getCurrent().navigate(infopeli.class,new RouteParameters("peliculaID", id.toString())); //este es para el beforeenter
         });
+        this.image.setClassName("pointer");
         this.header.setText(title);
         this.text.setText(descrip);
         this.badge.setText(label);

@@ -1,11 +1,13 @@
 package com.example.application.views;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import com.example.application.repositories.SecurityService;
 import com.example.application.security.SecurityUtils;
 import com.example.application.views.gestores.gestorview;
 import com.vaadin.flow.component.*;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
@@ -23,6 +25,7 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.TabVariant;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.example.application.views.imagelist.ImageListView;
+import com.vaadin.flow.dom.ThemeList;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
@@ -30,6 +33,7 @@ import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.VaadinServlet;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
+import org.aspectj.weaver.patterns.Declare;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.swing.text.html.ListView;
@@ -49,19 +53,17 @@ public class MainLayout extends AppLayout {
     private SecurityUtils securityUtils = new SecurityUtils();
     public MainLayout(SecurityService securityService) {
         this.securityService = securityService;
+        //Login Button
+        button.addClickListener(e2 -> UI.getCurrent().navigate(LoginView.class));
+        HorizontalLayout Login = new HorizontalLayout(button);
+        //e_Login
 
-            //Login Button
-           button.addClickListener(e2 -> UI.getCurrent().navigate(LoginView.class));
-           HorizontalLayout Login = new HorizontalLayout(button);
-           //e_Login
 
         this.setDrawerOpened(false);
         Span appName = new Span("Discover");
         appName.getElement().getStyle().set("font-size", "45px");
         appName.getElement().getStyle().set("font-style","italic");
         appName.getElement().getStyle().set("font-weight","bold");
-
-
         appName.addClassName("hide-on-mobile");
 
         menu = createMenuTabs();

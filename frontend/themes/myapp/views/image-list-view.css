@@ -11,3 +11,8 @@
   background-color: var(--lumo-base-color);
   box-shadow: var(--lumo-box-shadow-s);
 }
+
+.pointer {
+  --lumo-clickable-cursor: pointer;
+  cursor: var(--lumo-clickable-cursor);
+}
