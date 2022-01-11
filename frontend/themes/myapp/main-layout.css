@@ -26,6 +26,11 @@
   color: var(--lumo-primary-text-color);
 }
 
+.pointer {
+  --lumo-clickable-cursor: pointer;
+  cursor: var(--lumo-clickable-cursor);
+}
+
 [slot='drawer'] nav a[highlight]::before {
   background-color: var(--lumo-primary-color-10pct);
 }

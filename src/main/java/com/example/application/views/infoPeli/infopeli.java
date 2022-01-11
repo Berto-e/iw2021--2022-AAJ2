@@ -42,6 +42,7 @@ public class infopeli extends VerticalLayout implements BeforeEnterObserver {
     Image img = new Image();
     Button asiento = new Button("Ver asientos");
     Button sesiones = new Button("Ver sesiones");
+
     Button sala;
     private int filas = 12;
 
@@ -49,6 +50,7 @@ public class infopeli extends VerticalLayout implements BeforeEnterObserver {
         if(UI.getCurrent().getSession().getAttribute("nombre") != null){
             nombresesion = (String) UI.getCurrent().getSession().getAttribute("nombre");
         }
+        sesiones.setClassName("pointer");
         this.peliculaService = peliculas;
         this.proyeccionService = proyeccionService;
         proyecciones = this.proyeccionService.findAll();
@@ -65,6 +67,7 @@ public class infopeli extends VerticalLayout implements BeforeEnterObserver {
             for (Proyeccion pr : proyecciones) {
                 if(pr.getPelicula().getNombre().equals(this.p.getNombre())){
                     sala = new Button(""+pr.getHora().getHour()+":"+pr.getHora().getMinute());
+                    sala.setClassName("pointer");
                     sala.addClickListener(e2 -> {
                         UI.getCurrent().getSession().setAttribute("numfila",pr.getSala().getNum_filas());
                         UI.getCurrent().getSession().setAttribute("idsala",pr.getSala().getId_sala());
