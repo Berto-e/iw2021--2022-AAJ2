@@ -1,18 +1,17 @@
 package com.example.application.views.compra;
 
-import com.example.application.classes.Entrada;
-import com.example.application.classes.Pelicula;
-import com.example.application.classes.Persona;
-import com.example.application.classes.Proyeccion;
+import com.example.application.classes.*;
 import com.example.application.repositories.*;
 import com.example.application.security.SecurityUtils;
 import com.example.application.views.MainLayout;
 import com.example.application.views.addproyeccion.addproyeccionview;
 import com.example.application.views.cogesilla.cogesillaview;
 import com.example.application.views.imagelist.ImageListView;
+import com.example.application.views.ofertas.ofertasview;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.notification.Notification;
@@ -35,10 +34,12 @@ public class compraview extends VerticalLayout implements BeforeEnterObserver {
     //private String nom = UI.getCurrent();
     private final String nombresesion = null; //recojo la variable de sesion
 
-    private H2 h = new H2("hola");
+    private H2 h;
     private H2 h2 = new H2("no");
-    private H2 h3 = new H2("hola");
-    private H2 h4 = new H2("no");
+    private H4 h3;
+    private H2 h4;
+    private H4 nomb;
+    private H2 dueño;
     private int numero_click;
     private int numasientos;
     private int asientos;
@@ -57,11 +58,13 @@ public class compraview extends VerticalLayout implements BeforeEnterObserver {
     private SecurityUtils securityUtils = new SecurityUtils();
     private final SecurityService securityService;
     private String nombrepersona = "";
-
+    private String ofertaname;
     private Proyeccion proyeccion;
     private Persona persona;
     private Entrada entrada;
     private Button save = new Button("Save");
+    private Oferta ofertaele = new Oferta();
+    private double precio = 0.0;
 
 
     public compraview(@Autowired EntradaService entradaService, ProyeccionService proyeccionService, SecurityService securityService, PersonaService personaService) {
@@ -83,15 +86,38 @@ public class compraview extends VerticalLayout implements BeforeEnterObserver {
         if(UI.getCurrent().getSession().getAttribute("horapeli") != null)
             fecha_entrada = (LocalDateTime) UI.getCurrent().getSession().getAttribute("horapeli");
 
-        h2.setText("Columna: "+l2);
+        if(UI.getCurrent().getSession().getAttribute("ofertita") != null)
+        ofertaele = (Oferta)UI.getCurrent().getSession().getAttribute("ofertita");
+
+        ofertaname = (String)UI.getCurrent().getSession().getAttribute("idoferta");
+
+        h2.setText("Butacas");
 
         UserDetails userLogged;
-
         userLogged = securityUtils.getAuthenticatedUser();
-
         persona = personaService.findByUsername(userLogged.getUsername());
+        dueño = new H2();
+        dueño.setText("Dueño de las entradas: "+persona.getUsername()+" "+persona.getApellido());
+        add(dueño);
 
-        butacones = l2.size() / 2;
+        butacones = l2.size();
+        add(h2);
+        precio = (butacones/2) * Double.valueOf(proyeccion.getPrecio());
+        h4 = new H2();
+        h4.setText("El precio es: "+String.valueOf(precio));
+        for(int i = 0; i < butacones; i+=2){
+            h3 = new H4();
+            h3.setText("Fila: "+l2.get(i).toString()+" Butaca: "+l2.get(i+1).toString());
+            add(h3);
+        }
+        if(UI.getCurrent().getSession().getAttribute("ofertita") != null){
+            h = new H2();
+        h.setText("Oferta elegida: "+ofertaele.getNumero());
+        precio += Double.valueOf(ofertaele.getPrecio());
+        h4.setText("Precio final: "+String.valueOf(precio)+"€");
+        precio = 0;
+        add(h);}
+
         save.addClickListener(e -> {
             for(int i = 0; i<l2.size(); i+=2) {
                 entrada = new Entrada();
@@ -104,12 +130,13 @@ public class compraview extends VerticalLayout implements BeforeEnterObserver {
                 entradaService.update(this.entrada);
             }
                 Notification.show("Datos de la entrada guardado.");
+                UI.getCurrent().navigate(ofertasview.class);
 
         });
 
         setSpacing(false);
 
-        add(h2);
+        add(h4);
         add(save);
 
         setSizeFull();

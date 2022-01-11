@@ -1,12 +1,15 @@
 package com.example.application.views.ofertas;
 
 
+import com.example.application.views.compra.compraview;
 import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.littemplate.LitTemplate;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.template.Id;
 
 @JsModule("./views/imagelist/image-card.ts")
@@ -25,10 +28,13 @@ public class ofertacard extends LitTemplate {
     @Id
     private Span badge;
 
-    public ofertacard(String photo, String title, String descrip, double label) {
+    public ofertacard(String photo, String title, String descrip, String label) {
         this.image.setSrc(photo);
         this.header.setText(title);
         this.text.setText(descrip);
-        this.badge.setText(String.valueOf(label));
+        this.badge.setText(""+String.valueOf(label)+"€");
+        this.image.addClickListener(e -> {
+            UI.getCurrent().navigate(compraview.class);
+        });
     }
 }
