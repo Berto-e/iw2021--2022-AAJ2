@@ -51,6 +51,7 @@ public class cambiacontraseña extends Div implements BeforeEnterObserver {
         password.setPlaceholder("Introduzca su nueva contraseña");
         binder.bindInstanceFields(this);
 
+        aceptar.setClassName("pointer");
         aceptar.addClickListener(e -> {
 
             if (this.persona == null) {

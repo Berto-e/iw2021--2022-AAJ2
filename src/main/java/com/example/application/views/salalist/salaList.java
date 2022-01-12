@@ -102,6 +102,8 @@ public class salaList extends Div implements BeforeEnterObserver {
 
         binder.bindInstanceFields(this);
 
+        save.setClassName("pointer");
+        cancel.setClassName("pointer");
         cancel.addClickListener(e -> {
             clearForm();
             refreshGrid();
@@ -116,7 +118,7 @@ public class salaList extends Div implements BeforeEnterObserver {
                 salaService.update(this.sala);
                 clearForm();
                 refreshGrid();
-                Notification.show("Datos guardados ");
+                Notification.show("Datos guardados");
                 UI.getCurrent().navigate(salaList.class);
             } catch (ValidationException validationException) {
                 Notification.show("An exception happened while trying to store the samplePerson details.");

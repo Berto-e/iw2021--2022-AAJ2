@@ -63,7 +63,8 @@ public class registro extends Div{
 
 
         binder.bindInstanceFields(this);
-
+        save.setClassName("pointer");
+        cancel.setClassName("pointer");
         cancel.addClickListener(e -> clearForm());
         save.addClickListener(e -> {
 

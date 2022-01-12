@@ -91,6 +91,8 @@ public class cogesillaview extends VerticalLayout implements BeforeEnterObserver
                             }
 
                         });
+                    enviar.setClassName("pointer");
+
                     enviar.addClickListener(e -> {
                         UI.getCurrent().getSession().setAttribute("clicks", num_clicks);
                         UI.getCurrent().getSession().setAttribute("num_asientos", cont_asientos);

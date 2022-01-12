@@ -99,6 +99,9 @@ public class addofertaview extends Div implements BeforeEnterObserver {
 
         binder.bindInstanceFields(this);
 
+        save.setClassName("pointer");
+        cancel.setClassName("pointer");
+
         cancel.addClickListener(e -> {
             clearForm();
             refreshGrid();

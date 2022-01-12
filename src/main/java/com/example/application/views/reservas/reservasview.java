@@ -51,11 +51,11 @@ public class reservasview extends VerticalLayout {
                 if(ent.getPersona_ent().getUsername() == persona.getUsername()){
                     Notification.show("hola");
                 }
-                /*if(ent.getPersona_ent().getUsername() == persona.getUsername() && e.getValue().getMonth() == ent.getFecha_entrada().getMonth() && e.getValue().getDayOfMonth() == ent.getFecha_entrada().getDayOfMonth()){
+                if(ent.getPersona_ent().getUsername().equals(persona.getUsername()) && e.getValue().getMonth().equals(ent.getFecha_entrada().getMonth())){
                     mostrar = new H4();
-                    mostrar.setText("Pelicula: "+ent.getProyeccion().getPelicula()+"\n"+"Hora: "+ent.getFecha_entrada().getHour()+" "+ent.getFecha_entrada().getMinute()+"\n"+"Sala: "+ent.getNum_sala());
+                    mostrar.setText("Pelicula: "+ent.getProyeccion().getPelicula().getNombre()+"\n"+"Hora: "+ent.getFecha_entrada().getHour()+" "+ent.getFecha_entrada().getMinute()+"\n"+"Sala: "+ent.getProyeccion().getSala().getNum_sala()+"\n"+"Fila: "+ent.getFila()+" Butaca: "+ent.getColumna()+"\n");
                     add(mostrar);
-                }*/
+                }
             }
         });
         add(fecha);

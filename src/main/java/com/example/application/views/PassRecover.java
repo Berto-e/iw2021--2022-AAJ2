@@ -46,6 +46,7 @@ public class PassRecover extends Div {
         correo.setPlaceholder("Introduzca su nombre de usuario");
         binder.bindInstanceFields(this);
 
+        aceptar.setClassName("pointer");
         aceptar.addClickListener(e -> {
 
             if (this.persona == null) {

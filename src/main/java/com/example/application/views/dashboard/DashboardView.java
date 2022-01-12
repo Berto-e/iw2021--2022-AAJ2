@@ -20,7 +20,7 @@ import org.springframework.security.access.annotation.Secured;
 
 import java.util.List;
 
-@Secured({"1","2"})
+@Secured("2")
 @PageTitle("Dashboard")
 @Route(value = "dashboard", layout = MainLayout.class)
 public class DashboardView extends Main {

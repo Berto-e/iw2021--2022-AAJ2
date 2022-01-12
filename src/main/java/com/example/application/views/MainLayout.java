@@ -53,7 +53,7 @@ public class MainLayout extends AppLayout {
         HorizontalLayout Login = new HorizontalLayout(button);
         //e_Login
 
-
+        button.setClassName("pointer");
         this.setDrawerOpened(false);
         Span appName = new Span("Discover");
         appName.getElement().getStyle().set("font-size", "45px");

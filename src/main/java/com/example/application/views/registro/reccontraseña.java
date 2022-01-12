@@ -42,6 +42,7 @@ public class reccontraseña extends Div {
         correo.setPlaceholder("Introduzca su email");
         binder.bindInstanceFields(this);
 
+        aceptar.setClassName("pointer");
         aceptar.addClickListener(e -> {
 
             if (this.persona == null) {

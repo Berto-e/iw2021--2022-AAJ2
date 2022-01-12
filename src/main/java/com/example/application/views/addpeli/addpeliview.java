@@ -57,7 +57,6 @@ public class addpeliview extends Div implements BeforeEnterObserver {
 
     private Button cancel = new Button("Cancel");
     private Button save = new Button("Save");
-    private Button borrar = new Button("Borrar");
 
     private BeanValidationBinder<Pelicula> binder;
 
@@ -116,6 +115,8 @@ public class addpeliview extends Div implements BeforeEnterObserver {
 
         binder.bindInstanceFields(this);
 
+        save.setClassName("pointer");
+        cancel.setClassName("pointer");
         cancel.addClickListener(e -> {
             clearForm();
             refreshGrid();
@@ -138,22 +139,6 @@ public class addpeliview extends Div implements BeforeEnterObserver {
             }
         });
 
-        borrar.addClickListener(e -> {
-            try {
-                if (this.pelicula == null) {
-                    this.pelicula = new Pelicula();
-                }
-                binder.writeBean(this.pelicula);
-
-                peliculaService.delete(1);
-                clearForm();
-                refreshGrid();
-                Notification.show("Datos de peli borrado.");
-                UI.getCurrent().navigate(addpeliview.class);
-            }catch (ValidationException ex) {
-                ex.printStackTrace();
-            }
-        });
     }
 
     @Override
@@ -214,8 +199,7 @@ public class addpeliview extends Div implements BeforeEnterObserver {
         buttonLayout.setSpacing(true);
         cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        borrar.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        buttonLayout.add(save, cancel,borrar);
+        buttonLayout.add(save, cancel);
         editorLayoutDiv.add(buttonLayout);
     }
 

@@ -25,7 +25,6 @@ public class LoginView extends VerticalLayout {
 
     private AuthenticationManager authenticationManager;
     private CustomRequestCache requestCache;
-    private Button save = new Button("Register");
 
     @Autowired
     public LoginView(AuthenticationManager authenticationManager, CustomRequestCache requestCache) {

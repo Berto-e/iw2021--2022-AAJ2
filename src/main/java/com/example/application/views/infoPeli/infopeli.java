@@ -36,7 +36,6 @@ public class infopeli extends VerticalLayout implements BeforeEnterObserver {
     private H2 h = new H2("hola");
     private Paragraph p2 = new Paragraph("adios");
     Image img = new Image();
-    Button asiento = new Button("Ver asientos");
     Button sesiones = new Button("Ver sesiones");
 
     Button sala;

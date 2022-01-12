@@ -44,6 +44,9 @@ public class ofertasview extends LitTemplate implements HasComponents, HasStyle 
             add(new ofertacard(o.getUrl(), o.getNumero(),
                     o.getDescripcion(), o.getPrecio()));}
 
+        oferta.setClassName("pointer");
+        seguir.setClassName("pointer");
+
         seguir.addClickListener(e -> {
             UI.getCurrent().getSession().setAttribute("ofertita",oferta.getValue());
             UI.getCurrent().navigate(compraview.class);

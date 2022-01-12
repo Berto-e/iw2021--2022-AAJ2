@@ -56,11 +56,17 @@ public class compraview extends VerticalLayout implements BeforeEnterObserver {
     private String nombrepersona = "";
     private String ofertaname;
     private Proyeccion proyeccion;
+    private String butacas;
     private Persona persona;
+    private List<String> compradas = new ArrayList<String>();
     private Entrada entrada;
     private Button save = new Button("Save");
     private Oferta ofertaele = new Oferta();
     private double precio = 0.0;
+    private int j = 0;
+    private String posicion = null;
+    @Autowired
+    private EmailSenderService emailSenderService;
 
 
     public compraview(@Autowired EntradaService entradaService, ProyeccionService proyeccionService, SecurityService securityService, PersonaService personaService) {
@@ -114,19 +120,27 @@ public class compraview extends VerticalLayout implements BeforeEnterObserver {
         precio = 0;
         add(h);}
 
+
+        save.setClassName("pointer");
         save.addClickListener(e -> {
-            for(int i = 0; i<l2.size(); i+=2) {
+            for(int i = 0; i<l2.size(); i+=2 ) {
                 entrada = new Entrada();
                 entrada.setProyeccion(proyeccion);
                 entrada.setFecha_entrada(fecha_entrada);
                 entrada.setPersona_ent(persona);
                 entrada.setColumna(l2.get(i));
                 entrada.setFila(l2.get(i+1));
-
+                posicion = " Fila: "+l2.get(i+1)+" Butaca: "+l2.get(i);
+                compradas.add(j,posicion);
+                j++;
                 entradaService.update(this.entrada);
             }
-                Notification.show("Datos de la entrada guardado.");
-                UI.getCurrent().navigate(ofertasview.class);
+            for(int z = 0; z < compradas.size(); z++)
+                butacas += compradas.get(z);
+
+            triggerMail();
+            Notification.show("Datos de la entrada guardado.");
+                UI.getCurrent().navigate(ImageListView.class);
 
         });
 
@@ -157,6 +171,13 @@ public class compraview extends VerticalLayout implements BeforeEnterObserver {
         col2 = (int)UI.getCurrent().getSession().getAttribute("colu");
         fil2 = (int)UI.getCurrent().getSession().getAttribute("fila");
         fecha_entrada = (LocalDateTime) UI.getCurrent().getSession().getAttribute("horapeli");
+    }
+    public void triggerMail(){
+        emailSenderService.SendSimpleMessage("discovercinemaservice@gmail.com",
+                "Datos de su entrada",
+                "Nombre: "+entrada.getPersona_ent().getUsername()+" "+entrada.getPersona_ent().getApellido()+"\n"+"Pelicula: "+entrada.getProyeccion().getPelicula().getNombre()+"\n"+
+                "Dia: "+entrada.getFecha_entrada().getDayOfMonth()+"/"+entrada.getFecha_entrada().getMonth()+"/"+entrada.getFecha_entrada().getYear()+"\n"+"Hora: "+entrada.getFecha_entrada().getHour()+
+                ":"+entrada.getFecha_entrada().getMinute()+"\n"+"Sala: "+entrada.getNum_sala()+"\n"+butacas+"\n");
     }
 
 }

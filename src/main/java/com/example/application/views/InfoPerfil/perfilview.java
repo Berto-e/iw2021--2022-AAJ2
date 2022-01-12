@@ -44,7 +44,7 @@ public class perfilview extends Div{
     private DatePicker fecha_nacimiento = new DatePicker("Fecha de nacimiento");
     private TextField telefono = new TextField("Numero de telefono");
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    private Button cambio = new Button("Cmabiar Contraseña");
+    private Button cambio = new Button("Cambiar Contraseña");
     private Button save = new Button("Save");
     private BeanValidationBinder<Persona> binder;
     private Persona persona;
@@ -76,6 +76,9 @@ public class perfilview extends Div{
         binder.forField(telefono).asRequired("Introduzca telefono").bind("telefono");
 
         binder.bindInstanceFields(this);
+
+        save.setClassName("pointer");
+        cambio.setClassName("pointer");
 
         cambio.addClickListener(e -> {
             UI.getCurrent().navigate(reccontraseña.class);

@@ -32,8 +32,5 @@ public class ofertacard extends LitTemplate {
         this.header.setText(title);
         this.text.setText(descrip);
         this.badge.setText(""+String.valueOf(label)+"€");
-        this.image.addClickListener(e -> {
-            UI.getCurrent().navigate(compraview.class);
-        });
     }
 }

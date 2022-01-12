@@ -102,12 +102,14 @@ public class addcineview extends Div implements BeforeEnterObserver {
         binder.forField(cine_pers).asRequired("Seleccione un administrador").bind("cine_pers");
 
         binder.bindInstanceFields(this);
-
+        save.setClassName("pointer");
+        cancel.setClassName("pointer");
 
         cancel.addClickListener(e -> {
             clearForm();
             refreshGrid();
         });
+
 
         save.addClickListener(e -> {
             try {
