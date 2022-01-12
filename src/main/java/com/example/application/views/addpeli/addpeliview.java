@@ -2,17 +2,14 @@ package com.example.application.views.addpeli;
 
 import com.example.application.classes.Cine;
 import com.example.application.classes.Pelicula;
-import com.example.application.classes.Sala;
 import com.example.application.repositories.CineService;
 import com.example.application.repositories.PeliculaService;
 import com.example.application.views.MainLayout;
-import com.example.application.views.salalist.salaList;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.Uses;
@@ -27,7 +24,6 @@ import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
-import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
@@ -35,11 +31,11 @@ import com.vaadin.flow.router.Route;
 
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.vaadin.artur.helpers.CrudServiceDataProvider;
 
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
+@Secured({"1","2"})
 @PageTitle("Añadir Pelicula")
 @Route(value = "Pelicula/:samplePersonID?/:action?(edit)", layout = MainLayout.class)
 @Uses(Icon.class)

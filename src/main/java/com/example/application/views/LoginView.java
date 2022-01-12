@@ -1,8 +1,6 @@
 package com.example.application.views;
 
-import com.example.application.repositories.SecurityService;
 import com.example.application.security.CustomRequestCache;
-import com.example.application.security.SecurityUtils;
 import com.example.application.views.imagelist.ImageListView;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;

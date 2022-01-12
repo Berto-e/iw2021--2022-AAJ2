@@ -5,11 +5,6 @@ import com.example.application.repositories.*;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.board.Board;
-import com.vaadin.flow.component.charts.Chart;
-import com.vaadin.flow.component.charts.model.*;
-import com.vaadin.flow.component.grid.ColumnTextAlign;
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Main;
 import com.vaadin.flow.component.html.Span;
@@ -18,8 +13,6 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.select.Select;
-import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +20,7 @@ import org.springframework.security.access.annotation.Secured;
 
 import java.util.List;
 
-@Secured("0")
+@Secured({"1","2"})
 @PageTitle("Dashboard")
 @Route(value = "dashboard", layout = MainLayout.class)
 public class DashboardView extends Main {
@@ -105,91 +98,7 @@ public class DashboardView extends Main {
         layout.setSpacing(false);
         return layout;
     }
-/*
-    private Component createViewEvents() {
-        // Header
-        Select year = new Select();
-        year.setItems("2021", "2022");
-        year.setValue("2022");
-        year.setWidth("100px");
 
-        HorizontalLayout header = createHeader("Venta de entradas", "Entradas al mes por cine");
-        header.add(year);
-
-        // Chart
-        Chart chart = new Chart(ChartType.AREA);
-        Configuration conf = chart.getConfiguration();
-
-        XAxis xAxis = new XAxis();
-        xAxis.setCategories("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
-        conf.addxAxis(xAxis);
-
-        conf.getyAxis().setTitle("Entradas vendidas");
-
-        PlotOptionsArea plotOptions = new PlotOptionsArea();
-        plotOptions.setPointPlacement(PointPlacement.ON);
-        conf.addPlotOptions(plotOptions);
-
-        conf.addSeries(new ListSeries("Bahia Mar", 189, 191, 191, 196, 201, 203, 209, 212, 229, 242, 244, 247));
-        conf.addSeries(new ListSeries("Cines Yelmos", 138, 146, 148, 148, 152, 153, 163, 173, 178, 179, 185, 187));
-        conf.addSeries(new ListSeries("Las Salinas", 65, 65, 66, 71, 93, 102, 108, 117, 127, 129, 135, 136));
-        conf.addSeries(new ListSeries("Lagoh", 0, 11, 17, 23, 30, 42, 48, 49, 52, 54, 58, 62));
-
-        // Add it all together
-        VerticalLayout viewEvents = new VerticalLayout(header, chart);
-        viewEvents.addClassName("p-l");
-        viewEvents.setPadding(false);
-        viewEvents.setSpacing(false);
-        viewEvents.getElement().getThemeList().add("spacing-l");
-        return viewEvents;
-    }
-*/
-    private Component createServiceHealth() {
-        // Header
-        HorizontalLayout header = createHeader("Datos por cine", "Salas / Entradas");
-
-        // Grid
-        Grid<ServiceHealth> grid = new Grid();
-        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
-        grid.setAllRowsVisible(true);
-
-        grid.addColumn(ServiceHealth::getCity).setHeader("Cine").setFlexGrow(1);
-        grid.addColumn(ServiceHealth::getInput).setHeader("Salas").setAutoWidth(true).setTextAlign(ColumnTextAlign.END);
-        grid.addColumn(ServiceHealth::getOutput).setHeader("Peliculas").setAutoWidth(true)
-                .setTextAlign(ColumnTextAlign.END);
-
-        grid.setItems(new ServiceHealth(cineList.get(0).getNombre(), cineList.get(0).getSalas().size(), cineList.get(0).getPeliculas().size()));
-
-        // Add it all together
-        VerticalLayout serviceHealth = new VerticalLayout(header, grid);
-        serviceHealth.addClassName("p-l");
-        serviceHealth.setPadding(false);
-        serviceHealth.setSpacing(false);
-        serviceHealth.getElement().getThemeList().add("spacing-l");
-        return serviceHealth;
-    }
-
-    private Component createResponseTimes() {
-        HorizontalLayout header = createHeader("Response times", "Average across all systems");
-
-        // Chart
-        Chart chart = new Chart(ChartType.PIE);
-        Configuration conf = chart.getConfiguration();
-
-        DataSeries series = new DataSeries();
-        series.add(new DataSeriesItem(cineList.get(0).getNombre(), cineList.get(0).getPeliculas().size()));
-
-
-        conf.addSeries(series);
-
-        // Add it all together
-        VerticalLayout serviceHealth = new VerticalLayout(header, chart);
-        serviceHealth.addClassName("p-l");
-        serviceHealth.setPadding(false);
-        serviceHealth.setSpacing(false);
-        serviceHealth.getElement().getThemeList().add("spacing-l");
-        return serviceHealth;
-    }
 
     private HorizontalLayout createHeader(String title, String subtitle) {
         H2 h2 = new H2(title);

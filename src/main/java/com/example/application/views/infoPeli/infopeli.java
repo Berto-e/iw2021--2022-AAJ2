@@ -1,13 +1,11 @@
 package com.example.application.views.infoPeli;
 
 import com.example.application.classes.Pelicula;
-import com.example.application.classes.Persona;
 import com.example.application.classes.Proyeccion;
 import com.example.application.repositories.PeliculaService;
 import com.example.application.repositories.ProyeccionService;
 import com.example.application.views.MainLayout;
 import com.example.application.views.cogesilla.cogesillaview;
-import com.example.application.views.gestores.gestorview;
 import com.example.application.views.imagelist.ImageListView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -20,10 +18,8 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 

@@ -1,7 +1,6 @@
 package com.example.application.views.salalist;
 
 import com.example.application.classes.Cine;
-import com.example.application.classes.Persona;
 import com.example.application.classes.Sala;
 import com.example.application.repositories.CineService;
 import com.example.application.repositories.SalaService;
@@ -25,7 +24,6 @@ import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
-import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;

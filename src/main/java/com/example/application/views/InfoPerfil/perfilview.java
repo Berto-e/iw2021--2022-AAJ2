@@ -1,9 +1,13 @@
-package com.example.application.views.registro;
+package com.example.application.views.InfoPerfil;
+
 
 import com.example.application.classes.Persona;
 import com.example.application.repositories.PersonaService;
+import com.example.application.repositories.SecurityService;
+import com.example.application.security.SecurityUtils;
 import com.example.application.views.MainLayout;
 import com.example.application.views.imagelist.ImageListView;
+import com.example.application.views.registro.reccontraseña;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -25,13 +29,14 @@ import com.vaadin.flow.data.validator.EmailValidator;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @PageTitle("Registro")
-@Route(value = "registro", layout = MainLayout.class)
+@Route(value = "Perfil", layout = MainLayout.class)
 @Uses(Icon.class)
-public class registro extends Div{
+public class perfilview extends Div{
     private TextField username = new TextField("username");
     private TextField apellido = new TextField("Apellido");
     private EmailField correo = new EmailField("Correo Electrónico");
@@ -39,18 +44,29 @@ public class registro extends Div{
     private DatePicker fecha_nacimiento = new DatePicker("Fecha de nacimiento");
     private TextField telefono = new TextField("Numero de telefono");
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    private Button cancel = new Button("Cancel");
+    private Button cambio = new Button("Cmabiar Contraseña");
     private Button save = new Button("Save");
     private BeanValidationBinder<Persona> binder;
     private Persona persona;
     private PersonaService personaService;
-    private String encodedpassword = new String();
-    public registro(@Autowired PersonaService personaService) {
+    private SecurityUtils securityUtils = new SecurityUtils();
+    private SecurityService securityService;
+
+    public perfilview(@Autowired PersonaService personaService, SecurityService securityService) {
         this.personaService = personaService;
         addClassName("person-form-view");
         add(createTitle());
         add(createFormLayout());
         add(createButtonLayout());
+
+        UserDetails userLogged;
+        userLogged = securityUtils.getAuthenticatedUser();
+        persona = personaService.findByUsername(userLogged.getUsername());
+
+        username.setValue(persona.getUsername());
+        apellido.setValue(persona.getApellido());
+        correo.setValue(persona.getCorreo());
+        telefono.setValue(persona.getTelefono());
 
         binder = new BeanValidationBinder<>(Persona.class);
 
@@ -58,37 +74,28 @@ public class registro extends Div{
         binder.forField(apellido).asRequired("Introduzca apellido").bind("apellido");
         binder.forField(correo).asRequired("Introduzca correo").withValidator(new EmailValidator("No es un email valido.")).bind("correo");
         binder.forField(telefono).asRequired("Introduzca telefono").bind("telefono");
-        binder.forField(fecha_nacimiento).asRequired("Introduzca fecha nacimiento").bind("fecha_nacimiento");
-        binder.forField(password).asRequired("Introduzca la contraseña").bind("password");
-
 
         binder.bindInstanceFields(this);
 
-        cancel.addClickListener(e -> clearForm());
+        cambio.addClickListener(e -> {
+            UI.getCurrent().navigate(reccontraseña.class);
+        });
+
         save.addClickListener(e -> {
 
             try {
                 if (this.persona == null) {
                     this.persona = new Persona();
                 }
-
-                //Encriptacion de la contraseña con Bcrypt
-                encodedpassword = passwordEncoder.encode(password.getValue());
-                //e_Encriptacion
+                password.setValue(persona.getPassword());
                 binder.writeBean(this.persona);
-                this.persona.setPassword(encodedpassword);
-                if(this.personaService.findByCorreo(this.persona.getCorreo()) != null){
-                    Notification.show("Correo ya existente");
-                    password.setValue("");
-                }
-                else{
-                    personaService.update(this.persona);
 
+                    personaService.update(this.persona);
                     clearForm();
-                    Notification.show("Datos de persona guardao.");
+                    Notification.show("Datos de persona Actualizados.");
                     UI.getCurrent().navigate(ImageListView.class);}
-            } catch (ValidationException validationException) {
-                Notification.show("Faltan campos por rellenar.");
+            catch (ValidationException validationException) {
+                validationException.printStackTrace();
             }
         });
     }
@@ -104,7 +111,7 @@ public class registro extends Div{
     private Component createFormLayout() {
         FormLayout formLayout = new FormLayout();
         correo.setErrorMessage("Introduce correo electrónico correcto");
-        formLayout.add(username, apellido, fecha_nacimiento, telefono, correo, password);
+        formLayout.add(username, apellido, telefono, correo);
         return formLayout;
     }
 
@@ -113,7 +120,7 @@ public class registro extends Div{
         buttonLayout.addClassName("button-layout");
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         buttonLayout.add(save);
-        buttonLayout.add(cancel);
+        buttonLayout.add(cambio);
         return buttonLayout;
     }
-    }
+}

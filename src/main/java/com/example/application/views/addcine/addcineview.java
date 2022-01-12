@@ -1,11 +1,9 @@
-/*
+
 package com.example.application.views.addcine;
 
 import com.example.application.classes.Cine;
-import com.example.application.classes.Oferta;
 import com.example.application.classes.Persona;
 import com.example.application.repositories.CineService;
-import com.example.application.repositories.OfertaService;
 import com.example.application.repositories.PersonaService;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
@@ -15,7 +13,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
@@ -28,7 +25,6 @@ import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
-import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
@@ -36,9 +32,10 @@ import com.vaadin.flow.router.Route;
 
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.vaadin.artur.helpers.CrudServiceDataProvider;
 
-
+@Secured("2")
 @PageTitle("Cines")
 @Route(value = "addcine/:cineID?/:action?(edit)", layout = MainLayout.class)
 @Uses(Icon.class)
@@ -166,7 +163,7 @@ public class addcineview extends Div implements BeforeEnterObserver {
         funcional.getStyle().set("padding-top", "var(--lumo-space-m)");
         cine_pers = new ComboBox<Persona>("Persona");
         cine_pers.setItems(this.personaService.findByVisible(true));
-        cine_pers.setItemLabelGenerator(Persona::getNombre);
+        cine_pers.setItemLabelGenerator(Persona::getUsername);
         Component[] fields = new Component[]{nombre, ubicacion, funcional, cine_pers};
 
         for (Component field : fields) {
@@ -212,5 +209,3 @@ public class addcineview extends Div implements BeforeEnterObserver {
 
     }
 }
-
-*/

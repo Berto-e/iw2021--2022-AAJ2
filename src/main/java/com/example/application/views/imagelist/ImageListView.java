@@ -1,36 +1,26 @@
 package com.example.application.views.imagelist;
 
-import ch.qos.logback.core.Layout;
 import com.example.application.classes.Cine;
 import com.example.application.classes.Pelicula;
-import com.example.application.classes.Persona;
 import com.example.application.repositories.CineService;
 import com.example.application.repositories.PeliculaService;
 import com.example.application.repositories.ProyeccionService;
 import com.example.application.views.MainLayout;
-import com.example.application.views.gestores.gestorview;
-import com.example.application.views.infoPeli.infopeli;
 import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.Tag;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.littemplate.LitTemplate;
 
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.lumo.Lumo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @PageTitle("Ofertas")
 @Route(value = "", layout = MainLayout.class)

@@ -1,11 +1,8 @@
 package com.example.application.views.cogesilla;
 
 import com.example.application.classes.Entrada;
-import com.example.application.classes.Pelicula;
 import com.example.application.repositories.EntradaService;
-import com.example.application.views.MainLayout;
-import com.example.application.views.addpeli.addpeliview;
-import com.example.application.views.compra.compraview;
+import com.example.application.views.MainLayout;;
 import com.example.application.views.imagelist.ImageListView;
 import com.example.application.views.ofertas.ofertasview;
 import com.vaadin.flow.component.UI;
@@ -25,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @PageTitle("Escoger asiento")
 @Route(value = "asiento", layout = MainLayout.class)

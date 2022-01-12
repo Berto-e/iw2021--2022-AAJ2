@@ -1,6 +1,5 @@
 package com.example.application.views.addproyeccion;
 
-import com.example.application.classes.Cine;
 import com.example.application.classes.Pelicula;
 import com.example.application.classes.Proyeccion;
 import com.example.application.classes.Sala;
@@ -36,8 +35,10 @@ import com.vaadin.flow.router.Route;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.vaadin.artur.helpers.CrudServiceDataProvider;
 
+@Secured({"1","2"})
 @PageTitle("Añadir Pelicula")
 @Route(value = "Proyeccion/:proyeccionID?/:action?(edit)", layout = MainLayout.class)
 @Uses(Icon.class)

@@ -1,15 +1,10 @@
 
 package com.example.application.views.ofertas;
 
-import com.example.application.classes.Cine;
 import com.example.application.classes.Oferta;
-import com.example.application.classes.Pelicula;
 import com.example.application.repositories.OfertaService;
-import com.example.application.repositories.PeliculaService;
 import com.example.application.views.MainLayout;
 import com.example.application.views.compra.compraview;
-import com.example.application.views.imagelist.ImageCard;
-import com.example.application.views.infoPeli.infopeli;
 import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.Tag;
@@ -21,9 +16,11 @@ import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
 import java.util.List;
 
+@Secured({"0","1","2"})
 @PageTitle("Cartelera")
 @Route(value = "ofertas", layout = MainLayout.class)
 @Tag("image-list-view")
