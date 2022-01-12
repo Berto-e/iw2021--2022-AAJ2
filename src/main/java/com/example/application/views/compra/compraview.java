@@ -56,7 +56,7 @@ public class compraview extends VerticalLayout implements BeforeEnterObserver {
     private String nombrepersona = "";
     private String ofertaname;
     private Proyeccion proyeccion;
-    private String butacas;
+    private String butacas = "";
     private Persona persona;
     private List<String> compradas = new ArrayList<String>();
     private Entrada entrada;
@@ -137,7 +137,6 @@ public class compraview extends VerticalLayout implements BeforeEnterObserver {
             }
             for(int z = 0; z < compradas.size(); z++)
                 butacas += compradas.get(z);
-
             triggerMail();
             Notification.show("Datos de la entrada guardado.");
                 UI.getCurrent().navigate(ImageListView.class);
