@@ -37,7 +37,7 @@ public final class SecurityUtils {
 	public static boolean hasRole(String role) {
 		UserDetails User = new SecurityUtils().getAuthenticatedUser();
 		ArrayList list = (ArrayList) User.getAuthorities();
-		return String.valueOf(list.get(0)) == role ? true : false;
+		return role.equals(String.valueOf(list.get(0))) ? true : false;
 	}
 
 	/**
