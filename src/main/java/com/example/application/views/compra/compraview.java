@@ -64,7 +64,7 @@ public class compraview extends VerticalLayout implements BeforeEnterObserver {
     private Oferta ofertaele = new Oferta();
     private double precio = 0.0;
     private int j = 0;
-    private String posicion = null;
+    private String posicion;
     @Autowired
     private EmailSenderService emailSenderService;
 
@@ -177,7 +177,7 @@ public class compraview extends VerticalLayout implements BeforeEnterObserver {
                 "Datos de su entrada",
                 "Nombre: "+entrada.getPersona_ent().getUsername()+" "+entrada.getPersona_ent().getApellido()+"\n"+"Pelicula: "+entrada.getProyeccion().getPelicula().getNombre()+"\n"+
                 "Dia: "+entrada.getFecha_entrada().getDayOfMonth()+"/"+entrada.getFecha_entrada().getMonth()+"/"+entrada.getFecha_entrada().getYear()+"\n"+"Hora: "+entrada.getFecha_entrada().getHour()+
-                ":"+entrada.getFecha_entrada().getMinute()+"\n"+"Sala: "+entrada.getNum_sala()+"\n"+butacas+"\n");
+                ":"+entrada.getFecha_entrada().getMinute()+"\n"+"Sala: "+ entrada.getProyeccion().getSala().getNum_sala() + "\n"+butacas+"\n");
     }
 
 }
