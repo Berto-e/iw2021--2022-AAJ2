@@ -23,8 +23,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @PageTitle("Login")
 public class LoginView extends VerticalLayout {
     public static final String ROUTE = "login";
-
-
     private LoginOverlay login = new LoginOverlay();
 
     private AuthenticationManager authenticationManager;

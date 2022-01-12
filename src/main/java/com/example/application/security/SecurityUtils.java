@@ -1,6 +1,7 @@
 package com.example.application.security;
 
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.server.ServletHelper.RequestType;
 import com.vaadin.flow.server.VaadinServletRequest;
 import com.vaadin.flow.shared.ApplicationConstants;
@@ -11,11 +12,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -27,9 +31,14 @@ import java.util.stream.Stream;
 public final class SecurityUtils {
 	private static final String LOGOUT_SUCCESS_URL = "/login";
 	public SecurityUtils() {
-		// Util methods only
+		//Utils methods
 	}
 
+	public static boolean hasRole(String role) {
+		UserDetails User = new SecurityUtils().getAuthenticatedUser();
+		ArrayList list = (ArrayList) User.getAuthorities();
+		return String.valueOf(list.get(0)) == role ? true : false;
+	}
 
 	/**
 	 * Gets the user name of the currently signed in user.
@@ -94,4 +103,5 @@ public final class SecurityUtils {
 		return userAuthentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 				.anyMatch(allowedRoles::contains);
 	}
+
 }

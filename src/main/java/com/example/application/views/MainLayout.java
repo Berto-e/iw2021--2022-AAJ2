@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.example.application.repositories.SecurityService;
 import com.example.application.security.SecurityUtils;
+import com.example.application.views.dashboard.DashboardView;
 import com.example.application.views.gestores.gestorview;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.Component;
@@ -100,6 +101,8 @@ public class MainLayout extends AppLayout {
         getElement().addEventListener("search-blur", e -> {
             getElement().getClassList().remove("hide-navbar");
         });
+
+
     }
 
     private static Tabs createMenuTabs() {
@@ -111,12 +114,15 @@ public class MainLayout extends AppLayout {
 
     private static Tab[] getAvailableTabs() {
         final List<Tab> tabs = new ArrayList<>(4);
-        tabs.add(createTab(VaadinIcon.EDIT, "Cartelera",
-                ImageListView.class));
+        tabs.add(createTab(VaadinIcon.EDIT, "Cartelera",ImageListView.class));
         tabs.add(createTab(VaadinIcon.CLOCK,"Gestores", gestorview.class));
-        tabs.add(createTab(VaadinIcon.USER,"usuarios", ImageListView.class));
-        tabs.add(createTab(VaadinIcon.CALENDAR, "productos", ImageListView.class));
+        tabs.add(createTab(VaadinIcon.USER,"Usuarios", ImageListView.class));
+        tabs.add(createTab(VaadinIcon.CALENDAR, "Productos", ImageListView.class));
 
+        if(SecurityUtils.isUserLoggedIn() && SecurityUtils.hasRole("0"))
+            Notification.show("ES ADMIN");
+
+            tabs.add(createTab(VaadinIcon.CLOUD, "Dashboard", DashboardView.class));
         final String contextPath = VaadinServlet.getCurrent().getServletContext().getContextPath();
         return tabs.toArray(new Tab[tabs.size()]);
     }
