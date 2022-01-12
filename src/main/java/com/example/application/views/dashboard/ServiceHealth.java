@@ -5,8 +5,6 @@ package com.example.application.views.dashboard;
  */
 public class ServiceHealth {
 
-    private Status status;
-
     private String city;
 
     private int input;
@@ -23,19 +21,10 @@ public class ServiceHealth {
 
     }
 
-    public ServiceHealth(Status status, String city, int input, int output) {
-        this.status = status;
+    public ServiceHealth(String city, int input, int output) {
         this.city = city;
         this.input = input;
         this.output = output;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
     }
 
     public String getCity() {

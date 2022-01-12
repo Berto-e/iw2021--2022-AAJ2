@@ -1,5 +1,7 @@
 package com.example.application.views.dashboard;
 
+import com.example.application.classes.*;
+import com.example.application.repositories.*;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.board.Board;
@@ -20,21 +22,53 @@ import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
-@Secured("1")
+import java.util.List;
+
+@Secured("0")
 @PageTitle("Dashboard")
 @Route(value = "dashboard", layout = MainLayout.class)
 public class DashboardView extends Main {
 
-    public DashboardView() {
+    private CineService cineService;
+    private EntradaService entradaService;
+    private PeliculaService peliculaService;
+    private ProyeccionService proyeccionService;
+    private OfertaService ofertaService;
+    private PersonaService personaService;
+    private List<Cine> cineList;
+    private List<Entrada> entradaList;
+    private List<Pelicula> peliculaList;
+    private List<Proyeccion> proyeccionList;
+    private List<Oferta> ofertaList;
+    private List<Persona> personaList;
+
+    public DashboardView(@Autowired CineService cineService, EntradaService entradaService, PeliculaService peliculaService,
+                         ProyeccionService proyeccionService, OfertaService ofertaService, PersonaService personaService) {
         addClassName("dashboard-view");
+        this.cineService = cineService;
+        this.entradaService = entradaService;
+        this.peliculaService = peliculaService;
+        this.proyeccionService = proyeccionService;
+        this.ofertaService = ofertaService;
+        this.personaService = personaService;
+        this.cineList = cineService.findAll();
+        this.entradaList = entradaService.findAll();
+        this.peliculaList = peliculaService.findAll();
+        this.proyeccionList = proyeccionService.findAll();
+        this.personaList = personaService.findAll();
+        this.ofertaList = ofertaService.findAll();
 
         Board board = new Board();
-        board.addRow(createHighlight("Current users", "745", 33.7), createHighlight("View events", "54.6k", -112.45),
-                createHighlight("Conversion rate", "18%", 3.9), createHighlight("Custom metric", "-123.45", 0.0));
-        board.addRow(createViewEvents());
-        board.addRow(createServiceHealth(), createResponseTimes());
+        board.addRow(createHighlight("Cines en activo", "" + cineList.size(), 33.7),
+                createHighlight("Cantidad de entradas vendidas", "" + entradaList.size(), -112.45),
+                createHighlight("Peliculas en cartelera", "" + peliculaList.size(), 3.9));
+        //board.addRow(createResponseTimes());
+        board.addRow(createHighlight("Proyecciones realizadas", "" + proyeccionList.size(), 0.0),
+                createHighlight("Ofertas realizadas", "" + ofertaList.size(), 0.0),
+                createHighlight("Usuarios registrados", "" + personaList.size(), 0.0));
         add(board);
     }
 
@@ -71,15 +105,15 @@ public class DashboardView extends Main {
         layout.setSpacing(false);
         return layout;
     }
-
+/*
     private Component createViewEvents() {
         // Header
         Select year = new Select();
-        year.setItems("2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021");
-        year.setValue("2021");
+        year.setItems("2021", "2022");
+        year.setValue("2022");
         year.setWidth("100px");
 
-        HorizontalLayout header = createHeader("View events", "Cumulative (city/month)");
+        HorizontalLayout header = createHeader("Venta de entradas", "Entradas al mes por cine");
         header.add(year);
 
         // Chart
@@ -90,16 +124,16 @@ public class DashboardView extends Main {
         xAxis.setCategories("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
         conf.addxAxis(xAxis);
 
-        conf.getyAxis().setTitle("Values");
+        conf.getyAxis().setTitle("Entradas vendidas");
 
         PlotOptionsArea plotOptions = new PlotOptionsArea();
         plotOptions.setPointPlacement(PointPlacement.ON);
         conf.addPlotOptions(plotOptions);
 
-        conf.addSeries(new ListSeries("Berlin", 189, 191, 191, 196, 201, 203, 209, 212, 229, 242, 244, 247));
-        conf.addSeries(new ListSeries("London", 138, 146, 148, 148, 152, 153, 163, 173, 178, 179, 185, 187));
-        conf.addSeries(new ListSeries("New York", 65, 65, 66, 71, 93, 102, 108, 117, 127, 129, 135, 136));
-        conf.addSeries(new ListSeries("Tokyo", 0, 11, 17, 23, 30, 42, 48, 49, 52, 54, 58, 62));
+        conf.addSeries(new ListSeries("Bahia Mar", 189, 191, 191, 196, 201, 203, 209, 212, 229, 242, 244, 247));
+        conf.addSeries(new ListSeries("Cines Yelmos", 138, 146, 148, 148, 152, 153, 163, 173, 178, 179, 185, 187));
+        conf.addSeries(new ListSeries("Las Salinas", 65, 65, 66, 71, 93, 102, 108, 117, 127, 129, 135, 136));
+        conf.addSeries(new ListSeries("Lagoh", 0, 11, 17, 23, 30, 42, 48, 49, 52, 54, 58, 62));
 
         // Add it all together
         VerticalLayout viewEvents = new VerticalLayout(header, chart);
@@ -109,32 +143,22 @@ public class DashboardView extends Main {
         viewEvents.getElement().getThemeList().add("spacing-l");
         return viewEvents;
     }
-
+*/
     private Component createServiceHealth() {
         // Header
-        HorizontalLayout header = createHeader("Service health", "Input / output");
+        HorizontalLayout header = createHeader("Datos por cine", "Salas / Entradas");
 
         // Grid
         Grid<ServiceHealth> grid = new Grid();
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.setAllRowsVisible(true);
 
-        grid.addColumn(new ComponentRenderer<>(serviceHealth -> {
-            Span status = new Span();
-            String statusText = getStatusDisplayName(serviceHealth);
-            status.getElement().setAttribute("aria-label", "Status: " + statusText);
-            status.getElement().setAttribute("title", "Status: " + statusText);
-            status.getElement().getThemeList().add(getStatusTheme(serviceHealth));
-            return status;
-        })).setHeader("").setFlexGrow(0).setAutoWidth(true);
-        grid.addColumn(ServiceHealth::getCity).setHeader("City").setFlexGrow(1);
-        grid.addColumn(ServiceHealth::getInput).setHeader("Input").setAutoWidth(true).setTextAlign(ColumnTextAlign.END);
-        grid.addColumn(ServiceHealth::getOutput).setHeader("Output").setAutoWidth(true)
+        grid.addColumn(ServiceHealth::getCity).setHeader("Cine").setFlexGrow(1);
+        grid.addColumn(ServiceHealth::getInput).setHeader("Salas").setAutoWidth(true).setTextAlign(ColumnTextAlign.END);
+        grid.addColumn(ServiceHealth::getOutput).setHeader("Peliculas").setAutoWidth(true)
                 .setTextAlign(ColumnTextAlign.END);
 
-        grid.setItems(new ServiceHealth(ServiceHealth.Status.EXCELLENT, "Münster", 324, 1540),
-                new ServiceHealth(ServiceHealth.Status.OK, "Cluj-Napoca", 311, 1320),
-                new ServiceHealth(ServiceHealth.Status.FAILING, "Ciudad Victoria", 300, 1219));
+        grid.setItems(new ServiceHealth(cineList.get(0).getNombre(), cineList.get(0).getSalas().size(), cineList.get(0).getPeliculas().size()));
 
         // Add it all together
         VerticalLayout serviceHealth = new VerticalLayout(header, grid);
@@ -153,12 +177,9 @@ public class DashboardView extends Main {
         Configuration conf = chart.getConfiguration();
 
         DataSeries series = new DataSeries();
-        series.add(new DataSeriesItem("System 1", 12.5));
-        series.add(new DataSeriesItem("System 2", 12.5));
-        series.add(new DataSeriesItem("System 3", 12.5));
-        series.add(new DataSeriesItem("System 4", 12.5));
-        series.add(new DataSeriesItem("System 5", 12.5));
-        series.add(new DataSeriesItem("System 6", 12.5));
+        series.add(new DataSeriesItem(cineList.get(0).getNombre(), cineList.get(0).getPeliculas().size()));
+
+
         conf.addSeries(series);
 
         // Add it all together
@@ -186,30 +207,6 @@ public class DashboardView extends Main {
         header.setSpacing(false);
         header.setWidthFull();
         return header;
-    }
-
-    private String getStatusDisplayName(ServiceHealth serviceHealth) {
-        ServiceHealth.Status status = serviceHealth.getStatus();
-        if (status == ServiceHealth.Status.OK) {
-            return "Ok";
-        } else if (status == ServiceHealth.Status.FAILING) {
-            return "Failing";
-        } else if (status == ServiceHealth.Status.EXCELLENT) {
-            return "Excellent";
-        } else {
-            return status.toString();
-        }
-    }
-
-    private String getStatusTheme(ServiceHealth serviceHealth) {
-        ServiceHealth.Status status = serviceHealth.getStatus();
-        String theme = "badge primary small";
-        if (status == ServiceHealth.Status.EXCELLENT) {
-            theme += " success";
-        } else if (status == ServiceHealth.Status.FAILING) {
-            theme += " error";
-        }
-        return theme;
     }
 
 }

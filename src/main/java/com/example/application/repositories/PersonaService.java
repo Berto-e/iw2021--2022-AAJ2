@@ -60,4 +60,8 @@ public class PersonaService extends CrudService<Persona, Integer> implements Use
 
     public Persona findByCorreo(String correo) { return this.repository.findByCorreo(correo);
     }
+
+    public List<Persona> findAll() {
+        return this.repository.findAll();
+    }
 }
