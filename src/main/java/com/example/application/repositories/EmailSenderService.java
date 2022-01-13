@@ -10,14 +10,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.Properties;
 
-@Component
+@Service
 public class EmailSenderService{
 
     @Autowired
-    private JavaMailSender emailSender;
+    private JavaMailSender emailSender =  getJavaMailSender();
 
-    public void SendSimpleMessage(
-            String to, String subject,String text) {
+    public void SendSimpleMessage(String to, String subject,String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("discovercinemaservice@gmail.com");
         message.setTo(to);
@@ -27,6 +26,22 @@ public class EmailSenderService{
     }
 
 
+    @Bean
+    public JavaMailSender getJavaMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+        mailSender.setUsername("discovercinemaservice@gmail.com");
+        mailSender.setPassword("hsdlnmqlffzlwkhf");
 
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "true");
+        props.put("mail.smtp.ssl.trust", "*");
+        return mailSender;
+    }
 
 }
+
