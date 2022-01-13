@@ -49,7 +49,7 @@ public class cogesillaview extends VerticalLayout implements BeforeEnterObserver
             num_fila = (int) UI.getCurrent().getSession().getAttribute("numfila");
         if (UI.getCurrent().getSession().getAttribute("idsala") != null)
             idsala = (int) UI.getCurrent().getSession().getAttribute("idsala");
-        if (UI.getCurrent().getSession().getAttribute("idsala") != null)
+        if (UI.getCurrent().getSession().getAttribute("horapeli") != null)
             horapeli = (LocalDateTime) UI.getCurrent().getSession().getAttribute("horapeli");
 
 

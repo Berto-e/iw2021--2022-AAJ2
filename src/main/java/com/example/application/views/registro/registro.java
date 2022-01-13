@@ -28,6 +28,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDate;
+
 @PageTitle("Registro")
 @Route(value = "registro", layout = MainLayout.class)
 @Uses(Icon.class)
@@ -105,6 +107,8 @@ public class registro extends Div{
     private Component createFormLayout() {
         FormLayout formLayout = new FormLayout();
         correo.setErrorMessage("Introduce correo electrónico correcto");
+        fecha_nacimiento.setMax(LocalDate.now().minusYears(18));
+        fecha_nacimiento.setInitialPosition(LocalDate.now().minusYears(18));
         formLayout.add(username, apellido, fecha_nacimiento, telefono, correo, password);
         return formLayout;
     }

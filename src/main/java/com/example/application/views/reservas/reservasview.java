@@ -42,23 +42,19 @@ public class reservasview extends VerticalLayout {
         persona = personaService.findByUsername(userLogged.getUsername());
         fecha = new DatePicker("Fecha de la sesion");
         fecha.setValue(LocalDate.now());
+        add(fecha);
         fecha.addValueChangeListener(e -> {
-            //Notification.show(persona.getUsername());
-            //removeAll();
-            //add(fecha);
+            removeAll();
+            add(fecha);
             for (Entrada ent : entrada) {
-                //Notification.show(ent.getPersona_ent().getUsername());
-                if(ent.getPersona_ent().getUsername() == persona.getUsername()){
-                    Notification.show("hola");
-                }
-                if(ent.getPersona_ent().getUsername().equals(persona.getUsername()) && e.getValue().getMonth().equals(ent.getFecha_entrada().getMonth())){
+                if(ent.getPersona_ent().getUsername().equals(persona.getUsername()) && e.getValue().getMonth().equals(ent.getFecha_entrada().getMonth()) && e.getValue().getDayOfMonth() == ent.getFecha_entrada().getDayOfMonth()){
                     mostrar = new H4();
                     mostrar.setText("Pelicula: "+ent.getProyeccion().getPelicula().getNombre()+"\n"+"Hora: "+ent.getFecha_entrada().getHour()+" "+ent.getFecha_entrada().getMinute()+"\n"+"Sala: "+ent.getProyeccion().getSala().getNum_sala()+"\n"+"Fila: "+ent.getFila()+" Butaca: "+ent.getColumna()+"\n");
                     add(mostrar);
                 }
             }
         });
-        add(fecha);
+
     }
 
 

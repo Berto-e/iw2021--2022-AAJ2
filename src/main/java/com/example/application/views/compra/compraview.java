@@ -23,6 +23,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
 @Secured({"0","1","2"})
 @PageTitle("About")
 @Route(value = "Compra", layout = MainLayout.class)
@@ -75,6 +77,17 @@ public class compraview extends VerticalLayout implements BeforeEnterObserver {
         this.proyeccionService = proyeccionService;
         this.securityService = securityService;
         this.personaService = personaService;
+        Properties properties = new Properties();
+        properties.put("mail.smtp.ssl.trust", "*");
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+        //properties.put();
+        //properties.put();
+        //properties.put();
+        //properties.put();
+
         if(UI.getCurrent().getSession().getAttribute("cont_asientos") != null)
             asientos = (int) UI.getCurrent().getSession().getAttribute("cont_asientos");
         if(UI.getCurrent().getSession().getAttribute("colu") != null)
@@ -172,7 +185,7 @@ public class compraview extends VerticalLayout implements BeforeEnterObserver {
         fil2 = (int)UI.getCurrent().getSession().getAttribute("fila");
         fecha_entrada = (LocalDateTime) UI.getCurrent().getSession().getAttribute("horapeli");
     }
-    @Bean
+
     public void triggerMail(){
         emailSenderService.SendSimpleMessage("discovercinemaservice@gmail.com",
                 "Datos de su entrada",

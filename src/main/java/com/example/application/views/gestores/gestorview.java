@@ -41,7 +41,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.vaadin.artur.helpers.CrudServiceDataProvider;
 
-@Secured({"1","2"})
+@Secured("2")
 @PageTitle("Gestores")
 @Route(value = "gestor/:personaID?/:action?(edit)", layout = MainLayout.class)
 @Uses(Icon.class)

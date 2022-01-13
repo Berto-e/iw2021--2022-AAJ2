@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDate;
 import java.util.List;
 
-@PageTitle("Ofertas")
+@PageTitle("Cartelera")
 @Route(value = "", layout = MainLayout.class)
 @Tag("image-list-view")
 @JsModule("./views/imagelist/image-list-view.ts")
@@ -46,6 +46,7 @@ public class ImageListView extends LitTemplate implements HasComponents, HasStyl
         cine.setItemLabelGenerator(Cine::getNombre);
         cine.setValue(this.cineService.findByVisible(true).get(0));
         fecha = new DatePicker("Fecha de la sesion");
+        fecha.setMin(LocalDate.now());
         fecha.setValue(LocalDate.now());
         fecha.addValueChangeListener(e -> mostrar(e.getValue(),cine.getValue().getId_cine()));
         List<Cine> l = this.cineService.findByVisible(true);

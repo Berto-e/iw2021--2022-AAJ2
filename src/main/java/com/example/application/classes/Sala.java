@@ -10,7 +10,6 @@ public class Sala {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id_sala;
     private String num_sala;
-    private String num_asientos;
     private int num_filas;
     private String status;
     private boolean funcional;
@@ -49,14 +48,6 @@ public class Sala {
 
     public void setNum_sala(String num_sala) {
         this.num_sala = num_sala;
-    }
-
-    public String getNum_asientos() {
-        return num_asientos;
-    }
-
-    public void setNum_asientos(String num_asientos) {
-        this.num_asientos = num_asientos;
     }
 
     public int getNum_filas() {

@@ -59,6 +59,10 @@ public class infopeli extends VerticalLayout implements BeforeEnterObserver {
         add(p2);
 
         sesiones.addClickListener(e -> {
+            removeAll();
+            add(img);
+            add(h);
+            add(p2);
             for (Proyeccion pr : proyecciones) {
                 if(pr.getPelicula().getNombre().equals(this.p.getNombre())){
                     sala = new Button(""+pr.getHora().getHour()+":"+pr.getHora().getMinute());

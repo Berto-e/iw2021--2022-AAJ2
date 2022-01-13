@@ -55,9 +55,9 @@ public class DashboardView extends Main {
         this.ofertaList = ofertaService.findAll();
 
         Board board = new Board();
-        board.addRow(createHighlight("Cines en activo", "" + cineList.size(), 33.7),
-                createHighlight("Cantidad de entradas vendidas", "" + entradaList.size(), -112.45),
-                createHighlight("Peliculas en cartelera", "" + peliculaList.size(), 3.9));
+        board.addRow(createHighlight("Cines en activo", "" + cineList.size(), 0.0),
+                createHighlight("Cantidad de entradas vendidas", "" + entradaList.size(), 0.0),
+                createHighlight("Peliculas en cartelera", "" + peliculaList.size(), 0.0));
         //board.addRow(createResponseTimes());
         board.addRow(createHighlight("Proyecciones realizadas", "" + proyeccionList.size(), 0.0),
                 createHighlight("Ofertas realizadas", "" + ofertaList.size(), 0.0),

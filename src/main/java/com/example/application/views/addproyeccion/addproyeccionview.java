@@ -86,9 +86,6 @@ public class addproyeccionview extends Div implements BeforeEnterObserver {
         // Configure Grid
         grid.addColumn("hora").setAutoWidth(true);
         grid.addColumn("precio").setAutoWidth(true);
-        grid.addColumn("pelicula").setAutoWidth(true);
-        grid.addColumn("sala").setAutoWidth(true);
-
 
         grid.setDataProvider(new CrudServiceDataProvider<>(proyeccionService));
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);

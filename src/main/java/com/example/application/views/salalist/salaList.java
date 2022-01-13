@@ -74,7 +74,6 @@ public class salaList extends Div implements BeforeEnterObserver {
 
         // Configure Grid
         grid.addColumn("num_sala").setAutoWidth(true);
-        grid.addColumn("num_asientos").setAutoWidth(true);
         grid.addColumn("status").setAutoWidth(true);
 
         grid.setDataProvider(new CrudServiceDataProvider<>(salaService));
@@ -96,7 +95,6 @@ public class salaList extends Div implements BeforeEnterObserver {
 
         // Bind fields. This where you'd define e.g. validation rules
         binder.forField(num_sala).asRequired("Debe introducir un numero de sala").bind("num_sala");
-        binder.forField(num_asientos).asRequired("Introduzca un numero de asiento").bind("num_asientos");
         binder.forField(status).asRequired("Introduzca un estado de la sala").bind("status");
         binder.forField(cine).asRequired("Selecciona un cine").bind("cine");
 
@@ -157,7 +155,6 @@ public class salaList extends Div implements BeforeEnterObserver {
 
         FormLayout formLayout = new FormLayout();
         num_sala = new TextField("Numero de sala");
-        num_asientos = new TextField("Asientos");
         status = new TextField("Status");
         funcional = new Checkbox("Important");
         funcional.getStyle().set("padding-top", "var(--lumo-space-m)");
@@ -165,7 +162,7 @@ public class salaList extends Div implements BeforeEnterObserver {
         cine.setItems(this.cineService.findByVisible(true));
         cine.setItemLabelGenerator(Cine::getNombre);
     //quitar sesion: igual que setatribute, ponemos la variable la asignamos a null
-        Component[] fields = new Component[]{num_sala, num_asientos, status, funcional, cine};
+        Component[] fields = new Component[]{num_sala, status, funcional, cine};
 
         for (Component field : fields) {
             ((HasStyle) field).addClassName("full-width");

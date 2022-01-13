@@ -6,9 +6,11 @@ import com.example.application.repositories.SecurityService;
 import com.example.application.security.SecurityUtils;
 import com.example.application.views.addcine.addcineview;
 import com.example.application.views.addoferta.addofertaview;
+import com.example.application.views.addproyeccion.addproyeccionview;
 import com.example.application.views.dashboard.DashboardView;
 import com.example.application.views.gestores.gestorview;
 import com.example.application.views.registro.registro;
+import com.example.application.views.reservas.reservasview;
 import com.example.application.views.salalist.salaList;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.Component;
@@ -109,23 +111,26 @@ public class MainLayout extends AppLayout {
     private static Tab[] getAvailableTabs() {
         final List<Tab> tabs = new ArrayList<>(4);
         tabs.add(createTab(VaadinIcon.EDIT, "Cartelera",ImageListView.class));
-
+        if(SecurityUtils.isUserLoggedIn()) {
+            tabs.add(createTab(VaadinIcon.BOOK,"Mis Reservas", reservasview.class));
+        }
         if(!SecurityUtils.isUserLoggedIn())
             tabs.add(createTab(VaadinIcon.EDIT, "Registro", registro.class));
 
         if(SecurityUtils.isUserLoggedIn() && SecurityUtils.hasRole("1")) {
-            tabs.add(createTab(VaadinIcon.USER,"Ofertas", addofertaview.class));
-            tabs.add(createTab(VaadinIcon.USER,"Peliculas", addofertaview.class));
-            tabs.add(createTab(VaadinIcon.CALENDAR, "Sala", salaList.class));
+            tabs.add(createTab(VaadinIcon.COFFEE,"Ofertas", addofertaview.class));
+            tabs.add(createTab(VaadinIcon.FILE_MOVIE,"Peliculas", addofertaview.class));
+            tabs.add(createTab(VaadinIcon.DENTAL_CHAIR, "Sala", salaList.class));
             tabs.add(createTab(VaadinIcon.CLOUD, "Dashboard", DashboardView.class));
-
+            tabs.add(createTab(VaadinIcon.CAMERA, "Proyecciones", addproyeccionview.class));
         }
         if(SecurityUtils.isUserLoggedIn() && SecurityUtils.hasRole("2")) {
             tabs.add(createTab(VaadinIcon.CLOCK,"Gestores", gestorview.class));
-            tabs.add(createTab(VaadinIcon.USER,"Ofertas", addofertaview.class));
-            tabs.add(createTab(VaadinIcon.CALENDAR, "Sala", salaList.class));
-            tabs.add(createTab(VaadinIcon.CALENDAR, "Cine", addcineview.class));
+            tabs.add(createTab(VaadinIcon.COFFEE,"Ofertas", addofertaview.class));
+            tabs.add(createTab(VaadinIcon.DENTAL_CHAIR, "Sala", salaList.class));
+            tabs.add(createTab(VaadinIcon.HOME, "Cine", addcineview.class));
             tabs.add(createTab(VaadinIcon.CLOUD, "Dashboard", DashboardView.class));
+            tabs.add(createTab(VaadinIcon.CAMERA, "Proyecciones", addproyeccionview.class));
         }
 
         final String contextPath = VaadinServlet.getCurrent().getServletContext().getContextPath();
