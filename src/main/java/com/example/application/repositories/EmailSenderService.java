@@ -36,6 +36,7 @@ public class EmailSenderService{
         mailSender.setPassword("hsdlnmqlffzlwkhf");
 
         Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.smtp.ssl.trust", "smpt.gmail.com");
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");

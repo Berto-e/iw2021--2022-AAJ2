@@ -87,6 +87,7 @@ public class PassRecover extends Div {
             return buttonLayout;
         }
         public void triggerMail(){
+        emailSenderService.getJavamailSender();
         emailSenderService.SendSimpleMessage("discovercinemaservice@gmail.com",
                 "Recuperación de contraseña",
                 "ACCEDA AL SIGUIENTE ENLACE PARA CAMBIAR SU CONTRASEÑA: \n http://localhost:8080/verificausuario");

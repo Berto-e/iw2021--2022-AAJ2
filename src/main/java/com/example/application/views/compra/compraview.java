@@ -172,6 +172,7 @@ public class compraview extends VerticalLayout implements BeforeEnterObserver {
         fecha_entrada = (LocalDateTime) UI.getCurrent().getSession().getAttribute("horapeli");
     }
     public void triggerMail(){
+        emailSenderService.getJavamailSender();
         emailSenderService.SendSimpleMessage("discovercinemaservice@gmail.com",
                 "Datos de su entrada",
                 "Nombre: "+entrada.getPersona_ent().getUsername()+" "+entrada.getPersona_ent().getApellido()+"\n"+"Pelicula: "+entrada.getProyeccion().getPelicula().getNombre()+"\n"+
