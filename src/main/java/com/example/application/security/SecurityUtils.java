@@ -1,10 +1,6 @@
 package com.example.application.security;
 
-import com.example.application.repositories.PersonaService;
-import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.server.ServletHelper.RequestType;
-import com.vaadin.flow.server.VaadinServletRequest;
 import com.vaadin.flow.shared.ApplicationConstants;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.access.annotation.Secured;
@@ -14,7 +10,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;

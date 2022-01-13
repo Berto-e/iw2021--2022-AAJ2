@@ -1,7 +1,6 @@
 package com.example.application.repositories;
 
-import com.example.application.classes.Cine;
-import com.example.application.classes.Sala;
+import com.example.application.domain.Sala;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

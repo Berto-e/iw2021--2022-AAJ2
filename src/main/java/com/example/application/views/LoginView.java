@@ -1,10 +1,8 @@
 package com.example.application.views;
 
 import com.example.application.security.CustomRequestCache;
-import com.example.application.views.imagelist.ImageListView;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
