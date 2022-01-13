@@ -46,6 +46,7 @@ public class addofertaview extends Div implements BeforeEnterObserver {
     private TextField precio;
     private TextField descripcion;
     private Checkbox activa;
+    private TextField url;
 
 
     private Button cancel = new Button("Cancel");
@@ -154,13 +155,14 @@ public class addofertaview extends Div implements BeforeEnterObserver {
         editorLayoutDiv.add(editorDiv);
 
         FormLayout formLayout = new FormLayout();
+        url = new TextField("URL");
         numero = new TextField("Numero");
         precio = new TextField("Precio");
         descripcion = new TextField("Descripcion");
         activa = new Checkbox("Activa");
         activa.getStyle().set("padding-top", "var(--lumo-space-m)");
 
-        Component[] fields = new Component[]{numero, precio, descripcion, activa};
+        Component[] fields = new Component[]{numero, url, precio, descripcion, activa};
 
         for (Component field : fields) {
             ((HasStyle) field).addClassName("full-width");

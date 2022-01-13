@@ -147,7 +147,7 @@ public class compraview extends VerticalLayout implements BeforeEnterObserver {
             }
             for(int z = 0; z < compradas.size(); z++)
                 butacas += compradas.get(z);
-            triggerMail();
+            //triggerMail();
             Notification.show("Datos de la entrada guardado.");
                 UI.getCurrent().navigate(ImageListView.class);
 

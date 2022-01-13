@@ -74,6 +74,7 @@ public class MainLayout extends AppLayout {
             MenuItem share = menuBar.addItem(userLogged.getUsername());
             SubMenu shareSubMenu = share.getSubMenu();
             shareSubMenu.addItem("Logout", e -> securityService.logout());
+            shareSubMenu.addItem("Mi Perfil", e -> UI.getCurrent().navigate(perfilview.class));
             HorizontalLayout User = new HorizontalLayout(menuBar);
             this.addToNavbar(User);
             //e_userMenu
@@ -110,7 +111,7 @@ public class MainLayout extends AppLayout {
 
         if(SecurityUtils.isUserLoggedIn() && SecurityUtils.hasRole("1")) {
             tabs.add(createTab(VaadinIcon.COFFEE,"Ofertas", addofertaview.class));
-            tabs.add(createTab(VaadinIcon.FILE_MOVIE,"Peliculas", addofertaview.class));
+            tabs.add(createTab(VaadinIcon.FILE_MOVIE,"Peliculas", addpeliview.class));
             tabs.add(createTab(VaadinIcon.DENTAL_CHAIR, "Sala", salaList.class));
             tabs.add(createTab(VaadinIcon.CLOUD, "Dashboard", DashboardView.class));
             tabs.add(createTab(VaadinIcon.CAMERA, "Proyecciones", addproyeccionview.class));
