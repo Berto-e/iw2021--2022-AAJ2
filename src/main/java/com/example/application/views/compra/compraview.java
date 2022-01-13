@@ -17,6 +17,7 @@ import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
@@ -171,8 +172,8 @@ public class compraview extends VerticalLayout implements BeforeEnterObserver {
         fil2 = (int)UI.getCurrent().getSession().getAttribute("fila");
         fecha_entrada = (LocalDateTime) UI.getCurrent().getSession().getAttribute("horapeli");
     }
+    @Bean
     public void triggerMail(){
-        emailSenderService.getJavamailSender();
         emailSenderService.SendSimpleMessage("discovercinemaservice@gmail.com",
                 "Datos de su entrada",
                 "Nombre: "+entrada.getPersona_ent().getUsername()+" "+entrada.getPersona_ent().getApellido()+"\n"+"Pelicula: "+entrada.getProyeccion().getPelicula().getNombre()+"\n"+
