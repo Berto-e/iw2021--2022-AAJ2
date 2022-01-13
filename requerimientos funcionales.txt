@@ -1,0 +1,15 @@
+Requerimientos funcionales:
+El usuario siendo cliente, cuando va a entrar, se le muestra las peliculas disponibles y un selector para elegir el cine de la misma compañia en el que desea ver la pelicula.
+Si selecciona una pelicula, le sale una serie de opciones para que elija en que cine desea verlo y al seleccionarlo, te manda hacia la pagina de la pelicula con las sesiones directamente
+Si selecciona un cine, le muestra todas las peliculas accesibles desde ese cine y ahi seleccionas la que quieras y te manda hacia la pagina de la pelicula con las sesiones directamente
+Una vez dentro,despues muestra para que selecciones la fecha y la sesion que quieres elegir, y le das a comprar. Aqui sale otra pantalla, donde eliges el numero de entradas y los asientos disponibles y continuar, te salta el login y sale ya para pagar y posibles ofertas que quieras añadir(palomitas, Coca-cola)...
+
+El usuario siendo administrador, despues de entrar por el login, le sale una pantalla con los diferentes cines que tiene para administrar y una vez que pinchas en alguno, te muestra en otra pantalla las diferentes salas, pinchando en alguna de ella te salen los datos mas generales que el administrador puede modificar y le da la opcion de hacerlo.
+
+El usuario siendo gestor , despues de entrar por el login, le sale una pantalla con los diferentes cines que tiene para administrar y una vez que pinchas en alguno, te muestra en otra pantalla las diferentes salas y podrán gestionar las películas, funciones diarias y precios, estrategias de fidelización de clientes (ofertas, bonos, etc)
+
+Ademas, el gestor tendra la opcion de entrar al Dashboard que mediante tablas y gráficas, permitirán conocer las películas más taquilleras, los cines más rentables, los días y funciones más demandas, etc.
+
+Reglas de negocio:
+-Si en el ultimo mes ha ido x veces, la siguiente entrada tendra un coste del y%(no acumulable)(Modificable por el gestor)
+-Si la entrada es comprada con antelacion minima de 1 semana, se incluira un descuento del z% impuesto sobre los menús disponibles.
